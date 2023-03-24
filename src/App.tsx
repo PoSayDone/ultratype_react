@@ -8,12 +8,12 @@ function App() {
     return (
       <>
       <BrowserRouter>
-        <div className="container">
+        <main>
           <Header/>
             <Routes>
               <Route path='/' element={<Main/>}/>
             </Routes>
-        </div>
+        </main>
         <Navbar/>
       </BrowserRouter>
       </>
