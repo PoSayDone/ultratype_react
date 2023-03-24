@@ -1,6 +1,7 @@
 $background:#1C1B1F;
 $background_card:#2A2831;
 $on_card_color:#CCC2DC;
+$on_card_color_hover:#e4d9f5;
 
 /* Указываем box sizing */
 *,
@@ -101,13 +102,25 @@ header{
     grid-template-columns: 1fr 1fr;
     gap: 24px;
     margin-top: 40px;
-    color: $on_card_color;
+    * {
+        transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+        transition: 200ms;
+    }
 
     .card {
         background-color: $background_card;
         border-radius: 24px;
+        text-decoration: none;
+        color: $on_card_color;
+
+        &:hover{
+            color: $on_card_color_hover;
+            border-radius: 50px;
+            .card__img{
+                border-radius: 50px;
+            }
+        }
         .card__img {
-            background: url("../src/assets/cards_illustrations/image\ 1.png");
             height: 200px;
             border-radius: 24px;
         }

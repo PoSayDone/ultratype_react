@@ -1,17 +1,28 @@
-const Card = () => {
+import { FC } from "react"
+import { Link } from "react-router-dom"
+
+// Описывает типы, которые может принимать функция
+interface CardProps {
+    title: string,
+    description: string,
+    img: string,
+    url: string,
+}
+
+const Card:FC<CardProps> = ({title, description, img, url}) => {
     return (
         <>
-        <div className="card">
-            <div className="card__img"></div>
+        <Link to={`/${url}`} className="card">
+            <img src={ `../src/assets/cards_illustrations/` + img + `.png` } className="card__img"/>
             <div className="card__text">
                 <div className="card__title">
-                    Обучение
+                    { title }
                 </div>
                 <div className="card__description">
-                    Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки        
+                    { description }
                 </div>
             </div>
-        </div>        
+        </Link>        
         </>
     )
 }

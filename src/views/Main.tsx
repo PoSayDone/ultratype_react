@@ -5,7 +5,36 @@ const Main = () => {
       return (
             <>
                   <div className="cards__wrapper">
-                        <Card></Card>
+                        <Card 
+                              title={"Обучение"} 
+                              description={"Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки"} 
+                              img={"learning"}
+                              url={"learning"}
+                        />
+                        <Card 
+                              title={"Обучение"} 
+                              description={"Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки"} 
+                              img={"learning"}
+                              url={"learning"}
+                        />
+                        <Card 
+                              title={"Обучение"} 
+                              description={"Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки"} 
+                              img={"learning"}
+                              url={"learning"}
+                        />
+                        <Card 
+                              title={"Обучение"} 
+                              description={"Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки"} 
+                              img={"learning"}
+                              url={"learning"}
+                        />
+                        <Card 
+                              title={"Обучение"} 
+                              description={"Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки"} 
+                              img={"learning"}
+                              url={"learning"}
+                        />
                   </div>
             </>
       )
