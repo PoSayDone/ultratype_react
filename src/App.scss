@@ -1,13 +1,21 @@
 @import "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
 
+// Font variables
 $headline_big: 28px;
 $headline_medium: 24px;
 $headline_small: 20px;
+$text_small: 16px;
 
+// Blocks variables
+$border_radius: 24px; 
+$gap: 24px;
+$content_spacing: 40px;
+
+// Colors variables
 $background: #1C1B1F;
-$background_card: #2A2831;
-$on_card_color: #CCC2DC;
-$on_card_color_hover: #e4d9f5;
+$background_secondary: #2A2831;
+$on_secondary: #CCC2DC;
+$on_secondary_hover: #e4d9f5;
 
 .material-symbols-rounded {
     font-variation-settings:
@@ -92,7 +100,7 @@ main {
     margin-left: auto;
     margin-right: auto;
     width: 936px;
-    margin-bottom: 40px;
+    margin-bottom: $content_spacing;
 }
 
 body {
@@ -109,8 +117,8 @@ header {
 .cards__wrapper {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-top: 40px;
+    gap: $gap;
+    margin-top: $content_spacing;
 
     * {
         transition: cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -118,13 +126,13 @@ header {
     }
 
     .card {
-        background-color: $background_card;
-        border-radius: 24px;
+        background-color: $background_secondary;
+        border-radius: $border_radius;
         text-decoration: none;
-        color: $on_card_color;
+        color: $on_secondary;
 
         &:hover {
-            color: $on_card_color_hover;
+            color: $on_secondary_hover;
             border-radius: 50px;
 
             .card__img {
@@ -144,12 +152,12 @@ header {
             padding: 24px;
 
             .card__title {
-                font-size: 24px;
+                font-size: $headline_medium;
                 font-weight: 500;
             }
 
             .card__description {
-                font-size: 16px;
+                font-size: $text_small;
                 line-height: 24px;
                 font-weight: 400;
             }
@@ -159,7 +167,7 @@ header {
 
 nav {
     box-shadow: 0px 8px 12px 6px rgba(0, 0, 0, 0.3), 0px 4px 4px rgba(0, 0, 0, 0.3);
-    background: #2A2831;
+    background: $background_secondary;
     position: fixed;
     bottom: 0;
     width: 100%;
@@ -168,10 +176,10 @@ nav {
     align-items: center;
     justify-content: center;
     gap: 8px;
-    color: $on_card_color;
+    color: $on_secondary;
 
     span {
-        font-size: 16px;
+        font-size: $text_small;
     }
 
     .navbar__item {
@@ -182,7 +190,7 @@ nav {
         align-items: center;
         gap: 5px;
         text-decoration: none;
-        color: $on_card_color;
+        color: $on_secondary;
 
         * {
             transition-timing-function: cubic-bezier(0.25, 0.1, 0.25, 1);
