@@ -3,8 +3,15 @@ import './App.scss'
 import Main from './views/Main'
 import Header from './components/Header'
 import Navbar from './components/Navbar'
+import Settings from './components/settings/settings'
+import { useState } from 'react'
 
 function App() {
+
+    const [theme,setTheme] = useState(true) //true - темная тема, false - светлая
+    const [language,setLanguage] = useState(true) //true - русский , false - англ
+    const [font, setFont] = useState(false) // true - моноширный, false - обычный
+
     return (
         <>
             <BrowserRouter>
@@ -12,9 +19,10 @@ function App() {
                     <Header />
                     <Routes>
                         <Route path='/' element={<Main />} />
+                        <Route path='/settings' element= {<Settings theme = {theme} setTheme = {setTheme} language = {language} setLanguage={setLanguage} font = {font} setFont = {setFont}/>}/>
                     </Routes>
                 </main>
-                <Navbar />
+                <Navbar language = {language}/>
             </BrowserRouter>
         </>
     )

@@ -1,6 +1,10 @@
 import { Link, NavLink } from "react-router-dom"
 
-const Navbar = () => {
+interface NavbarProps{
+    language : boolean
+}
+
+const Navbar = ({language} : NavbarProps) => {
     return (
         <nav>
             <NavLink to="/" className={({ isActive }) => (isActive ? 'navbar__item navbar__item_active' : 'navbar__item')}>
@@ -10,7 +14,7 @@ const Navbar = () => {
                     </span>
                 </div>
                 <div className="navbar__item_text">
-                    Главная
+                    {language? 'Главная' : 'Home'}
                 </div>
             </NavLink>
             <NavLink to="/typing" className={({ isActive }) => (isActive ? 'navbar__item navbar__item_active' : 'navbar__item')}>
@@ -20,7 +24,7 @@ const Navbar = () => {
                     </span>
                 </div>
                 <div className="navbar__item_text">
-                    Печать
+                    {language? 'Печать': 'Typing'}
                 </div>
             </NavLink>
             <NavLink to="/settings" className={({ isActive }) => (isActive ? 'navbar__item navbar__item_active' : 'navbar__item')}>
@@ -30,7 +34,7 @@ const Navbar = () => {
                     </span>
                 </div>
                 <div className="navbar__item_text">
-                    Настройки
+                    {language? 'Настройки': 'Settings'}
                 </div>
             </NavLink>
             <NavLink to="/profile" className={({ isActive }) => (isActive ? 'navbar__item navbar__item_active' : 'navbar__item')}>
@@ -40,7 +44,7 @@ const Navbar = () => {
                     </span>
                 </div>
                 <div className="navbar__item_text">
-                    Профиль
+                    {language? 'Профиль': 'Profile'}
                 </div>
             </NavLink>
         </nav>
