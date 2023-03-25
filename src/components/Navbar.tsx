@@ -6,7 +6,7 @@ const Navbar = () => {
             <NavLink to="/" className={({ isActive }) => (isActive ? 'navbar__item navbar__item_active' : 'navbar__item')}>
                 <div className="navbar__item_box">
                     <span className="material-symbols-rounded">
-                    home
+                        home
                     </span>
                 </div>
                 <div className="navbar__item_text">
@@ -16,7 +16,7 @@ const Navbar = () => {
             <NavLink to="/typing" className={({ isActive }) => (isActive ? 'navbar__item navbar__item_active' : 'navbar__item')}>
                 <div className="navbar__item_box">
                     <span className="material-symbols-rounded">
-                    notes
+                        notes
                     </span>
                 </div>
                 <div className="navbar__item_text">
@@ -26,7 +26,7 @@ const Navbar = () => {
             <NavLink to="/settings" className={({ isActive }) => (isActive ? 'navbar__item navbar__item_active' : 'navbar__item')}>
                 <div className="navbar__item_box">
                     <span className="material-symbols-rounded">
-                    settings
+                        settings
                     </span>
                 </div>
                 <div className="navbar__item_text">
@@ -36,7 +36,7 @@ const Navbar = () => {
             <NavLink to="/profile" className={({ isActive }) => (isActive ? 'navbar__item navbar__item_active' : 'navbar__item')}>
                 <div className="navbar__item_box">
                     <span className="material-symbols-rounded">
-                    person
+                        person
                     </span>
                 </div>
                 <div className="navbar__item_text">

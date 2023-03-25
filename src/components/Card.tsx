@@ -9,20 +9,20 @@ interface CardProps {
     url: string,
 }
 
-const Card:FC<CardProps> = ({title, description, img, url}) => {
+const Card: FC<CardProps> = ({ title, description, img, url }) => {
     return (
         <>
-        <Link to={`/${url}`} className="card">
-            <img src={ `../src/assets/cards_illustrations/` + img + `.png` } className="card__img"/>
-            <div className="card__text">
-                <div className="card__title">
-                    { title }
+            <Link to={`/${url}`} className="card">
+                <img src={`../src/assets/cards_illustrations/` + img + `.png`} className="card__img" />
+                <div className="card__text">
+                    <div className="card__title">
+                        {title}
+                    </div>
+                    <div className="card__description">
+                        {description}
+                    </div>
                 </div>
-                <div className="card__description">
-                    { description }
-                </div>
-            </div>
-        </Link>        
+            </Link>
         </>
     )
 }
