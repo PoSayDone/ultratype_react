@@ -1,4 +1,5 @@
 @import "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
+@import "./NullStyles.scss";
 
 // Font variables
 $headline_big: 28px;
@@ -17,85 +18,6 @@ $background_secondary: #2A2831;
 $on_background: #E8DEF8;
 $on_secondary: #CCC2DC;
 $on_secondary_hover: #e4d9f5;
-
-.material-symbols-rounded {
-    font-variation-settings:
-        'FILL' 1,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 48
-}
-
-/* Указываем box sizing */
-*,
-*::before,
-*::after {
-    box-sizing: border-box;
-}
-
-/* Убираем внутренние отступы */
-ul[class],
-ol[class] {
-    padding: 0;
-}
-
-/* Убираем внешние отступы */
-body,
-h1,
-h2,
-h3,
-h4,
-p,
-ul[class],
-ol[class],
-li,
-figure,
-figcaption,
-blockquote,
-dl,
-dd {
-    margin: 0;
-}
-
-/* Удаляем стандартную стилизацию для всех ul и il, у которых есть атрибут class*/
-ul[class],
-ol[class] {
-    list-style: none;
-}
-
-/* Элементы a, у которых нет класса, сбрасываем до дефолтных стилей */
-a:not([class]) {
-    text-decoration-skip-ink: auto;
-}
-
-/* Упрощаем работу с изображениями */
-img {
-    max-width: 100%;
-    display: block;
-}
-
-/* Указываем понятную периодичность в потоке данных у article*/
-article>*+* {
-    margin-top: 1em;
-}
-
-/* Наследуем шрифты для инпутов и кнопок */
-input,
-button,
-textarea,
-select {
-    font: inherit;
-}
-
-/* Удаляем все анимации и переходы для людей, которые предпочитай их не использовать */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        scroll-behavior: auto !important;
-    }
-}
 
 main {
     margin-left: auto;
@@ -119,6 +41,7 @@ h1 {
 }
 
 h2 {
+    line-height: 28px;
     font-weight: 400;
     font-size: $headline_medium;
 }
@@ -240,4 +163,11 @@ nav {
         background-color: #4A4458;
         border-radius: 16px;
     }
+}
+
+.title__section {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 40px;
 }
