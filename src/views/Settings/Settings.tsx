@@ -1,5 +1,5 @@
 import * as React from 'react';
-import './style.scss'
+import './Settings.scss'
 import { useState } from 'react';
 
 interface SettingsProps {

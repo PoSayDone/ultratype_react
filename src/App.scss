@@ -7,13 +7,14 @@ $headline_small: 20px;
 $text_small: 16px;
 
 // Blocks variables
-$border_radius: 24px; 
+$border_radius: 24px;
 $gap: 24px;
 $content_spacing: 40px;
 
 // Colors variables
 $background: #1C1B1F;
 $background_secondary: #2A2831;
+$on_background: #E8DEF8;
 $on_secondary: #CCC2DC;
 $on_secondary_hover: #e4d9f5;
 
@@ -104,10 +105,27 @@ main {
 }
 
 body {
+    color: $on_background;
     background-color: $background;
     font-family: Roboto;
     height: 100%;
     padding-bottom: 80px;
+}
+
+h1 {
+    font-weight: 500;
+    line-height: 40px;
+    font-size: $headline_big;
+}
+
+h2 {
+    font-weight: 400;
+    font-size: $headline_medium;
+}
+
+h3 {
+    font-weight: 400;
+    font-size: $headline_small;
 }
 
 header {
@@ -212,7 +230,7 @@ nav {
             font-size: 12px;
             line-height: 16px;
             letter-spacing: 0.2px;
-            font-family: 'Roboto' , sans-serif;
+            font-family: 'Roboto', sans-serif;
         }
     }
 }
