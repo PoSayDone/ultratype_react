@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import Settings from './views/Settings/Settings'
 import { useState } from 'react'
 import Typing from './views/Typing/Typing'
+import ThemeProvider from './providers/ThemeProvider'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
 
     return (
         <>
+        <ThemeProvider>
             <BrowserRouter>
                 <main>
                     <Header />
@@ -26,6 +28,7 @@ function App() {
                 </main>
                 <Navbar language={language} />
             </BrowserRouter>
+        </ThemeProvider>
         </>
     )
 }
