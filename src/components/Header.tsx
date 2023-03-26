@@ -5,9 +5,9 @@ const Header = () => {
     return (
         <>
             <header>
-                <div className="header__logo">
+                <Link to="/" className="header__logo">
                     <img src={Logo} alt="" />
-                </div>
+                </Link>
                 <div className="header__user">
                     <span className="header__user-username"></span>
                 </div>

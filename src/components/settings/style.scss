@@ -42,7 +42,8 @@
                 font-size: 14px;
                 line-height: 20px;
                 font-weight: 500;
-                padding: 6px 12px;
+                padding: 0px 12px;
+                height: 32px;
                 background-color: #4A4458;
                 border-radius: 12px;
                 border:0;
@@ -57,7 +58,7 @@
             .slider{
                width: 32px; 
                height: 16px;
-               background-image: url('./img/slider-circle.svg'),url('./img/clider-back.svg');
+               background-image: url('./img/slider-circle.svg'),url('./img/slider-back.svg');
                background-repeat: no-repeat;
                cursor: pointer;
                transition: background-position 0.3s;
