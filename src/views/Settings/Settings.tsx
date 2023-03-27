@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { ThemeContext } from '../../contexts/ThemeContext';
-import ThemeProvider from '../../providers/ThemeProvider';
+import Heading from '../../components/Heading/Heading';
 
 interface SettingsProps {
     language: boolean
@@ -25,10 +25,10 @@ const Settings = ({ language, setLanguage, font, setFont }: SettingsProps) => {
     return (
         <div className="settings">
             <div className="title__section">
-                <h1>{language ? 'Настройки' : 'Settings'}</h1>
+                <Heading headingLevel="h1">{language ? 'Настройки' : 'Settings'}</Heading>
             </div>
             <div className="interface__section">
-                <h2>{language ? 'Интерфейс' : 'Interface'}</h2>
+                <Heading headingLevel="h2">{language ? 'Интерфейс' : 'Interface'}</Heading>
                 <form name='setting'>
                     <fieldset name='language'>
                         <p>{language ? 'Язык' : 'Language'}</p>

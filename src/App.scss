@@ -19,10 +19,11 @@
     --secondary_active:#E8DEF8;
 }
 
+$heading_big: 28px;
+$heading_medium: 24px;
+$heading_small: 20px;
+
 // Font variables
-$headline_big: 28px;
-$headline_medium: 24px;
-$headline_small: 20px;
 $text_small: 16px;
 
 // Blocks variables
@@ -45,22 +46,6 @@ body {
     padding-bottom: 80px;
 }
 
-h1 {
-    font-weight: 500;
-    line-height: 40px;
-    font-size: $headline_big;
-}
-
-h2 {
-    line-height: 28px;
-    font-weight: 400;
-    font-size: $headline_medium;
-}
-
-h3 {
-    font-weight: 400;
-    font-size: $headline_small;
-}
 
 header {
     color: var(--on_background);
@@ -105,7 +90,7 @@ header {
             padding: 24px;
 
             .card__title {
-                font-size: $headline_medium;
+                font-size: $heading_medium;
                 font-weight: 500;
             }
 
