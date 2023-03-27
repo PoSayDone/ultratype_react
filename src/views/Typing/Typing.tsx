@@ -1,6 +1,7 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import './Typing.module.scss'
 import Heading from '../../components/Heading/Heading';
+import Keyboard from '../../components/Keyboard/Keyboard';
 
 interface TypingProps {
     title: string;
@@ -8,6 +9,7 @@ interface TypingProps {
 }
 
 const Typing:FC<TypingProps> = ({title, subtitle}) => {
+    
     return (
         <>
         <div className="title__section">
@@ -18,6 +20,7 @@ const Typing:FC<TypingProps> = ({title, subtitle}) => {
                 {subtitle}
             </Heading>
         </div>
+        <Keyboard/>
         </>
     )
 }

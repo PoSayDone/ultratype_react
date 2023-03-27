@@ -237,5 +237,37 @@ nav {
             }
         }
     }
+}
 
+
+.keyboard {
+    position: absolute;
+    width: 936px;
+    display: grid;
+    gap: 8px;
+    .keyboard__row{
+        width: 936px;
+        display: flex;
+        gap: 8px;
+        .keyboard__button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 56px;
+            height: 56px;
+            border-radius: 14px;
+            font-size: $heading_small;
+            font-weight: 400;
+            background: var(--background_secondary);
+        }
+    }
+
+    .r5 {
+        .keyboard__button {
+            min-width: 69px;
+        }
+    }
+    .space, .enter, .tab, .shift, .caps, .backspace {
+        width: 100%;
+    }
 }
