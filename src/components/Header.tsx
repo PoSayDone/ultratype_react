@@ -15,14 +15,6 @@ const Header = () => {
                 <div className="header__user">
                     <span className="header__user-username"></span>
                 </div>
-                <ThemeContext.Consumer>
-                    {({ theme, setTheme }) => (
-                        <i onClick={() => {
-                            if (theme === themes.light) setTheme(themes.dark)
-                            if (theme === themes.dark) setTheme(themes.light)
-                        }} className="material-symbols-rounded">Home</i>
-                    )}
-                </ThemeContext.Consumer>
             </header>
         </>
     )

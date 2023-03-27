@@ -1,24 +1,21 @@
 import * as React from 'react';
-import './Settings.scss'
-import { useState } from 'react';
+import { useContext } from 'react';
+import { ThemeContext } from '../../contexts/ThemeContext';
+import ThemeProvider from '../../providers/ThemeProvider';
 
 interface SettingsProps {
-    theme: boolean
-    setTheme: Function
     language: boolean
     setLanguage: Function
     font: boolean
     setFont: Function
 }
 
+const Settings = ({ language, setLanguage, font, setFont }: SettingsProps) => {
+    const { theme, setTheme } = useContext(ThemeContext);  
 
-const Settings = ({ theme, setTheme, language, setLanguage, font, setFont }: SettingsProps) => {
-
-    function changeTheme(event: React.ChangeEvent<HTMLSelectElement>) {
-        setTheme(event.target.value == 'dark' ? true : false)
-        console.log(event.target.value);
-    }
-
+    const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        setTheme(event.target.value);
+    };
 
     function changeLanguage(event: React.ChangeEvent<HTMLSelectElement>) {
         setLanguage(event.target.value == 'ru' ? true : false)
@@ -38,32 +35,23 @@ const Settings = ({ theme, setTheme, language, setLanguage, font, setFont }: Set
                         <select onChange={changeLanguage}>
                             {
                                 language ?
-                                <option value="ru" selected>Русский</option>
-                                : <option value="ru" >Русский</option>
-                            
+                                    <option value="ru" selected>Русский</option>
+                                    : <option value="ru" >Русский</option>
+
                             }
                             {
-                                language?
-                                <option value="eng">English</option>
-                                : <option value="eng" selected>English</option>
+                                language ?
+                                    <option value="eng">English</option>
+                                    : <option value="eng" selected>English</option>
                             }
-                            
+
                         </select>
                     </fieldset>
                     <fieldset name='theme'>
                         <p>{language ? 'Тема' : 'Theme'}</p>
-                        <select onChange={changeTheme}>
-                            {theme ?
-                                <option value="dark" selected>{language ? 'Темная' : 'Dark'}</option>
-                                : <option value="dark" >{language ? 'Темная' : 'Dark'}</option>
-                            }
-
-                            {theme ?
-                                <option value="light">{language ? 'Светлая' : 'Light'}</option>
-                                : <option value="light" selected>{language ? 'Светлая' : 'Light'}</option>
-                            }
-
-
+                        <select onChange={handleThemeChange}>
+                            <option value="dark" selected>{language ? 'Темная' : 'Dark'}</option>
+                            <option value="light">{language ? 'Светлая' : 'Light'}</option>
                         </select>
                     </fieldset>
                     <fieldset name='font'>

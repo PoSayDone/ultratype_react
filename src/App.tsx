@@ -10,7 +10,6 @@ import ThemeProvider from './providers/ThemeProvider'
 
 function App() {
 
-    const [theme, setTheme] = useState(true) //true - темная тема, false - светлая
     const [language, setLanguage] = useState(true) //true - русский , false - англ
     const [font, setFont] = useState(false) // true - моноширный, false - обычный
 
@@ -22,7 +21,7 @@ function App() {
                     <Header />
                     <Routes>
                         <Route path='/' element={<Main />} />
-                        <Route path='/settings' element={<Settings theme={theme} setTheme={setTheme} language={language} setLanguage={setLanguage} font={font} setFont={setFont} />} />
+                        <Route path='/settings' element={<Settings language={language} setLanguage={setLanguage} font={font} setFont={setFont} />} />
                         <Route path='/typing/' element={<Typing title='Обучение' subtitle='Клавиши f и j' />} />
                     </Routes>
                 </main>
