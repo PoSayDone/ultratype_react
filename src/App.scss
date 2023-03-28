@@ -8,6 +8,11 @@
     --on_secondary: #CCC2DC;
     --on_secondary_hover: #e4d9f5;
     --secondary_active:#4A4458;
+    --on_accent: #381E72;
+    --accent: #D0BCFF;
+    --input: #545062;
+    --green: #7BB283;
+    --red: #A86B6B;
 }
 
 :root[data-theme='light']{
@@ -25,6 +30,7 @@ $heading_small: 20px;
 
 // Font variables
 $text_small: 16px;
+$text_mini: 14px;
 
 // Blocks variables
 $border_radius: 24px;
@@ -164,9 +170,29 @@ nav {
 
 .title__section {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     gap: 4px;
     margin-top: 40px;
+    button {
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: var(--on_accent);
+        font-size: $text_mini;
+        font-weight: 500;
+        line-height: 20px;
+        padding: 10px 24px 10px 16px;
+        max-width: fit-content;
+        max-height: fit-content;
+        border-radius: 15px;
+        span {
+            font-size: 18px;
+        }
+    }
 }
 
 .settings {
@@ -241,7 +267,6 @@ nav {
 
 
 .keyboard {
-    position: absolute;
     width: 936px;
     display: grid;
     gap: 8px;
@@ -269,5 +294,62 @@ nav {
     }
     .space, .enter, .tab, .shift, .caps, .backspace {
         width: 100%;
+    }
+}
+
+.typing__container{
+    margin-top: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+
+    .input__section {
+        line-height: 28px;
+        font-weight: 400;
+        font-size: $heading_medium;
+        color: var(--input);
+        word-break: break-all;
+
+        .user__typings {
+            width: 936px;
+            position: absolute;
+        }
+
+        .letter__correct{
+            color:var(--green);
+        }
+
+        .letter__incorrect{
+            color:var(--red);
+        }
+
+        .whitespace__incorrect{
+            background: var(--red);
+        }
+
+        .caret {
+            display: inline-block;
+            width: 2px;
+            height: 20px;
+            background: var(--on_background);
+        }
+    }
+
+    
+    .timer {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: var(--accent);
+        color: var(--on_accent);
+        font-size: $text_mini;
+        font-weight: 500;
+        line-height: 20px;
+        padding: 10px 24px 10px 16px;
+        max-width: fit-content;
+        border-radius: 15px;
+        span {
+            font-size: 16px;
+        }
     }
 }
