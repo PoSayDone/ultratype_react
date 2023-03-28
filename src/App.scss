@@ -1,13 +1,13 @@
 @import "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
 @import "./NullStyles.scss";
 
-:root[data-theme='dark']{
+:root[data-theme='dark'] {
     --background: #1C1B1F;
     --background_secondary: #2A2831;
     --on_background: #E8DEF8;
     --on_secondary: #CCC2DC;
     --on_secondary_hover: #e4d9f5;
-    --secondary_active:#4A4458;
+    --secondary_active: #4A4458;
     --on_accent: #381E72;
     --accent: #D0BCFF;
     --input: #545062;
@@ -15,13 +15,13 @@
     --red: #A86B6B;
 }
 
-:root[data-theme='light']{
+:root[data-theme='light'] {
     --background: #FFFBFE;
     --background_secondary: #F3EDF7;
     --on_background: #1C1B1F;
     --on_secondary: #1D192B;
     --on_secondary_hover: #201d2c;
-    --secondary_active:#E8DEF8;
+    --secondary_active: #E8DEF8;
 }
 
 $heading_big: 28px;
@@ -175,6 +175,7 @@ nav {
     align-items: center;
     gap: 4px;
     margin-top: 40px;
+
     button {
         border: none;
         display: flex;
@@ -189,6 +190,7 @@ nav {
         max-width: fit-content;
         max-height: fit-content;
         border-radius: 15px;
+
         span {
             font-size: 18px;
         }
@@ -236,30 +238,30 @@ nav {
                 height: 32px;
                 background-color: var(--background_secondary);
                 border-radius: 12px;
-                border:0;
-                color:inherit;
+                border: 0;
+                color: inherit;
 
-                &:focus{
+                &:focus {
                     outline: none;
                 }
 
             }
 
-            .slider{
-               width: 32px; 
-               height: 16px;
-               background-image: url('./views/Settings/img/slider-circle.svg'),url('./views/Settings/img/slider-back.svg');
-               background-repeat: no-repeat;
-               cursor: pointer;
-               transition: background-position 0.3s;
+            .slider {
+                width: 32px;
+                height: 16px;
+                background-image: url('./views/Settings/img/slider-circle.svg'), url('./views/Settings/img/slider-back.svg');
+                background-repeat: no-repeat;
+                cursor: pointer;
+                transition: background-position 0.3s;
             }
 
-            .slider.right{
+            .slider.right {
                 background-position: left center, center;
             }
 
-            .slider.left{
-                background-position: right center , center;
+            .slider.left {
+                background-position: right center, center;
             }
         }
     }
@@ -270,10 +272,12 @@ nav {
     width: 936px;
     display: grid;
     gap: 8px;
-    .keyboard__row{
+
+    .keyboard__row {
         width: 936px;
         display: flex;
         gap: 8px;
+
         .keyboard__button {
             display: flex;
             align-items: center;
@@ -292,12 +296,18 @@ nav {
             min-width: 69px;
         }
     }
-    .space, .enter, .tab, .shift, .caps, .backspace {
+
+    .space,
+    .enter,
+    .tab,
+    .shift,
+    .caps,
+    .backspace {
         width: 100%;
     }
 }
 
-.typing__container{
+.typing__container {
     margin-top: 32px;
     display: flex;
     flex-direction: column;
@@ -315,15 +325,15 @@ nav {
             position: absolute;
         }
 
-        .letter__correct{
-            color:var(--green);
+        .letter__correct {
+            color: var(--green);
         }
 
-        .letter__incorrect{
-            color:var(--red);
+        .letter__incorrect {
+            color: var(--red);
         }
 
-        .whitespace__incorrect{
+        .whitespace__incorrect {
             background: var(--red);
         }
 
@@ -335,21 +345,33 @@ nav {
         }
     }
 
-    
-    .timer {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        background: var(--accent);
-        color: var(--on_accent);
-        font-size: $text_mini;
-        font-weight: 500;
-        line-height: 20px;
-        padding: 10px 24px 10px 16px;
-        max-width: fit-content;
-        border-radius: 15px;
-        span {
-            font-size: 16px;
+    .typing__metrics {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+
+        div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--accent);
+            color: var(--on_accent);
+            font-size: $text_mini;
+            font-weight: 500;
+            line-height: 20px;
+            padding: 10px 24px 10px 16px;
+            max-width: fit-content;
+            border-radius: 15px;
+
+            span {
+                font-size: 16px;
+            }
+
+        }
+        .accuracy {
+            span {
+                font-size: 20px;
+            }
         }
     }
 }

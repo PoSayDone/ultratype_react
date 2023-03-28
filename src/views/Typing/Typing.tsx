@@ -8,38 +8,44 @@ import RestartButton from '../../components/RestartButton';
 import UserTypings from '../../components/UserTypings';
 import Caret from '../../components/Caret';
 import useEngine from '../../hooks/useEngine';
+import SymbolsTypedMetric from '../../components/SymbolsTypedMetric';
+import AccuracyMetric from '../../components/AccuracyMetric';
 
 interface TypingProps {
     title: string;
     subtitle: string;
 }
 
-const Typing:FC<TypingProps> = ({title, subtitle}) => {
-    const {state, words, typed } = useEngine();
-    
+const Typing: FC<TypingProps> = ({ title, subtitle }) => {
+    const { state, words, typed, wpm, seconds } = useEngine();
+
     return (
         <>
-        <div className="title__section">
-            <div className="title__section--text">
-                <Heading headingLevel="h1" className="title">
-                    {title}
-                </Heading>
-                <Heading headingLevel="h3" className="subtitle">
-                    {subtitle}
-                </Heading>
-            </div>
+            <div className="title__section">
+                <div className="title__section--text">
+                    <Heading headingLevel="h1" className="title">
+                        {title}
+                    </Heading>
+                    <Heading headingLevel="h3" className="subtitle">
+                        {subtitle}
+                    </Heading>
+                </div>
                 <RestartButton
                     onRestart={() => null}
                 />
-        </div>
-        <div className="typing__container">
-            <div className="input__section">
-                <UserTypings userInput={typed} words={words}/>
-                <Input text={words}/>
             </div>
-            <CountdownTimer timeLeft={30}/>
-            <Keyboard/>
-        </div>
+            <div className="typing__container">
+                <div className="input__section">
+                    <UserTypings userInput={typed} words={words} />
+                    <Input text={words} />
+                </div>
+                <div className="typing__metrics">
+                    <CountdownTimer timeLeft={seconds} />
+                    <SymbolsTypedMetric wpm={wpm}/>
+                    <AccuracyMetric accuracy={100}/>
+                </div>
+                <Keyboard />
+            </div>
         </>
     )
 }
