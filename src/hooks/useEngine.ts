@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import useWords from "./useWords";
-import useTypings from "./useTypings";
+import useInput from "./useInput";
 import useSymbolsTypedMetric from "./useSymbolsTypedMetric";
 import useCountdown from "./useCountdown";
 
@@ -13,7 +13,7 @@ const useEngine = () => {
     const [state, setState] = useState<State>("start");
     const { seconds, timerIsActive, setTimerActive } = useCountdown(TIME);
     const { words, updateWords } = useWords(NUMBER_OF_WORDS)
-    const { typed, cursor, clearTyped, resetTotalTyped, totalTyped } = useTypings(state !== 'finish')
+    const { typed, cursor, clearTyped, resetTotalTyped, totalTyped } = useInput(state !== 'finish')
     const { wpm } = useSymbolsTypedMetric(state !== 'finish', totalTyped, TIME - seconds, typed)
 
     const isStarting = state === "start" && cursor > 0;

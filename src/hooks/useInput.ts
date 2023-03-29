@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 // Проверяет является ли вводимый символ цифрой, буквой, пробелом или бэкспейсом
+
 const isSymbolAllowed = (code: string) => {
     return (
         code.startsWith("Key") ||
@@ -10,7 +11,7 @@ const isSymbolAllowed = (code: string) => {
     );
 };
 
-const useTypings = (enabled: boolean) => {
+const useInput = (enabled: boolean) => {
     // Положение курсора
     const [cursor, setCursor] = useState(0);
     // Введенный текст
@@ -36,6 +37,7 @@ const useTypings = (enabled: boolean) => {
                     setTyped((prev) => prev.concat(key));
                     setCursor((cursor) => cursor + 1);
                     totalTyped.current += 1;
+                    break;
             }
         },
         [cursor, enabled]
@@ -69,4 +71,4 @@ const useTypings = (enabled: boolean) => {
     }
 }
 
-export default useTypings
+export default useInput

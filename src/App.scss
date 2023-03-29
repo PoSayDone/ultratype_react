@@ -314,11 +314,17 @@ nav {
     gap: 32px;
 
     .input__section {
-        line-height: 28px;
+        display: flex;
+        gap: 7px;
+        line-height: 140%;
         font-weight: 400;
         font-size: $heading_medium;
         color: var(--input);
-        word-break: break-all;
+        flex-wrap: wrap;
+
+        .input__word {
+            width: fit-content;
+        }
 
         .user__typings {
             width: 936px;

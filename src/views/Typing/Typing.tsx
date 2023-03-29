@@ -5,7 +5,6 @@ import Keyboard from '../../components/Keyboard/Keyboard';
 import Input from '../../components/Input/Input';
 import CountdownTimer from '../../components/CountdownTimer';
 import RestartButton from '../../components/RestartButton';
-import UserTypings from '../../components/UserTypings';
 import Caret from '../../components/Caret';
 import useEngine from '../../hooks/useEngine';
 import SymbolsTypedMetric from '../../components/SymbolsTypedMetric';
@@ -36,13 +35,12 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             </div>
             <div className="typing__container">
                 <div className="input__section">
-                    <UserTypings userInput={typed} words={words} />
-                    <Input text={words} />
+                    <Input text={words} userText={typed} />
                 </div>
                 <div className="typing__metrics">
                     <CountdownTimer timeLeft={seconds} />
-                    <SymbolsTypedMetric wpm={wpm}/>
-                    <AccuracyMetric accuracy={100}/>
+                    <SymbolsTypedMetric wpm={wpm} />
+                    <AccuracyMetric accuracy={100} />
                 </div>
                 <Keyboard />
             </div>
