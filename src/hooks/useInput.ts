@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 
 // Проверяет является ли вводимый символ цифрой, буквой, пробелом или бэкспейсом
 
@@ -11,13 +11,14 @@ const isSymbolAllowed = (code: string) => {
     );
 };
 
-const useInput = (enabled: boolean) => {
+const useInput = (enabled: boolean, text: string) => {
     // Положение курсора
     const [cursor, setCursor] = useState(0);
     // Введенный текст
     const [typed, setTyped] = useState<string>("");
     // Количество введенных символов
     const totalTyped = useRef(0);
+    const currentIndex = typed.split(" ").length - 1
 
     const keydownHandler = useCallback(
         ({ key, code }: KeyboardEvent) => {
@@ -33,10 +34,25 @@ const useInput = (enabled: boolean) => {
                         totalTyped.current -= 1;
                     }
                     break;
+                case " ":
+                    if (typed[typed.length - 1] === " ") {
+                        return
+                    }
+                    else {
+                        setTyped((prev) => prev.concat(key));
+                        setCursor((cursor) => cursor + 1);
+                        totalTyped.current += 1;
+                    }
+                    break
                 default:
-                    setTyped((prev) => prev.concat(key));
-                    setCursor((cursor) => cursor + 1);
-                    totalTyped.current += 1;
+                    if (text.split(" ")[currentIndex].length <= typed.split(" ")[currentIndex].length && typed[typed.length - 1]) {
+                        return
+                    }
+                    else {
+                        setTyped((prev) => prev.concat(key));
+                        setCursor((cursor) => cursor + 1);
+                        totalTyped.current += 1;
+                    }
                     break;
             }
         },

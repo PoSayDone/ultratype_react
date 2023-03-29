@@ -345,8 +345,11 @@ nav {
 
         .caret {
             display: inline-block;
-            width: 2px;
-            height: 20px;
+            position: absolute;
+            margin-top: 4px;
+            margin-left: 2px;
+            width: 1px;
+            height: 24px;
             background: var(--on_background);
         }
     }
