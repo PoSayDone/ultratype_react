@@ -35,7 +35,7 @@ const useInput = (enabled: boolean, text: string) => {
                     }
                     break;
                 case " ":
-                    if (typed[typed.length - 1] === " ") {
+                    if (typed[typed.length-1] === " " ) {
                         return
                     }
                     else {
@@ -43,9 +43,10 @@ const useInput = (enabled: boolean, text: string) => {
                         setCursor((cursor) => cursor + 1);
                         totalTyped.current += 1;
                     }
-                    break
+                        break
                 default:
-                    if (text.split(" ")[currentIndex].length <= typed.split(" ")[currentIndex].length && typed[typed.length - 1]) {
+                    if ( text.split(" ")[currentIndex].length <= typed.split(" ")[currentIndex].length && typed[typed.length-1])
+                    {
                         return
                     }
                     else {

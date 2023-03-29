@@ -346,9 +346,10 @@ nav {
         .caret {
             display: inline-block;
             position: absolute;
+            border-radius: 3px;
             margin-top: 4px;
             margin-left: 2px;
-            width: 1px;
+            width: 4px;
             height: 24px;
             background: var(--on_background);
         }
