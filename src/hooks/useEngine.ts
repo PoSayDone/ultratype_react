@@ -14,14 +14,16 @@ const useEngine = () => {
     const { seconds, timerIsActive, setTimerActive } = useCountdown(TIME);
     const { words, updateWords } = useWords(NUMBER_OF_WORDS)
     const { typed, cursor, clearTyped, resetTotalTyped, totalTyped } = useTypings(state !== 'finish')
-    const { wpm } = useSymbolsTypedMetric(state !== 'finish', totalTyped, TIME-seconds, typed)
+    const { wpm } = useSymbolsTypedMetric(state !== 'finish', totalTyped, TIME - seconds, typed)
+
+    const isStarting = state === "start" && cursor > 0;
 
     useEffect(() => {
-        if (!timerIsActive) {
+        if (isStarting) {
             setState("run");
             setTimerActive(true);
         }
-    }, [timerIsActive, setTimerActive]);
+    }, [isStarting, setTimerActive]);
 
     return { state, words, typed, wpm, seconds }
 }

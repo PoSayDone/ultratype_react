@@ -6,7 +6,7 @@ const useCountdown = (time: number) => {
 
     useEffect(() => {
         if (seconds > 0 && timerIsActive) {
-            setTimeout(setSeconds, 100, seconds - 1);
+            setTimeout(setSeconds, 1000, seconds - 1);
         } else {
             setTimerActive(false);
         }

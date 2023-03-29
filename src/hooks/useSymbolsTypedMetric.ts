@@ -8,7 +8,7 @@ const useSymbolsTypedMetric = (
 ) => {
     const cps = symbolsTyped / timeElapsed
     const cpm = Number((cps * 60).toFixed())
-    const wps = (typedString.split(" ")).length / timeElapsed
+    const wps = (symbolsTyped / 5) / timeElapsed
     const wpm = Number((wps * 60).toFixed())
     return {
         cps,
