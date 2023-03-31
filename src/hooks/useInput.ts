@@ -1,4 +1,6 @@
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import {Simulate} from "react-dom/test-utils";
+import cut = Simulate.cut;
 
 // Проверяет является ли вводимый символ цифрой, буквой, пробелом или бэкспейсом
 
@@ -35,7 +37,7 @@ const useInput = (enabled: boolean, text: string) => {
                     }
                     break;
                 case " ":
-                    if (typed[typed.length-1] === " " ) {
+                    if (typed[typed.length-1] === " " || text[cursor] != ' ') {
                         return
                     }
                     else {

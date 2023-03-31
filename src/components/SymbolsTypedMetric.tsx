@@ -8,7 +8,7 @@ const SymbolsTypedMetric = (props: Props) => {
             <span className="material-symbols-rounded">
                 text_snippet
             </span>
-            WPM: {props.wpm} w/m
+            WPM: {Number.isNaN(props.wpm) ? 0 : props.wpm} w/m
         </div>
     )
 }

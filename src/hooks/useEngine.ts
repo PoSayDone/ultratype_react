@@ -37,8 +37,12 @@ const useEngine = () => {
         }
     }, [state])
 
+    const restart = () => {
+        clearTyped()
+        resetTotalTyped()
+    }
 
-    return { state, words, typed, wpm, seconds }
+    return { state, words, typed, wpm, seconds , restart , cursor}
 }
 
 export default useEngine;

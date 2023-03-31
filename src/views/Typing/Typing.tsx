@@ -16,7 +16,7 @@ interface TypingProps {
 }
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
-    const { state, words, typed, wpm, seconds } = useEngine();
+    const { state, words, typed, wpm, seconds , restart , cursor} = useEngine();
 
     return (
         <>
@@ -30,12 +30,12 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                     </Heading>
                 </div>
                 <RestartButton
-                    onRestart={() => null}
+                    onRestart={restart}
                 />
             </div>
             <div className="typing__container">
                 <div className="input__section">
-                    <Input text={words} userText={typed} />
+                    <Input text={words} userText={typed} currentPosition={cursor}/>
                 </div>
                 <div className="typing__metrics">
                     <CountdownTimer timeLeft={seconds} />
