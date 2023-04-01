@@ -1,4 +1,5 @@
 @import "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
+@import "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap";
 @import "./NullStyles.scss";
 
 :root[data-theme='dark'] {
@@ -190,8 +191,8 @@ nav {
         max-width: fit-content;
         max-height: fit-content;
         border-radius: 15px;
+        text-align: center;
         cursor: pointer;
-
 
         span {
             font-size: 18px;
@@ -329,7 +330,6 @@ nav {
         }
 
         .whitespace {
-            display: block;
             min-width: 10px;
         }
 
@@ -354,7 +354,8 @@ nav {
             display: inline-block;
             position: absolute;
             border-radius: 3px;
-            margin-left: -2px;
+            margin-left: -3px;
+            margin-top: -2px;
             height: 24px;
             transition: 0.05s;
             transform-origin: top left;
@@ -382,8 +383,10 @@ nav {
             border-radius: 15px;
 
             span {
+                margin-right: 6px;
                 font-size: 16px;
             }
+
 
         }
 

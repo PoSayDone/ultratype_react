@@ -6,7 +6,7 @@ import useCountdown from "./useCountdown";
 
 export type State = "start" | "run" | "finish"
 
-const NUMBER_OF_WORDS = 10;
+const NUMBER_OF_WORDS = 20;
 const TIME = 120;
 
 const useEngine = () => {

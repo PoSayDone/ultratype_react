@@ -1,4 +1,4 @@
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, forwardRef, useContext, useEffect, useRef, useState } from "react";
 import Heading from "../Heading/Heading"
 import classNames from "classnames";
 import Caret from "../Caret";
@@ -10,7 +10,6 @@ type InputProps = {
     // Текст задания
     text: string;
     cursorPosition: number;
-
 }
 
 // Пропсы для символа
@@ -22,7 +21,7 @@ type CharacterProps = {
 }
 
 // Компонент символа
-const Character = (props: CharacterProps) => {
+const Character = forwardRef((props: CharacterProps, ref) => {
 
     // Проверяет является ли символ введенная пользователем правильным
     const isCorrect = props.actual === props.expected;
@@ -33,15 +32,19 @@ const Character = (props: CharacterProps) => {
 
     // Возвращаем span с буквой
     return (
-        <span className={
+        <span
+            className={
             classNames({ // используем модуль classnames для conditional классов
                 "letter": props.actual === undefined, // Для символа, который еще не ввел пользователь
                 "letter__correct": isCorrect && !isWhitespace, // Для правильного символа
                 "letter__incorrect": !isCorrect && !isWhitespace && !isNull, // Для неправильного символа
                 'whitespace': isWhitespace,
-            })}>{props.expected}</span>
+            })}
+            ref = {ref as React.RefObject<HTMLSpanElement>} 
+            >{props.expected}</span>
     )
-}
+})
+
 // Компонент input
 const Input = ({ userText, text, cursorPosition }: InputProps) => {
     const typed = userText // введенные символы
@@ -50,11 +53,31 @@ const Input = ({ userText, text, cursorPosition }: InputProps) => {
     const wordsArray = text.split(/(?<=\s)/)
     const currentIndex = userText.length - 1
 
+    const caretRef = useRef<HTMLSpanElement>(null)
+    const currentLetterRef = useRef<HTMLSpanElement>(null)
+
+    useEffect(() => {
+        console.log(currentLetterRef)
+    }, [cursorPosition])
+
+
     let previousWordsLength = 0 // Переменная для преобразование индексов двумерного массива в одномерный
 
-    // Вовращаем div'ы слов, состоящие из Character'ов
+    // Возвращаем div'ы слов, состоящие из Character'ов
     return (
         <>
+            {
+                <span
+                    ref={caretRef}
+                    id="caret"
+                    className="caret"
+                    style={{
+                        left: currentLetterRef.current?.offsetLeft,
+                        top:  currentLetterRef.current?.offsetTop
+                    }}>
+                    |
+                </span>
+            }
             {
                 wordsArray.map((word, currentWordIndex) => { // Проходимся по всем словам при помощи map
                     {
@@ -64,15 +87,11 @@ const Input = ({ userText, text, cursorPosition }: InputProps) => {
                     return (
                         <div className="input__word">{ // Возвращаем div
                             word.split("").map((character, currentLetterIndex) => { // Проходимся по всем символам в слове при помощи map
+                                const isActive = (previousWordsLength+currentLetterIndex === cursorPosition)
                                 return (
                                     <>
-                                        {
-                                            // Если текущее положение равно индексу последнего введенного символа
-                                            (currentLetterIndex + previousWordsLength == cursorPosition)
-                                                ? <Caret /> // то возвращаем указатель
-                                                : ''// Иначе возвращаем пустоту
-                                        }
                                         <Character // Возвращаем символ
+                                            ref={isActive ? currentLetterRef : null}
                                             expected={character} // Эталонное значение
                                             actual={ // Значение пользователя
                                                 typedWords[currentWordIndex] !== undefined // Если пользователь ввел символ
@@ -80,12 +99,6 @@ const Input = ({ userText, text, cursorPosition }: InputProps) => {
                                                     : undefined // Иначе пустое значение
                                             }
                                         />
-                                        {
-                                            // Если текущее положение равно индексу последнего введенного символа
-                                            (cursorPosition === words.length && currentLetterIndex + previousWordsLength == cursorPosition - 1)
-                                                ? <Caret /> // то возвращаем указатель
-                                                : ''// Иначе возвращаем пустоту
-                                        }
                                     </>
                                 )
                             })
