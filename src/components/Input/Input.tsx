@@ -1,110 +1,101 @@
-import {createContext, useContext, useState} from "react";
+import { createContext, useContext, useRef, useState } from "react";
 import Heading from "../Heading/Heading"
 import classNames from "classnames";
 import Caret from "../Caret";
 
 // Пропсы для инпута
 type InputProps = {
-	// Текст вводимый пользователем
-	userText: string;
-	// Текст задания
-	text: string;
+    // Текст вводимый пользователем
+    userText: string;
+    // Текст задания
+    text: string;
+    cursorPosition: number;
 
 }
 
 // Пропсы для символа
 type CharacterProps = {
-	// Символ введенный пользователем (может быть undefined, так как пользователь может еще не ввести этот символ)
-	actual?: any;
-	// Эталонное значение символа
-	expected: string;
+    // Символ введенный пользователем (может быть undefined, так как пользователь может еще не ввести этот символ)
+    actual?: any;
+    // Эталонное значение символа
+    expected: string;
 }
 
 // Компонент символа
 const Character = (props: CharacterProps) => {
 
-	// Проверяет является ли символ введенная пользователем правильным
-	const isCorrect = props.actual === props.expected;
-	// Проверяет является ли символ не введенным
-	const isNull = props.actual === undefined || props.actual === null;
-	// Проверяет является ли символ пробелом
-	const isWhitespace = props.expected === " ";
+    // Проверяет является ли символ введенная пользователем правильным
+    const isCorrect = props.actual === props.expected;
+    // Проверяет является ли символ не введенным
+    const isNull = props.actual === undefined || props.actual === null;
+    // Проверяет является ли символ пробелом
+    const isWhitespace = props.expected === " ";
 
-	// Возвращаем span с буквой
-	return (
-		<span className={
-			classNames({ // используем модуль classnames для conditional классов
-				"letter": props.actual === undefined, // Для символа, который еще не ввел пользователь
-				"letter__correct": isCorrect && !isWhitespace, // Для правильного символа
-				"letter__incorrect": !isCorrect && !isWhitespace && !isNull, // Для неправильного символа
-				'whitespace': isWhitespace,
-			})}>{props.expected}</span>
-	)
+    // Возвращаем span с буквой
+    return (
+        <span className={
+            classNames({ // используем модуль classnames для conditional классов
+                "letter": props.actual === undefined, // Для символа, который еще не ввел пользователь
+                "letter__correct": isCorrect && !isWhitespace, // Для правильного символа
+                "letter__incorrect": !isCorrect && !isWhitespace && !isNull, // Для неправильного символа
+                'whitespace': isWhitespace,
+            })}>{props.expected}</span>
+    )
 }
 // Компонент input
-const Input = ({userText, text}: InputProps) => {
-	const typed = userText // введенные символы
-	const words = text // слова задания
-	const typedWords: string[] = userText.split(' ')
-	const wordsArray = text.split(' ')
-	const currentIndex = userText.split(" ").join("").length - 1
+const Input = ({ userText, text, cursorPosition }: InputProps) => {
+    const typed = userText // введенные символы
+    const words = text // слова задания
+    const typedWords: string[] = userText.split(/(?<=\s)/)
+    const wordsArray = text.split(/(?<=\s)/)
+    const currentIndex = userText.length - 1
 
-	let previousWordsLength = 0 // Переменная для преобразование индексов двумерного массива в одномерный
+    let previousWordsLength = 0 // Переменная для преобразование индексов двумерного массива в одномерный
 
-	// Вовращаем div'ы слов, состоящие из Character'ов
-	return (
-		<>
-			{
-				wordsArray.map((word, currentWordIndex) => { // Проходимся по всем словам при помощи map
-					{
-						// Получаем длины предыдущих слов для того, чтобы знать положение указателя в тексте
-						previousWordsLength += currentWordIndex === 0 ? 0 : wordsArray[currentWordIndex - 1].length
-					}
-					return (
-						<div className="input__word">{ // Возвращаем div
-							word.split("").map((character, currentLetterIndex) => { // Проходимся по всем символам в слове при помощи map
-								return (
-									<>
-										{
-											currentLetterIndex === 0 && currentWordIndex === 0 && currentIndex === -1 || currentIndex === previousWordsLength -1  && currentLetterIndex === 0
-												? <Caret/>
-												: ''// Иначе возвращаем пустоту
-										}
-										<Character // Возвращаем символ
-											expected={character} // Эталонное значение
-											actual={ // Значение пользователя
-												typedWords[currentWordIndex] !== undefined // Если пользователь ввел символ
-													? typedWords[currentWordIndex].split("")[currentLetterIndex] // То записываем значение этого символа
-													: undefined // Иначе пустое значение
-											}
-										/>
-										{
-											// Если текущее положение равно индексу последнего введенного символа
-											(previousWordsLength + currentLetterIndex) === userText.split(" ").join("").length - 1 && !(currentLetterIndex === wordsArray[currentWordIndex].length -1)
-												? <Caret/> // то возвращаем указатель
-												: ''// Иначе возвращаем пустоту
-										}
-									</>
-								)
-							})
-						}
-						</div>
-					)
-				})
-			}
-		</>
-	)
-
-	// return (
-	// 	<>
-	// 		{words.split('').map((char, index) => {
-	// 			return (<Character // Возвращаем символ
-	// 				expected={char} // Эталонное значение
-	// 				actual={typed[index]}
-	// 			/>)
-	// 		})}
-	// 	</>
-	// )
+    // Вовращаем div'ы слов, состоящие из Character'ов
+    return (
+        <>
+            {
+                wordsArray.map((word, currentWordIndex) => { // Проходимся по всем словам при помощи map
+                    {
+                        // Получаем длины предыдущих слов для того, чтобы знать положение указателя в тексте
+                        previousWordsLength += currentWordIndex === 0 ? 0 : wordsArray[currentWordIndex - 1].length
+                    }
+                    return (
+                        <div className="input__word">{ // Возвращаем div
+                            word.split("").map((character, currentLetterIndex) => { // Проходимся по всем символам в слове при помощи map
+                                return (
+                                    <>
+                                        {
+                                            // Если текущее положение равно индексу последнего введенного символа
+                                            (currentLetterIndex + previousWordsLength == cursorPosition)
+                                                ? <Caret /> // то возвращаем указатель
+                                                : ''// Иначе возвращаем пустоту
+                                        }
+                                        <Character // Возвращаем символ
+                                            expected={character} // Эталонное значение
+                                            actual={ // Значение пользователя
+                                                typedWords[currentWordIndex] !== undefined // Если пользователь ввел символ
+                                                    ? typedWords[currentWordIndex].split("")[currentLetterIndex] // То записываем значение этого символа
+                                                    : undefined // Иначе пустое значение
+                                            }
+                                        />
+                                        {
+                                            // Если текущее положение равно индексу последнего введенного символа
+                                            (cursorPosition === words.length && currentLetterIndex + previousWordsLength == cursorPosition - 1)
+                                                ? <Caret /> // то возвращаем указатель
+                                                : ''// Иначе возвращаем пустоту
+                                        }
+                                    </>
+                                )
+                            })
+                        }
+                        </div>
+                    )
+                })
+            }
+        </>
+    )
 }
 
 export default Input;

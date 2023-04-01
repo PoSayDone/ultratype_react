@@ -6,7 +6,7 @@ import useCountdown from "./useCountdown";
 
 export type State = "start" | "run" | "finish"
 
-const NUMBER_OF_WORDS = 30;
+const NUMBER_OF_WORDS = 10;
 const TIME = 120;
 
 const useEngine = () => {
@@ -17,6 +17,12 @@ const useEngine = () => {
     const { wpm } = useSymbolsTypedMetric(state !== 'finish', totalTyped, TIME - seconds, typed)
 
     const isStarting = state === "start" && cursor > 0;
+
+    useEffect(() => {
+        if (state === "finish") {
+            setTimerActive(false)
+        }
+    }, [state])
 
     useEffect(() => {
         if (isStarting) {
@@ -32,17 +38,17 @@ const useEngine = () => {
     }, [timerIsActive, state]);
 
     useEffect(() => {
-        if (state === "finish") {
-            setTimerActive(false)
-        }
-    }, [state])
+        if (words.length === typed.length)
+            setState("finish")
+    }, [words, typed])
 
     const restart = () => {
         clearTyped()
         resetTotalTyped()
+        setState("start")
     }
 
-    return { state, words, typed, wpm, seconds , restart , cursor}
+    return { state, words, typed, wpm, seconds, restart, cursor }
 }
 
 export default useEngine;

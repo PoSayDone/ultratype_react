@@ -31,7 +31,9 @@ const useInput = (enabled: boolean, text: string) => {
             switch (key) {
                 case "Backspace":
                     setTyped((prev) => prev.slice(0, -1));
-                    setCursor((cursor) => cursor - 1);
+                    if (cursor > 0) {
+                        setCursor((cursor) => cursor - 1);
+                    }
                     if (totalTyped.current > 0) {
                         totalTyped.current -= 1;
                     }

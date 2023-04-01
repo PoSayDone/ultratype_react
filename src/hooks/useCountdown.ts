@@ -12,7 +12,7 @@ const useCountdown = (time: number) => {
         }
     }, [seconds, timerIsActive]);
 
-    return{
+    return {
         seconds, timerIsActive, setTimerActive
     }
 }
