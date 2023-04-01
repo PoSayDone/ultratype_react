@@ -7,6 +7,7 @@ import Settings from './views/Settings/Settings'
 import { useState } from 'react'
 import Typing from './views/Typing/Typing'
 import ThemeProvider from './providers/ThemeProvider'
+import Results from './views/Results/Results'
 
 function App() {
 
@@ -15,19 +16,20 @@ function App() {
 
     return (
         <>
-        <ThemeProvider>
-            <BrowserRouter>
-                <main>
-                    <Header />
-                    <Routes>
-                        <Route path='/' element={<Main />} />
-                        <Route path='/settings' element={<Settings language={language} setLanguage={setLanguage} font={font} setFont={setFont} />} />
-                        <Route path='/typing/' element={<Typing title='Обучение' subtitle='Клавиши f и j' />} />
-                    </Routes>
-                </main>
-                <Navbar language={language} />
-            </BrowserRouter>
-        </ThemeProvider>
+            <ThemeProvider>
+                <BrowserRouter>
+                    <main>
+                        <Header />
+                        <Routes>
+                            <Route path='/' element={<Main />} />
+                            <Route path='/settings' element={<Settings language={language} setLanguage={setLanguage} font={font} setFont={setFont} />} />
+                            <Route path='/typing/' element={<Typing title='Обучение' subtitle='Клавиши f и j' />} />
+                            <Route path='/results' element={<Results errors={0} accuracyPercentage={0} wpm={0} total={0} />} />
+                        </Routes>
+                    </main>
+                    <Navbar language={language} />
+                </BrowserRouter>
+            </ThemeProvider>
         </>
     )
 }
