@@ -49,8 +49,6 @@ const Input = ({ userText, text, cursorPosition , currentCharacterRef , state}: 
                             word.split("").map((character, characterIndex) => { // Проходимся по всем символам в слове при помощи map
                                 {
                                     useEffect(() => {
-                                        console.log(cursorPosition)
-                                        console.log(currentCharacterRef)
                                     }, [cursorPosition, currentCharacterRef])
                                 }
                                 const isActive = (previousWordsLength + characterIndex === cursorPosition)

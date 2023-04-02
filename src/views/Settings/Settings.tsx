@@ -19,7 +19,6 @@ const Settings = ({ language, setLanguage, font, setFont }: SettingsProps) => {
 
     function changeLanguage(event: React.ChangeEvent<HTMLSelectElement>) {
         setLanguage(event.target.value == 'ru' ? true : false)
-        console.log(event.target.value);
     }
 
     return (
