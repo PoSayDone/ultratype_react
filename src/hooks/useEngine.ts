@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import {createContext, useContext, useEffect, useRef, useState} from "react";
 import useWords from "./useWords";
 import useInput from "./useInput";
 import useSymbolsTypedMetric from "./useSymbolsTypedMetric";
@@ -15,7 +15,7 @@ const useEngine = () => {
     const { words, updateWords } = useWords(NUMBER_OF_WORDS)
     const { typed, cursor, clearTyped, resetTotalTyped, totalTyped } = useInput(state !== 'finish', words)
     const { wpm } = useSymbolsTypedMetric(state !== 'finish', totalTyped, COUNTDOWN_SECONDS, timeLeft, typed)
-
+    const currentCharacterRef = useRef<HTMLSpanElement>(null)
     const isStarting = state === "start" && cursor > 0;
 
     useEffect(() => {
@@ -49,7 +49,7 @@ const useEngine = () => {
     }
 
 
-    return { state, words, typed, wpm, restart, cursor, timeLeft }
+    return { state, words, typed, wpm, restart, cursor, timeLeft , currentCharacterRef}
 }
 
 export default useEngine;

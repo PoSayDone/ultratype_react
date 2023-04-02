@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import {FC, useEffect, useState} from 'react';
 import './Typing.module.scss'
 import Heading from '../../components/Heading/Heading';
 import Keyboard from '../../components/Keyboard/Keyboard';
@@ -15,8 +15,12 @@ interface TypingProps {
 }
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
-    const { state, words, typed, wpm, timeLeft, cursor } = useEngine();
+    const { state, words, typed, wpm, timeLeft, cursor , currentCharacterRef } = useEngine();
+    const [currentChar, setCurrentChar] = useState(words[0])
 
+    useEffect(() => {
+        setCurrentChar(words[cursor])
+    },[words,cursor])
     return (
         <>
             <div className="title__section">
@@ -34,14 +38,14 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             </div>
             <div className="typing__container">
                 <div className="input__section">
-                    <Input text={words} userText={typed} cursorPosition={cursor} />
+                    <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef}/>
                 </div>
                 <div className="typing__metrics">
                     <CountdownTimer timeLeft={timeLeft} />
                     <SymbolsTypedMetric wpm={wpm} />
                     <AccuracyMetric accuracy={100} />
                 </div>
-                <Keyboard />
+                <Keyboard currentCharacterRef={currentCharacterRef} currentChar = {currentChar}/>
             </div>
         </>
     )

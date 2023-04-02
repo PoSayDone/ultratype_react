@@ -11,14 +11,14 @@ type InputProps = {
     // Текст задания
     text: string;
     cursorPosition: number;
+    currentCharacterRef: React.RefObject<HTMLSpanElement>
 }
 
 // Компонент input
-const Input = ({ userText, text, cursorPosition }: InputProps) => {
+const Input = ({ userText, text, cursorPosition , currentCharacterRef }: InputProps) => {
     const userTextArray: string[] = userText.split(/(?<=\s)/)
     const textArray = text.split(/(?<=\s)/)
 
-    const currentCharacterRef = useRef<HTMLSpanElement>(null)
     const [leftMargin, setLeftMargin] = useState<any | null>(null);
     const [topMargin, setTopMargin] = useState<any | null>(null);
     let previousWordsLength = 0 // Переменная для преобразование индексов двумерного массива в одномерный
