@@ -317,8 +317,8 @@ nav {
     gap: 32px;
 
     .input__section {
+        position: relative;
         display: flex;
-        gap: 7px;
         line-height: 140%;
         font-weight: 400;
         font-size: $heading_medium;
@@ -326,7 +326,7 @@ nav {
         flex-wrap: wrap;
 
         .input__word {
-            width: fit-content;
+            display: flex;
         }
 
         .whitespace {

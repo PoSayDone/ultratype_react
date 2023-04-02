@@ -1,6 +1,7 @@
-import { createContext, forwardRef, useContext, useEffect, useRef, useState } from "react";
+import { createContext, forwardRef, useCallback, useContext, useEffect, useRef, useState } from "react";
 import Heading from "../Heading/Heading"
 import classNames from "classnames";
+import Character from "../Character";
 import Caret from "../Caret";
 
 // Пропсы для инпута
@@ -12,90 +13,54 @@ type InputProps = {
     cursorPosition: number;
 }
 
-// Пропсы для символа
-type CharacterProps = {
-    // Символ введенный пользователем (может быть undefined, так как пользователь может еще не ввести этот символ)
-    actual?: any;
-    // Эталонное значение символа
-    expected: string;
-}
-
-// Компонент символа
-const Character = forwardRef((props: CharacterProps, ref) => {
-
-    // Проверяет является ли символ введенная пользователем правильным
-    const isCorrect = props.actual === props.expected;
-    // Проверяет является ли символ не введенным
-    const isNull = props.actual === undefined || props.actual === null;
-    // Проверяет является ли символ пробелом
-    const isWhitespace = props.expected === " ";
-
-    // Возвращаем span с буквой
-    return (
-        <span
-            className={
-            classNames({ // используем модуль classnames для conditional классов
-                "letter": props.actual === undefined, // Для символа, который еще не ввел пользователь
-                "letter__correct": isCorrect && !isWhitespace, // Для правильного символа
-                "letter__incorrect": !isCorrect && !isWhitespace && !isNull, // Для неправильного символа
-                'whitespace': isWhitespace,
-            })}
-            ref = {ref as React.RefObject<HTMLSpanElement>} 
-            >{props.expected}</span>
-    )
-})
-
 // Компонент input
 const Input = ({ userText, text, cursorPosition }: InputProps) => {
-    const typed = userText // введенные символы
-    const words = text // слова задания
-    const typedWords: string[] = userText.split(/(?<=\s)/)
-    const wordsArray = text.split(/(?<=\s)/)
-    const currentIndex = userText.length - 1
+    const userTextArray: string[] = userText.split(/(?<=\s)/)
+    const textArray = text.split(/(?<=\s)/)
 
-    const caretRef = useRef<HTMLSpanElement>(null)
-    const currentLetterRef = useRef<HTMLSpanElement>(null)
-
-    useEffect(() => {
-        console.log(currentLetterRef)
-    }, [cursorPosition])
-
-
+    const currentCharacterRef = useRef<HTMLSpanElement>(null)
+    const [leftMargin, setLeftMargin] = useState<any | null>(null);
+    const [topMargin, setTopMargin] = useState<any | null>(null);
     let previousWordsLength = 0 // Переменная для преобразование индексов двумерного массива в одномерный
+
+    const calculateLeftMargin = useEffect(
+        () => {
+            currentCharacterRef.current !== undefined ? setLeftMargin(currentCharacterRef.current?.offsetLeft) : 0
+            currentCharacterRef.current !== undefined ? setTopMargin(currentCharacterRef.current?.offsetTop) : 0
+        },
+        [cursorPosition],
+    )
 
     // Возвращаем div'ы слов, состоящие из Character'ов
     return (
         <>
             {
-                <span
-                    ref={caretRef}
-                    id="caret"
-                    className="caret"
-                    style={{
-                        left: currentLetterRef.current?.offsetLeft,
-                        top:  currentLetterRef.current?.offsetTop
-                    }}>
-                    |
-                </span>
+                <Caret leftMargin={leftMargin} topMargin={topMargin}/>
             }
             {
-                wordsArray.map((word, currentWordIndex) => { // Проходимся по всем словам при помощи map
+                textArray.map((word, wordIndex) => { // Проходимся по всем словам при помощи map
                     {
                         // Получаем длины предыдущих слов для того, чтобы знать положение указателя в тексте
-                        previousWordsLength += currentWordIndex === 0 ? 0 : wordsArray[currentWordIndex - 1].length
+                        previousWordsLength += wordIndex === 0 ? 0 : textArray[wordIndex - 1].length
                     }
                     return (
                         <div className="input__word">{ // Возвращаем div
-                            word.split("").map((character, currentLetterIndex) => { // Проходимся по всем символам в слове при помощи map
-                                const isActive = (previousWordsLength+currentLetterIndex === cursorPosition)
+                            word.split("").map((character, characterIndex) => { // Проходимся по всем символам в слове при помощи map
+                                {
+                                    useEffect(() => {
+                                        console.log(cursorPosition)
+                                        console.log(currentCharacterRef)
+                                    }, [cursorPosition, currentCharacterRef])
+                                }
+                                const isActive = (previousWordsLength + characterIndex === cursorPosition)
                                 return (
                                     <>
                                         <Character // Возвращаем символ
-                                            ref={isActive ? currentLetterRef : null}
+                                            ref={isActive ? currentCharacterRef : null}
                                             expected={character} // Эталонное значение
                                             actual={ // Значение пользователя
-                                                typedWords[currentWordIndex] !== undefined // Если пользователь ввел символ
-                                                    ? typedWords[currentWordIndex].split("")[currentLetterIndex] // То записываем значение этого символа
+                                                userTextArray[wordIndex] !== undefined // Если пользователь ввел символ
+                                                    ? userTextArray[wordIndex].split("")[characterIndex] // То записываем значение этого символа
                                                     : undefined // Иначе пустое значение
                                             }
                                         />

@@ -7,29 +7,29 @@ import useCountdown from "./useCountdown";
 export type State = "start" | "run" | "finish"
 
 const NUMBER_OF_WORDS = 20;
-const TIME = 120;
+const COUNTDOWN_SECONDS = 120;
 
 const useEngine = () => {
     const [state, setState] = useState<State>("start");
-    const { seconds, timerIsActive, setTimerActive } = useCountdown(TIME);
+    const { timeLeft, timerIsActive, setTimerIsActive } = useCountdown(COUNTDOWN_SECONDS);
     const { words, updateWords } = useWords(NUMBER_OF_WORDS)
     const { typed, cursor, clearTyped, resetTotalTyped, totalTyped } = useInput(state !== 'finish', words)
-    const { wpm } = useSymbolsTypedMetric(state !== 'finish', totalTyped, TIME - seconds, typed)
+    const { wpm } = useSymbolsTypedMetric(state !== 'finish', totalTyped, COUNTDOWN_SECONDS, timeLeft, typed)
 
     const isStarting = state === "start" && cursor > 0;
 
     useEffect(() => {
         if (state === "finish") {
-            setTimerActive(false)
+            setTimerIsActive(false)
         }
     }, [state])
 
     useEffect(() => {
         if (isStarting) {
             setState("run");
-            setTimerActive(true);
+            setTimerIsActive(true);
         }
-    }, [isStarting, setTimerActive]);
+    }, [isStarting, setTimerIsActive]);
 
     useEffect(() => {
         if (!timerIsActive && state === "run") {
@@ -48,7 +48,8 @@ const useEngine = () => {
         setState("start")
     }
 
-    return { state, words, typed, wpm, seconds, restart, cursor }
+
+    return { state, words, typed, wpm, restart, cursor, timeLeft }
 }
 
 export default useEngine;
