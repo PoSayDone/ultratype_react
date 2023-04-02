@@ -95,7 +95,7 @@ const Keyboard = ({currentCharacterRef, currentChar}: KeyboardProps) => {
 			</div>
 			<div className="keyboard__row r4">
 				<div className={
-					currentChar === currentChar.toUpperCase() && currentChar!= ' ' ? 'keyboard__button active shift' : 'shift keyboard__button'
+					currentChar && currentChar === currentChar.toUpperCase() && currentChar!= ' ' ? 'keyboard__button active shift' : 'shift keyboard__button'
 				}>
 					<span className="material-symbols-rounded">shift</span>
 				</div>

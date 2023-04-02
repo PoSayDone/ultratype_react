@@ -38,7 +38,7 @@ const useEngine = () => {
     }, [timerIsActive, state]);
 
     useEffect(() => {
-        if (words.length === typed.length)
+        if (words.length === cursor )
             setState("finish")
     }, [words, typed])
 
@@ -47,6 +47,7 @@ const useEngine = () => {
         resetTotalTyped()
         setState("start")
     }
+
 
 
     return { state, words, typed, wpm, restart, cursor, timeLeft , currentCharacterRef}

@@ -38,7 +38,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             </div>
             <div className="typing__container">
                 <div className="input__section">
-                    <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef}/>
+                    <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={state}/>
                 </div>
                 <div className="typing__metrics">
                     <CountdownTimer timeLeft={timeLeft} />

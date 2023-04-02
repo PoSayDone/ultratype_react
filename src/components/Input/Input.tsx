@@ -12,10 +12,11 @@ type InputProps = {
     text: string;
     cursorPosition: number;
     currentCharacterRef: React.RefObject<HTMLSpanElement>
+    state : string
 }
 
 // Компонент input
-const Input = ({ userText, text, cursorPosition , currentCharacterRef }: InputProps) => {
+const Input = ({ userText, text, cursorPosition , currentCharacterRef , state}: InputProps) => {
     const userTextArray: string[] = userText.split(/(?<=\s)/)
     const textArray = text.split(/(?<=\s)/)
 
@@ -35,7 +36,7 @@ const Input = ({ userText, text, cursorPosition , currentCharacterRef }: InputPr
     return (
         <>
             {
-                <Caret leftMargin={leftMargin} topMargin={topMargin}/>
+               state != 'finish' ? <Caret leftMargin={leftMargin} topMargin={topMargin}/> : ''
             }
             {
                 textArray.map((word, wordIndex) => { // Проходимся по всем словам при помощи map
