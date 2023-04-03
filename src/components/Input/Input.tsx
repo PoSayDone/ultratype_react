@@ -1,6 +1,4 @@
-import {createContext, forwardRef, useCallback, useContext, useEffect, useRef, useState} from "react";
-import Heading from "../Heading/Heading"
-import classNames from "classnames";
+import { useEffect,  useState} from "react";
 import Character from "../Character";
 import Caret from "../Caret";
 
@@ -12,11 +10,11 @@ type InputProps = {
 	text: string;
 	cursorPosition: number;
 	currentCharacterRef: React.RefObject<HTMLSpanElement>
-	state: string
+	state: string,
 }
 
 // Компонент input
-const Input = ({userText, text, cursorPosition, currentCharacterRef, state}: InputProps) => {
+const Input = ({userText, text, cursorPosition, currentCharacterRef, state }: InputProps) => {
 	const userTextArray: string[] = userText.split(/(?<=\s)/)
 	const textArray = text.split(/(?<=\s)/)
 

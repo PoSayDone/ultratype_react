@@ -15,7 +15,7 @@ interface TypingProps {
 }
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
-    const {restart,state, words, typed, wpm, timeLeft, cursor , currentCharacterRef } = useEngine();
+    const {accuracy, restart,state, words, typed, wpm, timeLeft, cursor , currentCharacterRef } = useEngine();
     const [currentChar, setCurrentChar] = useState(words[0])
 
     useEffect(() => {
@@ -39,12 +39,12 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             </div>
             <div className="typing__container">
                 <div className="input__section">
-                    <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={state} />
+                    <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={state}  />
                 </div>
                 <div className="typing__metrics">
                     <CountdownTimer timeLeft={timeLeft} />
                     <SymbolsTypedMetric wpm={wpm} />
-                    <AccuracyMetric accuracy={100} />
+                    <AccuracyMetric accuracy={accuracy } />
                 </div>
                 <Keyboard currentChar={currentChar} />
             </div>

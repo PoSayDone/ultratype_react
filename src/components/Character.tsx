@@ -7,14 +7,17 @@ type CharacterProps = {
 	actual?: any;
 	// Эталонное значение символа
 	expected: string;
+
 }
 
 
 // Компонент символа
-const Character = forwardRef((props: CharacterProps, ref) => {
+const Character = forwardRef((props: CharacterProps, ref, ) => {
 
 	// Проверяет является ли символ введенная пользователем правильным
 	const isCorrect = props.actual === props.expected;
+
+
 	// Проверяет является ли символ не введенным
 	const isNull = props.actual === undefined || props.actual === null;
 	// Проверяет является ли символ пробелом
