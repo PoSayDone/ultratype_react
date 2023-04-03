@@ -15,11 +15,7 @@ interface TypingProps {
 }
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
-<<<<<<< HEAD
     const {restart,state, words, typed, wpm, timeLeft, cursor , currentCharacterRef } = useEngine();
-=======
-    const { state, words, typed, wpm, timeLeft, cursor, currentCharacterRef } = useEngine();
->>>>>>> 152505cda1f8abc1d9a155788fed48bcc4129d86
     const [currentChar, setCurrentChar] = useState(words[0])
 
     useEffect(() => {

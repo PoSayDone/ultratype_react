@@ -1,4 +1,4 @@
-import React, { FC, useRef } from 'react'
+import React, { useRef } from 'react'
 
 type RestartButtonProps = {
     onRestart: () => void;
