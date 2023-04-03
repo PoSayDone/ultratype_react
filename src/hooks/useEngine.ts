@@ -54,6 +54,7 @@ const useEngine = () => {
         if (state === 'restart'){
             setState('start')
             restartTyping()
+
         }
     },[state])
 

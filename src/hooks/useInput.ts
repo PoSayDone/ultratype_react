@@ -86,11 +86,22 @@ const useInput = (enabled: boolean, text: string) => {
 		}
 	}, [maxTyped])
 
+
+
+	// функция установки точности
 	function setTypedNumber(typed: number, correctTyped: number) {
 		setTotalTypedNumber(prevState => prevState + typed)
 		setTotalCorrectTypedNumber(prevState => prevState + correctTyped)
 	}
 
+
+	// рестарт точности
+	function restartAccuracy() {
+		setTotalTypedNumber(0)
+		setTotalCorrectTypedNumber(0)
+		setMaxTyped(0)
+		setAccuracy(100)
+	}
 
 	// Сбрасывает количество введенных символов
 	const resetTotalTyped = useCallback(() => {
@@ -109,6 +120,7 @@ const useInput = (enabled: boolean, text: string) => {
 		setCursor(0)
 		setTyped('')
 		totalTyped.current = 0
+		restartAccuracy()
 	}
 
 	return {
@@ -120,7 +132,7 @@ const useInput = (enabled: boolean, text: string) => {
 		restartTyping,
 		accuracy,
 		setTypedNumber,
-		maxTyped
+		maxTyped,
 	}
 }
 
