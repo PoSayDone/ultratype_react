@@ -297,7 +297,7 @@ nav {
       &.active {
         background-color: var(--accent);
         color: var(--on_accent);
-        animation: smoothActiveButton 0.5s;
+        animation: smoothActiveButton 200ms;
       }
     }
   }
