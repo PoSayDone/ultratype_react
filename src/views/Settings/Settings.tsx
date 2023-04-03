@@ -2,15 +2,17 @@ import * as React from 'react';
 import {useContext} from 'react';
 import {ThemeContext} from '../../contexts/ThemeContext';
 import Heading from '../../components/Heading/Heading';
+import { TFunction } from 'i18next';
 
 interface SettingsProps {
 	language: boolean
 	setLanguage: Function
 	font: boolean
 	setFont: Function
+	text: TFunction<"translation" , undefined , "translation">
 }
 
-const Settings = ({language, setLanguage, font, setFont}: SettingsProps) => {
+const Settings = ({language, setLanguage, font, setFont,text}: SettingsProps) => {
 	const {theme, setTheme} = useContext(ThemeContext);
 
 	const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -24,13 +26,13 @@ const Settings = ({language, setLanguage, font, setFont}: SettingsProps) => {
 	return (
 		<div className="settings">
 			<div className="title__section">
-				<Heading headingLevel="h1">{language ? 'Настройки' : 'Settings'}</Heading>
+				<Heading headingLevel="h1">{text("settings.title")}</Heading>
 			</div>
 			<div className="interface__section">
-				<Heading headingLevel="h2">{language ? 'Интерфейс' : 'Interface'}</Heading>
+				<Heading headingLevel="h2">{text("settings.interface")}</Heading>
 				<form name='setting'>
 					<fieldset name='language'>
-						<p>{language ? 'Язык' : 'Language'}</p>
+						<p>{text("settings.language")}</p>
 						<select onChange={changeLanguage}>
 							{
 								language
@@ -47,7 +49,7 @@ const Settings = ({language, setLanguage, font, setFont}: SettingsProps) => {
 						</select>
 					</fieldset>
 					<fieldset name='theme'>
-						<p>{language ? 'Тема' : 'Theme'}</p>
+						<p>{text("settings.theme")}</p>
 						<select onChange={handleThemeChange}>
 							{
 								theme === 'dark'
@@ -63,7 +65,7 @@ const Settings = ({language, setLanguage, font, setFont}: SettingsProps) => {
 						</select>
 					</fieldset>
 					<fieldset name='font'>
-						<p>{language ? 'Моноширный шрифт' : 'Monospase font'}</p>
+						<p>{text("settings.font")}</p>
 						<div className={font ? 'slider right' : 'slider left'}
 						     onClick={() => setFont((prev: any) => !prev)}></div>
 					</fieldset>
