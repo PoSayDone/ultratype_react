@@ -13,10 +13,18 @@ const useEngine = () => {
 	const [state, setState] = useState<State>("start");
 	const {timeLeft, timerIsActive, setTimerIsActive} = useCountdown(COUNTDOWN_SECONDS);
 	const {words, updateWords} = useWords(NUMBER_OF_WORDS)
-	const {typed, cursor, clearTyped, resetTotalTyped, totalTyped,restartTyping } = useInput(state !== 'finish', words)
+	const {typed, cursor,  totalTyped,restartTyping , accuracy ,setTypedNumber} = useInput(state !== 'finish', words)
 	const {wpm} = useSymbolsTypedMetric(state !== 'finish', totalTyped, COUNTDOWN_SECONDS, timeLeft, typed)
 	const currentCharacterRef = useRef<HTMLSpanElement>(null)
 	const isStarting = state === "start" && cursor > 0;
+
+	useEffect(() => {
+		if (state === "run" ) {
+			if (typed[cursor-1] && typed[cursor-1] === words[cursor-1]){
+				setTypedNumber(1,1)
+			}else if (typed[cursor-1] && typed[cursor-1] !== words[cursor-1]) setTypedNumber(1,0)
+		}
+	},[state,cursor,words,typed])
 
 	useEffect(() => {
 		if (state === "finish") {
@@ -54,7 +62,7 @@ const useEngine = () => {
 	}
 
 
-	return {state, words, typed, wpm, restart, cursor, timeLeft, currentCharacterRef }
+	return {state, words, typed, wpm, restart, cursor, timeLeft, currentCharacterRef,accuracy }
 }
 
 export default useEngine;

@@ -18,8 +18,14 @@ const useInput = (enabled: boolean, text: string) => {
     const [cursor, setCursor] = useState(0);
     // Введенный текст
     const [typed, setTyped] = useState<string>("");
+    //Колличество нажатий
+    const [totalTypedNumber, setTotalTypedNumber] = useState(0)
+    //Колличество правильных нажатий
+    const [totalCorrectTypedNumber , setTotalCorrectTypedNumber] = useState(0)
     // Количество введенных символов
     const totalTyped = useRef(0);
+    //статистика правильности ввода
+    const [accuracy, setAccuracy] = useState(100)
     const currentIndex = typed.split(" ").length - 1
 
     const keydownHandler = useCallback(
@@ -70,6 +76,20 @@ const useInput = (enabled: boolean, text: string) => {
         setCursor(0)
     }, [])
 
+    //пресчет правильности ввода
+    useEffect(() => {
+        let acc = Math.round((totalCorrectTypedNumber / totalTypedNumber) * 100 )
+        acc = isNaN(acc) ? 100 : acc
+        console.log(acc)
+        setAccuracy(acc)
+    },[totalTypedNumber])
+
+    function setTypedNumber(typed : number, correctTyped : number){
+        setTotalTypedNumber(prevState => prevState + typed)
+        setTotalCorrectTypedNumber(prevState => prevState + correctTyped)
+    }
+
+
     // Сбрасывает количество введенных символов
     const resetTotalTyped = useCallback(() => {
         totalTyped.current = 0
@@ -96,6 +116,8 @@ const useInput = (enabled: boolean, text: string) => {
         resetTotalTyped,
         totalTyped: totalTyped.current,
         restartTyping,
+        accuracy,
+        setTypedNumber,
     }
 }
 

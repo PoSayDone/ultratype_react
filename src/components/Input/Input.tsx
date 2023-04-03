@@ -12,11 +12,11 @@ type InputProps = {
 	text: string;
 	cursorPosition: number;
 	currentCharacterRef: React.RefObject<HTMLSpanElement>
-	state: string
+	state: string,
 }
 
 // Компонент input
-const Input = ({userText, text, cursorPosition, currentCharacterRef, state}: InputProps) => {
+const Input = ({userText, text, cursorPosition, currentCharacterRef, state }: InputProps) => {
 	const userTextArray: string[] = userText.split(/(?<=\s)/)
 	const textArray = text.split(/(?<=\s)/)
 
