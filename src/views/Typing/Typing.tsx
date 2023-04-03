@@ -15,7 +15,7 @@ interface TypingProps {
 }
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
-    const { state, words, typed, wpm, timeLeft, cursor , currentCharacterRef } = useEngine();
+    const {restart,state, words, typed, wpm, timeLeft, cursor , currentCharacterRef } = useEngine();
     const [currentChar, setCurrentChar] = useState(words[0])
 
     useEffect(() => {
@@ -33,7 +33,8 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                     </Heading>
                 </div>
                 <RestartButton
-                    onRestart={() => null}
+                    onRestart={() => restart()}
+
                 />
             </div>
             <div className="typing__container">

@@ -83,12 +83,19 @@ const useInput = (enabled: boolean, text: string) => {
         }
     }, [keydownHandler])
 
+    const restartTyping = () => {
+        setCursor(0)
+        setTyped('')
+        totalTyped.current=0
+    }
+
     return {
         typed,
         cursor,
         clearTyped,
         resetTotalTyped,
         totalTyped: totalTyped.current,
+        restartTyping,
     }
 }
 

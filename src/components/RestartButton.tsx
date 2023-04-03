@@ -7,8 +7,8 @@ type RestartButtonProps = {
 const RestartButton = (props: RestartButtonProps) => {
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    const handleClick = () => {
-        buttonRef.current?.blur();
+    const handleClick = (e : React.MouseEvent<HTMLButtonElement>) => {
+        e.currentTarget.blur()
         props.onRestart();
     }
 
@@ -16,7 +16,11 @@ const RestartButton = (props: RestartButtonProps) => {
         <button 
             ref={buttonRef}
             className="restart__button"
-            onClick={props.onRestart}>
+            onClick={(e) => {
+                e.preventDefault()
+                handleClick(e)
+            }
+            }>
             <span className="material-symbols-rounded">
             refresh
             </span>
