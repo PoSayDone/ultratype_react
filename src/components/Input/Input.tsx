@@ -1,6 +1,4 @@
-import {createContext, forwardRef, useCallback, useContext, useEffect, useRef, useState} from "react";
-import Heading from "../Heading/Heading"
-import classNames from "classnames";
+import { useEffect,  useState} from "react";
 import Character from "../Character";
 import Caret from "../Caret";
 

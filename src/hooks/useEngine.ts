@@ -1,4 +1,4 @@
-import {createContext, useContext, useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState} from "react";
 import useWords from "./useWords";
 import useInput from "./useInput";
 import useSymbolsTypedMetric from "./useSymbolsTypedMetric";
@@ -13,18 +13,18 @@ const useEngine = () => {
 	const [state, setState] = useState<State>("start");
 	const {timeLeft, timerIsActive, setTimerIsActive} = useCountdown(COUNTDOWN_SECONDS);
 	const {words, updateWords} = useWords(NUMBER_OF_WORDS)
-	const {typed, cursor,  totalTyped,restartTyping , accuracy ,setTypedNumber} = useInput(state !== 'finish', words)
+	const {typed, maxTyped,cursor,  totalTyped,restartTyping , accuracy ,setTypedNumber} = useInput(state !== 'finish', words)
 	const {wpm} = useSymbolsTypedMetric(state !== 'finish', totalTyped, COUNTDOWN_SECONDS, timeLeft, typed)
 	const currentCharacterRef = useRef<HTMLSpanElement>(null)
 	const isStarting = state === "start" && cursor > 0;
 
 	useEffect(() => {
-		if (state === "run" ) {
+		if (state === "run") {
 			if (typed[cursor-1] && typed[cursor-1] === words[cursor-1]){
 				setTypedNumber(1,1)
 			}else if (typed[cursor-1] && typed[cursor-1] !== words[cursor-1]) setTypedNumber(1,0)
 		}
-	},[state,cursor,words,typed])
+	},[maxTyped])
 
 	useEffect(() => {
 		if (state === "finish") {
