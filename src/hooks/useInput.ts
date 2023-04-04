@@ -1,5 +1,9 @@
-import {useCallback,  useEffect, useRef, useState} from "react";
+import {Dispatch, useCallback, useEffect} from "react";
+import {useDispatch} from "react-redux";
+import {useTypedSelector} from "./useTypedSelector";
+import {InputActions, InputActionTypes} from "../store/reducers/inputReducer";
 
+export {InputActionTypes} from './../store/reducers/inputReducer'
 // Проверяет является ли вводимый символ цифрой, буквой, пробелом или бэкспейсом
 
 const isSymbolAllowed = (code: string) => {
@@ -12,23 +16,21 @@ const isSymbolAllowed = (code: string) => {
 };
 
 const useInput = (enabled: boolean, text: string) => {
-	// Положение курсора
-	const [cursor, setCursor] = useState(0);
-	// Введенный текст
-	const [typed, setTyped] = useState<string>("");
-	//Колличество нажатий
-	const [totalTypedNumber, setTotalTypedNumber] = useState(0)
-	//Колличество правильных нажатий
-	const [totalCorrectTypedNumber, setTotalCorrectTypedNumber] = useState(0)
-	// Количество введенных символов
-	const totalTyped = useRef(0);
-	//статистика правильности ввода
-	const [accuracy, setAccuracy] = useState(100)
-
-	const [maxTyped , setMaxTyped] = useState(0)
+	const dispatch: Dispatch<InputActions> = useDispatch()
+	const {
+		cursor,
+		typed,
+		totalTypedNumber,
+		totalCorrectTypedNumber,
+		totalTyped,
+		accuracy,
+		maxTyped,
+	} = useTypedSelector(state => state.input)
 	const currentIndex = typed.split(" ").length - 1
 
-	useEffect(() => setMaxTyped(prevState => Math.max(cursor,prevState)),[cursor])
+	// TODO: ДОДЕЛАТЬ ACCURACY
+	// dispatch({type: InputActionTypes.MAX_TYPED, payload: Math.max(cursor, maxTyped)})
+	// useEffect(() => dispatch({type: InputActionTypes.MAX_TYPED, payload: Math.max(cursor, maxTyped)}), [cursor])
 
 	const keydownHandler = useCallback(
 		({key, code}: KeyboardEvent) => {
@@ -38,30 +40,30 @@ const useInput = (enabled: boolean, text: string) => {
 
 			switch (key) {
 				case "Backspace":
-					setTyped((prev) => prev.slice(0, -1));
+					dispatch({type: InputActionTypes.SET_TYPED, payload: typed.slice(0, -1)})
 					if (cursor > 0) {
-						setCursor((cursor) => cursor - 1);
+						dispatch({type: InputActionTypes.SET_CURSOR, payload: cursor - 1})
 					}
-					if (totalTyped.current > 0) {
-						totalTyped.current -= 1;
+					if (totalTyped > 0) {
+						dispatch({type: InputActionTypes.SET_TOTAL_TYPED, payload : totalTyped -1})
 					}
 					break;
 				case " ":
 					if (typed[typed.length - 1] === " " || text[cursor] != ' ') {
 						return
 					} else {
-						setTyped((prev) => prev.concat(key));
-						setCursor((cursor) => cursor + 1);
-						totalTyped.current += 1;
+						dispatch({type: InputActionTypes.SET_TYPED, payload: typed.concat(key)})
+						dispatch({type: InputActionTypes.SET_CURSOR, payload: cursor + 1})
+						dispatch({type: InputActionTypes.SET_TOTAL_TYPED, payload : totalTyped +1})
 					}
 					break
 				default:
 					if (text.split(" ")[currentIndex].length <= typed.split(" ")[currentIndex].length && typed[typed.length - 1]) {
 						return
 					} else {
-						setTyped((prev) => prev.concat(key));
-						setCursor((cursor) => cursor + 1);
-						totalTyped.current += 1;
+						dispatch({type: InputActionTypes.SET_TYPED, payload: typed.concat(key)})
+						dispatch({type: InputActionTypes.SET_CURSOR, payload: cursor + 1})
+						dispatch({type: InputActionTypes.SET_TOTAL_TYPED, payload : totalTyped +1})
 					}
 					break;
 			}
@@ -71,41 +73,27 @@ const useInput = (enabled: boolean, text: string) => {
 
 	// Очищает введенное и ставит курсор на ноль
 	const clearTyped = useCallback(() => {
-		setTyped("")
-		setCursor(0)
+		dispatch({type: InputActionTypes.SET_TYPED, payload: ""})
+		dispatch({type: InputActionTypes.SET_CURSOR, payload: 0})
 	}, [])
-
-	//пресчет правильности ввода
-	useEffect(() => {
-		if (maxTyped >= cursor){
-			let acc = Math.round((totalCorrectTypedNumber / totalTypedNumber) * 100)
-			acc = isNaN(acc) ? 100 : acc
-			console.log(maxTyped)
-
-			setAccuracy(acc)
-		}
-	}, [maxTyped])
-
 
 
 	// функция установки точности
 	function setTypedNumber(typed: number, correctTyped: number) {
-		setTotalTypedNumber(prevState => prevState + typed)
-		setTotalCorrectTypedNumber(prevState => prevState + correctTyped)
-	}
 
+		dispatch({type: InputActionTypes.SET_TOTAL_TYPED_NUMBER, payload: totalTypedNumber + typed})
+		dispatch({
+			type: InputActionTypes.SET_TOTAL_CORRECT_TYPED_NUMBER,
+			payload: totalCorrectTypedNumber + correctTyped
+		})
+	}
 
 	// рестарт точности
-	function restartAccuracy() {
-		setTotalTypedNumber(0)
-		setTotalCorrectTypedNumber(0)
-		setMaxTyped(0)
-		setAccuracy(100)
-	}
+	const restartAccuracy = () => dispatch({type: InputActionTypes.RESTART_TYPING})
 
 	// Сбрасывает количество введенных символов
 	const resetTotalTyped = useCallback(() => {
-		totalTyped.current = 0
+		dispatch({type: InputActionTypes.SET_TOTAL_TYPED, payload : 0})
 	}, [])
 
 	// Добавляет и убирает eventListner'ы
@@ -117,9 +105,7 @@ const useInput = (enabled: boolean, text: string) => {
 	}, [keydownHandler])
 
 	const restartTyping = () => {
-		setCursor(0)
-		setTyped('')
-		totalTyped.current = 0
+		dispatch({type: InputActionTypes.SET_TOTAL_TYPED, payload : 0})
 		restartAccuracy()
 	}
 
@@ -128,7 +114,7 @@ const useInput = (enabled: boolean, text: string) => {
 		cursor,
 		clearTyped,
 		resetTotalTyped,
-		totalTyped: totalTyped.current,
+		totalTyped,
 		restartTyping,
 		accuracy,
 		setTypedNumber,

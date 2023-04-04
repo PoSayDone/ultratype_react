@@ -16,7 +16,6 @@ const Settings = ({ text }: SettingsProps) => {
 
      const changeTheme = (event: React.ChangeEvent<HTMLSelectElement>) => {
           const theme_value = event.target.value //проверка языка
-          console.log(theme)
           dispatch({ type: "CHANGE_THEME", payload: theme_value })
      };
 
