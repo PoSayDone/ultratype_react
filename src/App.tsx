@@ -6,7 +6,6 @@ import Navbar from "./components/Navbar";
 import Settings from "./views/Settings/Settings";
 import { useEffect, useState } from "react";
 import Typing from "./views/Typing/Typing";
-import ThemeProvider from "./providers/ThemeProvider";
 import Results from "./views/Results/Results";
 import "./i18n";
 import { useTranslation } from "react-i18next";
@@ -34,7 +33,6 @@ function App() {
 
     return (
         <>
-            <ThemeProvider>
                 <BrowserRouter>
                     <main>
                         <Header />
@@ -45,8 +43,6 @@ function App() {
                                 element={
                                     <Settings
                                         text={t}
-                                        font={font}
-                                        setFont={setFont}
                                     />
                                 }
                             />
@@ -74,7 +70,6 @@ function App() {
                     </main>
                     <Navbar language={t} />
                 </BrowserRouter>
-            </ThemeProvider>
         </>
     );
 }

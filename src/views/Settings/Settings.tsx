@@ -1,28 +1,34 @@
 import * as React from 'react';
 import {Dispatch, useContext} from 'react';
-import {ThemeContext} from '../../contexts/ThemeContext';
 import Heading from '../../components/Heading/Heading';
 import { TFunction } from 'i18next';
 import {useTypedSelector} from "../../hooks/useTypedSelector";
 import {useDispatch} from "react-redux";
 import {LanguageActionType} from "../../store/reducers/languageReducer";
 import {FontActionType} from "../../store/reducers/fontReducer";
+import { Theme } from '../../store/reducers/themeReducer';
 
 interface SettingsProps {
 	text: TFunction<"translation" , undefined , "translation">
 }
 
 const Settings = ({text}: SettingsProps) => {
-	const {theme, setTheme} = useContext(ThemeContext);
 	const language = useTypedSelector(state => state.language.language)
-	const dispatch: Dispatch<LanguageActionType | FontActionType> = useDispatch()
 	const font : boolean = useTypedSelector(state => state.font.isMonospace)
+	const theme : Theme = useTypedSelector(state => state.theme.theme)
+	const dispatch = useDispatch()
 
-
-	const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-		setTheme(event.target.value);
+	const changeTheme = (event: React.ChangeEvent<HTMLSelectElement>) => {
+		const theme_value = event.target.value //проверка языка
+		console.log(theme)
+		dispatch({type: "CHANGE_THEME", payload : theme_value})
 	};
 
+	React.useEffect(() => {
+            document.documentElement.dataset.theme = theme
+            localStorage.setItem('theme', theme)
+	}, [theme])
+	
 
 	function changeLanguage(event: React.ChangeEvent<HTMLSelectElement>) {
 		const lang =  event.target.value === 'ru' //проверка языка
@@ -56,7 +62,7 @@ const Settings = ({text}: SettingsProps) => {
 					</fieldset>
 					<fieldset name='theme'>
 						<p>{text("settings.theme")}</p>
-						<select onChange={handleThemeChange}>
+						<select onChange={changeTheme}>
 							{
 								theme === 'dark'
 									? <option value="dark" selected>{language ? 'Темная' : 'Dark'}</option>
