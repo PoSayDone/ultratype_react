@@ -1,26 +1,32 @@
 import * as React from 'react';
-import {useContext} from 'react';
+import {Dispatch, useContext} from 'react';
 import {ThemeContext} from '../../contexts/ThemeContext';
 import Heading from '../../components/Heading/Heading';
 import { TFunction } from 'i18next';
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import {useDispatch} from "react-redux";
+import {LanguageActionType} from "../../store/reducers/languageReducer";
+import {FontActionType} from "../../store/reducers/fontReducer";
 
 interface SettingsProps {
-	language: boolean
-	setLanguage: Function
-	font: boolean
-	setFont: Function
 	text: TFunction<"translation" , undefined , "translation">
 }
 
-const Settings = ({language, setLanguage, font, setFont,text}: SettingsProps) => {
+const Settings = ({text}: SettingsProps) => {
 	const {theme, setTheme} = useContext(ThemeContext);
+	const language = useTypedSelector(state => state.language.language)
+	const dispatch: Dispatch<LanguageActionType | FontActionType> = useDispatch()
+	const font : boolean = useTypedSelector(state => state.font.isMonospace)
+
 
 	const handleThemeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
 		setTheme(event.target.value);
 	};
 
+
 	function changeLanguage(event: React.ChangeEvent<HTMLSelectElement>) {
-		setLanguage(event.target.value == 'ru' ? true : false)
+		const lang =  event.target.value === 'ru' //проверка языка
+		dispatch({type: "CHANGE_LANGUAGE", payload : lang})
 	}
 
 	return (
@@ -67,7 +73,7 @@ const Settings = ({language, setLanguage, font, setFont,text}: SettingsProps) =>
 					<fieldset name='font'>
 						<p>{text("settings.font")}</p>
 						<div className={font ? 'slider right' : 'slider left'}
-						     onClick={() => setFont((prev: any) => !prev)}></div>
+						     onClick={() => dispatch({type:"CHANGE_FONT"})}></div>
 					</fieldset>
 				</form>
 			</div>

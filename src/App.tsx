@@ -10,14 +10,17 @@ import ThemeProvider from "./providers/ThemeProvider";
 import Results from "./views/Results/Results";
 import "./i18n";
 import { useTranslation } from "react-i18next";
+import {useDispatch, useSelector} from "react-redux";
+import {useTypedSelector} from "./hooks/useTypedSelector";
 
 function App() {
-    const [language, setLanguage] = useState(true); //true - русский , false - англ
     const [font, setFont] = useState(false); // true - моноширный, false - обычный
     const { t, i18n } = useTranslation();
     const changeLanguage = (language: string) => {
         i18n.changeLanguage(language);
     };
+
+    const language = useTypedSelector(state => state.language.language)
 
     useEffect(() => {
         switch (language) {
@@ -42,8 +45,6 @@ function App() {
                                 element={
                                     <Settings
                                         text={t}
-                                        language={language}
-                                        setLanguage={setLanguage}
                                         font={font}
                                         setFont={setFont}
                                     />
