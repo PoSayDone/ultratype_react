@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom"
 import Card from "../components/Card"
+import Settings from "./Settings/Settings"
+import { useTranslation } from "react-i18next";
 
 const Main = () => {
     return (
