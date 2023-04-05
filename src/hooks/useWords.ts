@@ -11,11 +11,8 @@ const generateWords = (count: number) => {
 const useWords = () => {
     const dispatch : Dispatch<WordsActions> = useDispatch()
     const {words} = useTypedSelector(state => state.words)
-    // dispatch({type: WordsActionTypes.SET_WORDS, payload: generateWords(count)})
-    // const [words, setWords] = useState<string>(generateWords(count))
 
     const updateWords = useCallback(() => {
-        // setWords(generateWords(count));
         dispatch({type: WordsActionTypes.SET_WORDS, payload: generateWords(NUMBER_OF_WORDS)})
     }, [NUMBER_OF_WORDS])
     

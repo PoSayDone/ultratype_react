@@ -14,8 +14,8 @@ export type State = "start" | "run" | "finish" | "restart";
 
 const useEngine = () => {
      const [state, setState] = useState<State>("start");
-     const { timeLeft, timerIsActive, setTimerIsActive } = useCountdown();
-
+     const { timeLeft, timerIsActive, setTimerIsActive , setTimeLeft} = useCountdown();
+     // setTimeLeft(150)
 
      // useWords как таковой теперь не нужен ( пока его не удалял(
      const { words } = useTypedSelector(state => state.words);
@@ -25,6 +25,14 @@ const useEngine = () => {
           const dispatch : Dispatch<WordsActions> = useDispatch()
           dispatch({type: WordsActionTypes.SET_WORDS, payload: generateWords(NUMBER_OF_WORDS)})
      }, [NUMBER_OF_WORDS])
+
+
+     useEffect(() => {
+          if (state === "start") {
+               setTimerIsActive(false)
+               setTimeLeft(1000) // тут делается нужное время
+          }
+     },[state])
 
 
      const {
@@ -100,18 +108,10 @@ const useEngine = () => {
           [words, typed]
      );
 
-     useEffect(
-          () => {
-               if (state === "restart") {
-                    setState("start");
-                    restartTyping();
-               }
-          },
-          [state]
-     );
 
      const restart = () => {
-          setState("restart");
+          setState("start");
+          restartTyping();
      };
 
      return {

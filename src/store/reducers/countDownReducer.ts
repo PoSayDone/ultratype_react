@@ -1,13 +1,10 @@
+import {useDispatch} from "react-redux";
 
 export let COUNTDOWN_SECONDS = 120;
 export enum CountDownActionTypes{
 	SET_TIMER_ISACTIVE = "SET_TIMER_ISACTIVE",
 	SET_DEFAULT_STATE = "SET_DEFAULT_STATE",
 	SET_TIMELEFT = "SET_TIMELEFT"
-}
-
-export function SetDefaultSeconds(time : number){
-	COUNTDOWN_SECONDS = time
 }
 
 interface SetTimerIsActiveAction {
