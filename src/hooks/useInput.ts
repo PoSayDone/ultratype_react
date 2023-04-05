@@ -27,7 +27,6 @@ const useInput = (enabled: boolean, text: string) => {
 		maxTyped,
 	} = useTypedSelector(state => state.input)
 	const currentIndex = typed.split(" ").length - 1
-	
 	const keydownHandler = useCallback(
 		({key, code}: KeyboardEvent) => {
 			if (!enabled || !isSymbolAllowed(code)) {
