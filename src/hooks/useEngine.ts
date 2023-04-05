@@ -1,14 +1,16 @@
-import { useEffect, useRef, useState } from "react";
+import {Dispatch, useCallback, useEffect, useRef, useState} from "react";
 import useWords from "./useWords";
 import useInput from "./useInput";
 import useSymbolsTypedMetric from "./useSymbolsTypedMetric";
 import useCountdown from "./useCountdown";
 import { useTypedSelector } from "./useTypedSelector";
+import {generateWords, NUMBER_OF_WORDS, WordsActions, WordsActionTypes} from "../store/reducers/wordsReducer";
+import {useDispatch} from "react-redux";
 
 export type State = "start" | "run" | "finish" | "restart";
 
 
-const NUMBER_OF_WORDS = 20;
+
 const COUNTDOWN_SECONDS = 120;
 
 const useEngine = () => {
@@ -16,7 +18,16 @@ const useEngine = () => {
      const { timeLeft, timerIsActive, setTimerIsActive } = useCountdown(
           COUNTDOWN_SECONDS
      );
-     const { words, updateWords } = useWords(NUMBER_OF_WORDS);
+     // useWords как таковой теперь не нужен ( пока его не удалял(
+     const { words } = useTypedSelector(state => state.words);
+
+     // если она нужна будет ? (достал из useWords но вроде нигде не юзалась)
+     const updateWords = useCallback(() => {
+          const dispatch : Dispatch<WordsActions> = useDispatch()
+          dispatch({type: WordsActionTypes.SET_WORDS, payload: generateWords(NUMBER_OF_WORDS)})
+     }, [NUMBER_OF_WORDS])
+
+
      const {
           typed,
           maxTyped,
