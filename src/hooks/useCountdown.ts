@@ -1,20 +1,40 @@
-import { useEffect, useState } from "react"
+import {Dispatch, useEffect} from "react"
+import {useTypedSelector} from "./useTypedSelector";
+import {CountDownActions, CountDownActionTypes} from "../store/reducers/countDownReducer";
+import {useDispatch} from "react-redux";
 
-const useCountdown = (time: number) => {
-    const [timeLeft, setTimeLeft] = useState(time);
-    const [timerIsActive, setTimerIsActive] = useState(false);
+const useCountdown = () => {
+	const dispatch: Dispatch<CountDownActions> = useDispatch()
 
-    useEffect(() => {
-        if (timeLeft > 0 && timerIsActive) {
-            setTimeout(setTimeLeft, 1000, timeLeft - 1);
-        } else {
-            setTimerIsActive(false);
-        }
-    }, [timeLeft, timerIsActive]);
+	const {timeLeft, timerIsActive} = useTypedSelector(state => state.countDown)
 
-    return {
-        timeLeft, timerIsActive, setTimerIsActive
-    }
+	// const [timeLeft, setTimeLeft] = useState(time);
+	// const [timerIsActive, setTimerIsActive] = useState(false);
+
+	useEffect(() => {
+		if (timeLeft > 0 && timerIsActive) {
+			setTimeout(dispatch, 1000, {
+				type: CountDownActionTypes.SET_TIMELEFT,
+				payload: timeLeft - 1
+			});
+		} else {
+			dispatch({
+				type: CountDownActionTypes.SET_TIMER_ISACTIVE,
+				payload: false
+			})
+		}
+	}, [timeLeft, timerIsActive]);
+
+	function setTimerIsActive(isActive: boolean) {
+		dispatch({
+			type: CountDownActionTypes.SET_TIMER_ISACTIVE,
+			payload: isActive
+		})
+	}
+
+	return {
+		timeLeft, timerIsActive, setTimerIsActive
+	}
 }
 
 export default useCountdown

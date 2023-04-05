@@ -29,9 +29,6 @@ const useInput = (enabled: boolean, text: string) => {
 	const currentIndex = typed.split(" ").length - 1
 
 	// TODO: ДОДЕЛАТЬ ACCURACY
-	// dispatch({type: InputActionTypes.MAX_TYPED, payload: Math.max(cursor, maxTyped)})
-	// useEffect(() => dispatch({type: InputActionTypes.MAX_TYPED, payload: Math.max(cursor, maxTyped)}), [cursor])
-
 	const keydownHandler = useCallback(
 		({key, code}: KeyboardEvent) => {
 			if (!enabled || !isSymbolAllowed(code)) {
@@ -43,6 +40,7 @@ const useInput = (enabled: boolean, text: string) => {
 					dispatch({type: InputActionTypes.SET_TYPED, payload: typed.slice(0, -1)})
 					if (cursor > 0) {
 						dispatch({type: InputActionTypes.SET_CURSOR, payload: cursor - 1})
+						dispatch({type: InputActionTypes.MAX_TYPED, payload: Math.max(cursor, maxTyped) })
 					}
 					if (totalTyped > 0) {
 						dispatch({type: InputActionTypes.SET_TOTAL_TYPED, payload : totalTyped -1})
@@ -54,6 +52,7 @@ const useInput = (enabled: boolean, text: string) => {
 					} else {
 						dispatch({type: InputActionTypes.SET_TYPED, payload: typed.concat(key)})
 						dispatch({type: InputActionTypes.SET_CURSOR, payload: cursor + 1})
+						dispatch({type: InputActionTypes.MAX_TYPED, payload: Math.max(cursor, maxTyped) })
 						dispatch({type: InputActionTypes.SET_TOTAL_TYPED, payload : totalTyped +1})
 					}
 					break
@@ -63,6 +62,7 @@ const useInput = (enabled: boolean, text: string) => {
 					} else {
 						dispatch({type: InputActionTypes.SET_TYPED, payload: typed.concat(key)})
 						dispatch({type: InputActionTypes.SET_CURSOR, payload: cursor + 1})
+						dispatch({type: InputActionTypes.MAX_TYPED, payload: Math.max(cursor, maxTyped) })
 						dispatch({type: InputActionTypes.SET_TOTAL_TYPED, payload : totalTyped +1})
 					}
 					break;
@@ -75,6 +75,7 @@ const useInput = (enabled: boolean, text: string) => {
 	const clearTyped = useCallback(() => {
 		dispatch({type: InputActionTypes.SET_TYPED, payload: ""})
 		dispatch({type: InputActionTypes.SET_CURSOR, payload: 0})
+		dispatch({type: InputActionTypes.MAX_TYPED, payload: 0 })
 	}, [])
 
 
@@ -103,6 +104,7 @@ const useInput = (enabled: boolean, text: string) => {
 			window.removeEventListener("keydown", keydownHandler)
 		}
 	}, [keydownHandler])
+
 
 	const restartTyping = () => {
 		dispatch({type: InputActionTypes.SET_TOTAL_TYPED, payload : 0})

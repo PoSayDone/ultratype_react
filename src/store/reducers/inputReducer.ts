@@ -83,7 +83,7 @@ export const inputReducer = (state: InputState = defaultState, action: InputActi
 			return {
 				...state,
 				maxTyped: action.payload,
-				// accuracy: isNaN(Math.round((state.totalCorrectTypedNumber / state.totalTypedNumber) * 100)) ? 100 : Math.round((state.totalCorrectTypedNumber / state.totalTypedNumber) * 100)
+				accuracy: isNaN(Math.round((state.totalCorrectTypedNumber / state.totalTypedNumber) * 100)) ? 100 : Math.round((state.totalCorrectTypedNumber / state.totalTypedNumber) * 100)
 			}
 		case InputActionTypes.SET_TOTAL_TYPED_NUMBER:
 			return {

@@ -6,18 +6,17 @@ import useCountdown from "./useCountdown";
 import { useTypedSelector } from "./useTypedSelector";
 import {generateWords, NUMBER_OF_WORDS, WordsActions, WordsActionTypes} from "../store/reducers/wordsReducer";
 import {useDispatch} from "react-redux";
+import {COUNTDOWN_SECONDS} from "../store/reducers/countDownReducer";
 
 export type State = "start" | "run" | "finish" | "restart";
 
 
 
-const COUNTDOWN_SECONDS = 120;
-
 const useEngine = () => {
      const [state, setState] = useState<State>("start");
-     const { timeLeft, timerIsActive, setTimerIsActive } = useCountdown(
-          COUNTDOWN_SECONDS
-     );
+     const { timeLeft, timerIsActive, setTimerIsActive } = useCountdown();
+
+
      // useWords как таковой теперь не нужен ( пока его не удалял(
      const { words } = useTypedSelector(state => state.words);
 
@@ -37,6 +36,7 @@ const useEngine = () => {
           accuracy,
           setTypedNumber
      } = useInput(state !== "finish", words);
+
      const { wpm } = useSymbolsTypedMetric(
           state !== "finish",
           totalTyped,
@@ -81,7 +81,7 @@ const useEngine = () => {
                     setTimerIsActive(true);
                }
           },
-          [isStarting, setTimerIsActive]
+          [isStarting]
      );
 
      useEffect(
