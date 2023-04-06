@@ -6,13 +6,14 @@ import useCountdown from "./useCountdown";
 import { useTypedSelector } from "./useTypedSelector";
 import { generateWords, NUMBER_OF_WORDS, WordsActions, WordsActionTypes } from "../store/reducers/wordsReducer";
 import { useDispatch } from "react-redux";
-import { COUNTDOWN_SECONDS } from "../store/reducers/countDownReducer";
+import { COUNTDOWN_SECONDS, SetDefaultCoundownSeconds } from "../store/reducers/countDownReducer";
 
 export type State = "start" | "run" | "finish" | "restart";
 
 
 
 const useEngine = () => {
+    const time = 140;
     const [state, setState] = useState<State>("start");
     const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
     // setTimeLeft(150)
@@ -30,6 +31,7 @@ const useEngine = () => {
     useEffect(() => {
         if (state === "start") {
             setTimerIsActive(false)
+            SetDefaultCoundownSeconds(time)
             setTimeLeft(COUNTDOWN_SECONDS) // тут делается нужное время
         }
     }, [state])

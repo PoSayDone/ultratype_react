@@ -8,6 +8,7 @@ import RestartButton from '../../components/RestartButton';
 import useEngine from '../../hooks/useEngine';
 import SymbolsTypedMetric from '../../components/SymbolsTypedMetric';
 import AccuracyMetric from '../../components/AccuracyMetric';
+import { useTranslation } from 'react-i18next';
 
 interface TypingProps {
     title: string;
@@ -15,6 +16,7 @@ interface TypingProps {
 }
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
+    const {t, i18n} = useTranslation()
     const {accuracy, restart,state, words, typed, wpm, timeLeft, cursor , currentCharacterRef } = useEngine();
     const [currentChar, setCurrentChar] = useState(words[0])
 

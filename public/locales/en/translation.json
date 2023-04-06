@@ -7,9 +7,36 @@
         "font": "Monospace font"
     },
     "navbar": {
-        "home" : "Home",
-        "typing" : "Typing",
-        "settings" : "Settings",
+        "home": "Home",
+        "typing": "Typing",
+        "settings": "Settings",
         "profile": "Profile"
+    },
+    "main": {
+        "card1": {
+            "title": "Education",
+            "description": "Complete a carefully designed training course that will improve your skills"
+        }
+    },
+    "typing": {
+        "title": "Learning",
+        "levelName": "f and j characters",
+        "time": "Time",
+        "wpm": "WPM",
+        "accuracy": "Accuracy",
+        "restartButton": "Restart"
+    },
+    "education": {
+        "title": "Levels",
+        "selectLevels": "Select Level",
+        "continueButton": "Continue",
+        "levels": {
+            "firstRow": {
+                "title": "First Row",
+                "level": [
+                    "f and j keys"
+                ]
+            }
+        }
     }
 }

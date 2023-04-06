@@ -4,30 +4,31 @@ import Settings from "./Settings/Settings"
 import { useTranslation } from "react-i18next";
 
 const Main = () => {
+    const {t,i18n} = useTranslation()
     return (
         <>
             <div className="cards__wrapper">
                 <Card
-                    title={"Обучение"}
-                    description={"Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки"}
+                    title={t("main.card1.title")}
+                    description={t("main.card1.description")}
+                    img={"learning"}
+                    url={"levels"}
+                />
+                <Card
+                    title={t("main.card1.title")}
+                    description={t("main.card1.description")}
                     img={"learning"}
                     url={"learning"}
                 />
                 <Card
-                    title={"Обучение"}
-                    description={"Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки"}
+                    title={t("main.card1.title")}
+                    description={t("main.card1.description")}
                     img={"learning"}
                     url={"learning"}
                 />
                 <Card
-                    title={"Обучение"}
-                    description={"Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки"}
-                    img={"learning"}
-                    url={"learning"}
-                />
-                <Card
-                    title={"Обучение"}
-                    description={"Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки"}
+                    title={t("main.card1.title")}
+                    description={t("main.card1.description")}
                     img={"learning"}
                     url={"learning"}
                 />

@@ -1,10 +1,12 @@
 import React, { useRef } from 'react'
+import { useTranslation } from 'react-i18next';
 
 type RestartButtonProps = {
     onRestart: () => void;
 }
 
 const RestartButton = (props: RestartButtonProps) => {
+    const {t, i18n} = useTranslation()
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const handleClick = (e : React.MouseEvent<HTMLButtonElement>) => {
@@ -15,7 +17,7 @@ const RestartButton = (props: RestartButtonProps) => {
     return (
         <button 
             ref={buttonRef}
-            className="restart__button"
+            className="button restart__button"
             onClick={(e) => {
                 e.preventDefault()
                 handleClick(e)
@@ -24,7 +26,7 @@ const RestartButton = (props: RestartButtonProps) => {
             <span className="material-symbols-rounded">
             refresh
             </span>
-            Restart
+            {t("typing.restartButton")}
         </button>
     )
 }

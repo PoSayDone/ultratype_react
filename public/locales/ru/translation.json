@@ -7,9 +7,36 @@
         "font": "Моноширный шрифт"
     },
     "navbar": {
-        "home" : "Главная",
-        "typing" : "Печать",
-        "settings" : "Настройки",
+        "home": "Главная",
+        "typing": "Печать",
+        "settings": "Настройки",
         "profile": "Профиль"
+    },
+    "main": {
+        "card1": {
+            "title": "Обучение",
+            "description": "Пройдите тщательно составленный обучающиий курс, который улучшит ваши навыки"
+        }
+    },
+    "typing": {
+        "title": "Обучение",
+        "levelName": "Клавиши f и j",
+        "time": "Время",
+        "wpm": "СВМ",
+        "accuracy": "Точность",
+        "restartButton": "Перезапустить"
+    },
+    "education": {
+        "title": "Уровни",
+        "selectLevels": "Выбор уровня",
+        "continueButton": "Продолжить",
+        "levels": {
+            "firstRow": {
+                "title": "Первый ряд клавиш",
+                "level": [
+                    "Клавиши f и j"
+                ]
+            }
+        }
     }
 }
