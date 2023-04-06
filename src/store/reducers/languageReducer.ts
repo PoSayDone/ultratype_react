@@ -1,5 +1,8 @@
+import { TFunction } from "i18next"
+import { useTranslation } from "react-i18next"
+
 interface IDefaultState {
-	language: boolean
+	language: boolean,
 }
 
 export interface LanguageActionType {
@@ -7,8 +10,9 @@ export interface LanguageActionType {
 	payload: boolean
 }
 
+
 const defaultState: IDefaultState = {
-	language: true
+	language: true,
 }
 
 export const languageReducer = (state = defaultState, action: LanguageActionType): IDefaultState => {

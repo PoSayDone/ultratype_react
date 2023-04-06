@@ -9,8 +9,6 @@ const useCountdown = () => {
 
 	const {timeLeft, timerIsActive} = useTypedSelector(state => state.countDown)
 
-
-
 	useEffect(() => {
 		if (timeLeft > 0 && timerIsActive) {
 			 setTimerId(setTimeout(dispatch, 1000, {
