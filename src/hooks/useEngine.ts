@@ -50,9 +50,8 @@ const useEngine = () => {
     const { wpm } = useSymbolsTypedMetric(
         state !== "finish",
         totalTyped,
-        COUNTDOWN_SECONDS,
+        time,
         timeLeft,
-        typed
     );
     const currentCharacterRef = useRef<HTMLSpanElement>(null);
     const isStarting = state === "start" && cursor > 0;

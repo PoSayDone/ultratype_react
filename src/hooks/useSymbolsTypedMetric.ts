@@ -5,7 +5,6 @@ const useSymbolsTypedMetric = (
     symbolsTyped: number,
     time: number,
     timeLeft: number,
-    typedString: string
 ) => {
     const timeElapsed = time - timeLeft
     const cps = symbolsTyped / timeElapsed
