@@ -13,10 +13,10 @@ export type State = "start" | "run" | "finish" | "restart";
 
 
 const useEngine = () => {
-    const time = 140;
+    const timeConst = 140;
     const [state, setState] = useState<State>("start");
     const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
-    // setTimeLeft(150)
+
 
     // useWords как таковой теперь не нужен ( пока его не удалял(
     const { words } = useTypedSelector(state => state.words);
@@ -31,7 +31,7 @@ const useEngine = () => {
     useEffect(() => {
         if (state === "start") {
             setTimerIsActive(false)
-            SetDefaultCoundownSeconds(time)
+            SetDefaultCoundownSeconds(timeConst)
             setTimeLeft(COUNTDOWN_SECONDS) // тут делается нужное время
         }
     }, [state])
@@ -50,7 +50,7 @@ const useEngine = () => {
     const { wpm } = useSymbolsTypedMetric(
         state !== "finish",
         totalTyped,
-        time,
+        timeConst,
         timeLeft,
     );
     const currentCharacterRef = useRef<HTMLSpanElement>(null);
@@ -78,6 +78,7 @@ const useEngine = () => {
         () => {
             if (state === "finish") {
                 setTimerIsActive(false);
+                // SaveLastStats()
             }
         },
         [state]
@@ -109,7 +110,6 @@ const useEngine = () => {
         [words, typed]
     );
 
-
     const restart = () => {
         setState("start");
         restartTyping();
@@ -123,9 +123,11 @@ const useEngine = () => {
         restart,
         cursor,
         timeLeft,
+        timeConst,
         currentCharacterRef,
         accuracy
     };
+
 };
 
 export default useEngine;

@@ -9,6 +9,7 @@ import useEngine from '../../hooks/useEngine';
 import SymbolsTypedMetric from '../../components/SymbolsTypedMetric';
 import AccuracyMetric from '../../components/AccuracyMetric';
 import { useTranslation } from 'react-i18next';
+import Results from "../Results/Results";
 
 interface TypingProps {
     title: string;
@@ -17,7 +18,7 @@ interface TypingProps {
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
     const {t, i18n} = useTranslation()
-    const {accuracy, restart,state, words, typed, wpm, timeLeft, cursor , currentCharacterRef } = useEngine();
+    const {timeConst,accuracy, restart,state, words, typed, wpm, timeLeft, cursor , currentCharacterRef } = useEngine();
     const [currentChar, setCurrentChar] = useState(words[0])
 
     useEffect(() => {
@@ -36,20 +37,23 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                 </div>
                 <RestartButton
                     onRestart={() => restart()}
-
                 />
             </div>
-            <div className="typing__container">
-                <div className="input__section">
-                    <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={state}  />
-                </div>
-                <div className="typing__metrics">
-                    <CountdownTimer timeLeft={timeLeft} />
-                    <SymbolsTypedMetric wpm={wpm} />
-                    <AccuracyMetric accuracy={accuracy } />
-                </div>
-                <Keyboard currentChar={currentChar} />
-            </div>
+            {
+                state != "finish"
+                    ?<div className="typing__container">
+                        <div className="input__section">
+                            <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={state}  />
+                        </div>
+                        <div className="typing__metrics">
+                            <CountdownTimer timeLeft={timeLeft} />
+                            <SymbolsTypedMetric wpm={wpm} />
+                            <AccuracyMetric accuracy={accuracy } />
+                        </div>
+                        <Keyboard currentChar={currentChar} />
+                    </div>
+                    : <Results accuracyPercentage={accuracy} wpm={wpm} time={timeConst - timeLeft}></Results>
+            }
         </>
     )
 }

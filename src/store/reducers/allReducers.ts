@@ -12,7 +12,7 @@ export const rootReducer = combineReducers({
     font: fontReducer,
     input: inputReducer,
     words: wordsReducer,
-    countDown: countDownReducer
+    countDown: countDownReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
