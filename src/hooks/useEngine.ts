@@ -1,5 +1,4 @@
 import { Dispatch, useCallback, useEffect, useRef, useState } from "react";
-import useWords from "./useWords";
 import useInput from "./useInput";
 import useSymbolsTypedMetric from "./useSymbolsTypedMetric";
 import useCountdown from "./useCountdown";
