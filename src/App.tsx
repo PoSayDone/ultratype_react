@@ -62,17 +62,17 @@ function App() {
                                         />
                                    }
                               />
-                              <Route
-                                   path="/results"
-                                   element={
-                                        <Results
-                                             errors={0}
-                                             accuracyPercentage={0}
-                                             wpm={0}
-                                             total={0}
-                                        />
-                                   }
-                              />
+                              {/*<Route*/}
+                              {/*     path="/results"*/}
+                              {/*     element={*/}
+                              {/*          <Results*/}
+                              {/*               errors={0}*/}
+                              {/*               accuracyPercentage={0}*/}
+                              {/*               wpm={0}*/}
+                              {/*               total={0}*/}
+                              {/*          />*/}
+                              {/*     }*/}
+                              {/*/>*/}
                               <Route
                                    path="/levels"
                                    element={

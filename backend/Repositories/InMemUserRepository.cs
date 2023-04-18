@@ -23,9 +23,6 @@ namespace backend.Repositories {
             users[index] = user;
         }
 
-        public void DeleteUser(Guid id)
-        {
-            
-        }
+        public void DeleteUser(Guid id) => users.RemoveAt(users.FindIndex(item => item.Id == id));
     }
 }

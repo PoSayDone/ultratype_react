@@ -10,7 +10,7 @@ type Props = {
 const Results = (props: Props) => {
     const{accuracyPercentage, wpm , time} = props
   return (
-    <>
+    <div className="results">
     <div className="title__section">
         <Heading headingLevel={'h1'}>Результаты</Heading>
     </div>
@@ -19,7 +19,7 @@ const Results = (props: Props) => {
         <li>Wpm: {wpm}</li>
         <li>Time: {time}</li>
     </ul>
-    </>
+    </div>
   )
 }
 

@@ -26,7 +26,7 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public ActionResult<UserDto> AddUser(AddUserDto itemDto)
+        public ActionResult AddUser(AddUserDto itemDto)
         {
             User user = new()
             {
@@ -34,10 +34,13 @@ namespace backend.Controllers
                 Name = itemDto.Name,
                 Password = itemDto.Password
             };
-            
-            repo.AddUser(user);
 
+            if (repo.GetUsers().SingleOrDefault(item => item.Name == itemDto.Name) != null){
+                return BadRequest();
+            }
+            repo.AddUser(user);
             return CreatedAtAction(nameof(AddUser), new { id = user.Id}, user.AsDto() );
+
         }
 
         [HttpPut("{id}")]
@@ -60,5 +63,13 @@ namespace backend.Controllers
             return NoContent();
         }
         
+        [HttpDelete("{id}")]
+        public ActionResult DeleteUser(Guid id){
+            if (repo.GetUser(id) == null){
+                return NotFound();
+            }
+            repo.DeleteUser(id);
+            return NoContent();
+        } 
     }
 }
