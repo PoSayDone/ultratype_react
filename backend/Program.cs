@@ -1,10 +1,21 @@
 using backend.Repositories;
+using backend.Setting;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 
-builder.Services.AddSingleton<IInMemUserRepository , InMemUserRepository>();
+BsonSerializer.RegisterSerializer(new GuidSerializer(MongoDB.Bson.BsonType.String));
+
+builder.Services.AddSingleton<IMongoClient>(settingsProvider => {
+    var setting  = builder.Configuration.GetSection(nameof(MongoDbSetting)).Get<MongoDbSetting>();
+    return new MongoClient(setting.ConnectionString);
+});
+builder.Services.AddSingleton<IInMemUserRepository , MongoDBRepository>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

@@ -24,7 +24,7 @@ namespace backend.Controllers
         {
             return repo.GetUser(id) == null ? NotFound() : repo.GetUser(id).AsDto();
         }
-
+        
         [HttpPost]
         public ActionResult AddUser(AddUserDto itemDto)
         {
@@ -35,9 +35,9 @@ namespace backend.Controllers
                 Password = itemDto.Password
             };
 
-            if (repo.GetUsers().SingleOrDefault(item => item.Name == itemDto.Name) != null){
-                return BadRequest();
-            }
+            // if (repo.GetUsers().SingleOrDefault(item => item.Name == itemDto.Name) != null){
+            //     return BadRequest();
+            // }
             repo.AddUser(user);
             return CreatedAtAction(nameof(AddUser), new { id = user.Id}, user.AsDto() );
 

@@ -32,3 +32,16 @@ D:\hserep\ultratype_react\backend\obj\Debug\net7.0\backend.pdb
 D:\hserep\ultratype_react\backend\obj\Debug\net7.0\backend.genruntimeconfig.cache
 D:\hserep\ultratype_react\backend\obj\Debug\net7.0\ref\backend.dll
 D:\hserep\ultratype_react\backend\bin\Debug\net7.0\omnisharp.json
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\AWSSDK.Core.dll
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\AWSSDK.SecurityToken.dll
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\DnsClient.dll
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\MongoDB.Bson.dll
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\MongoDB.Driver.dll
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\MongoDB.Driver.Core.dll
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\MongoDB.Libmongocrypt.dll
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\SharpCompress.dll
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\Snappier.dll
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\ZstdSharp.dll
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\runtimes\linux\native\libmongocrypt.so
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\runtimes\osx\native\libmongocrypt.dylib
+D:\hserep\ultratype_react\backend\bin\Debug\net7.0\runtimes\win\native\mongocrypt.dll
