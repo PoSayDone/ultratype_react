@@ -6,7 +6,7 @@ import Navbar from "./components/Navbar";
 import Settings from "./views/Settings/Settings";
 import { useEffect, useState } from "react";
 import Typing from "./views/Typing/Typing";
-import Results from "./views/Results/Results";
+import Results from "./components/Results";
 import "./i18n";
 import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";

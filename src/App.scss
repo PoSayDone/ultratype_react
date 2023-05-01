@@ -452,6 +452,23 @@ nav {
     }
 }
 
+.results {
+    margin-top: 40px;
+    display: flex;
+    gap: 50px;
+}
+
+.results__item {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    gap: 6px;
+}
+
+.results__item_title {
+    font-size: 96px;
+}
+
 @keyframes caretFlashSmooth {
 
     0%,

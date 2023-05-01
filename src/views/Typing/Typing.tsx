@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import './Typing.module.scss'
+import './Typing.module.scss';
 import Heading from '../../components/Heading/Heading';
 import Keyboard from '../../components/Keyboard/Keyboard';
 import Input from '../../components/Input/Input';
@@ -9,7 +9,7 @@ import useEngine from '../../hooks/useEngine';
 import SymbolsTypedMetric from '../../components/SymbolsTypedMetric';
 import AccuracyMetric from '../../components/AccuracyMetric';
 import { useTranslation } from 'react-i18next';
-import Results from "../Results/Results";
+import Results from '../../components/Results';
 
 interface TypingProps {
     title: string;
