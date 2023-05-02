@@ -1,32 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "D:\\hserep\\ultratype_react\\backend\\backend.csproj": {}
+    "/home/posaydone/Documents/ultratype_react/backend/backend.csproj": {}
   },
   "projects": {
-    "D:\\hserep\\ultratype_react\\backend\\backend.csproj": {
+    "/home/posaydone/Documents/ultratype_react/backend/backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\hserep\\ultratype_react\\backend\\backend.csproj",
+        "projectUniqueName": "/home/posaydone/Documents/ultratype_react/backend/backend.csproj",
         "projectName": "backend",
-        "projectPath": "D:\\hserep\\ultratype_react\\backend\\backend.csproj",
-        "packagesPath": "C:\\Users\\antip\\.nuget\\packages\\",
-        "outputPath": "D:\\hserep\\ultratype_react\\backend\\obj\\",
+        "projectPath": "/home/posaydone/Documents/ultratype_react/backend/backend.csproj",
+        "packagesPath": "/home/posaydone/.nuget/packages/",
+        "outputPath": "/home/posaydone/Documents/ultratype_react/backend/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-        ],
         "configFilePaths": [
-          "C:\\Users\\antip\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "/home/posaydone/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -69,6 +62,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[7.0.3, 7.0.3]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -77,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.103/RuntimeIdentifierGraph.json"
         }
       }
     }

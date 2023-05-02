@@ -9,24 +9,28 @@ namespace backend.Controllers
     [Route("users")]
     public class UserController : ControllerBase
     {
-        private readonly IInMemUserRepository repo;
+        private readonly IUserRepository repo;
 
-        public UserController(IInMemUserRepository repository)
+        public UserController(IUserRepository repository)
         {
             this.repo = repository;
         }
 
         [HttpGet]
-        public IEnumerable<UserDto> GetUsers() => repo.GetUsers().Select(user => user.AsDto());
+        public async Task<IEnumerable<UserDto>> GetUsersAsync()
+        {
+            return (await repo.GetUsersAsync()).Select(user => user.AsDto());
+        }
 
         [HttpGet("{id}")]
-        public ActionResult<UserDto> GetUser(Guid id)
+        public async Task<ActionResult<UserDto>> GetUser(Guid id)
         {
-            return repo.GetUser(id) == null ? NotFound() : repo.GetUser(id).AsDto();
+            var user = await repo.GetUserAsync(id);
+            return user == null ? NotFound() : user.AsDto();
         }
-        
+
         [HttpPost]
-        public ActionResult AddUser(AddUserDto itemDto)
+        public async Task<ActionResult> AddUserAsync(AddUserDto itemDto)
         {
             User user = new()
             {
@@ -35,18 +39,15 @@ namespace backend.Controllers
                 Password = itemDto.Password
             };
 
-            // if (repo.GetUsers().SingleOrDefault(item => item.Name == itemDto.Name) != null){
-            //     return BadRequest();
-            // }
-            repo.AddUser(user);
-            return CreatedAtAction(nameof(AddUser), new { id = user.Id}, user.AsDto() );
+            await repo.AddUserAsync(user);
+            return CreatedAtAction(nameof(GetUsersAsync), new { id = user.Id }, user.AsDto());
 
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateUser(Guid id, UpdateUserDto userDto)
+        public async Task<ActionResult> UpdateUserAsync(Guid id, UpdateUserDto userDto)
         {
-            User existingUser = repo.GetUser(id);
+            User existingUser = await repo.GetUserAsync(id);
 
             if (existingUser is null)
             {
@@ -58,18 +59,21 @@ namespace backend.Controllers
                 Name = userDto.Name,
                 Password = userDto.Password
             };
-            
-            repo.UpdateUser(updatedUser);
+
+            await repo.UpdateUserAsync(updatedUser);
             return NoContent();
         }
-        
+
         [HttpDelete("{id}")]
-        public ActionResult DeleteUser(Guid id){
-            if (repo.GetUser(id) == null){
+        public async Task<ActionResult> DeleteUserAsync(Guid id)
+        {
+            var existingUser = await repo.GetUserAsync(id);
+            if (existingUser == null)
+            {
                 return NotFound();
             }
-            repo.DeleteUser(id);
+            await repo.DeleteUserAsync(id);
             return NoContent();
-        } 
+        }
     }
 }
