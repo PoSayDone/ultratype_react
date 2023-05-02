@@ -1,0 +1,50 @@
+.profile__container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+.main-stats {
+    display: flex;
+    gap: 60px;
+}
+
+.main-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .title {
+        font-weight: 500;
+    }
+
+    .value {
+        font-size: 96px;
+        font-weight: 500;
+    }
+}
+
+.secondary-stats {
+    display: flex;
+    gap: 12px;
+}
+
+.secondary-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    background: var(--background_secondary);
+    color: var(--on_background);
+    width: fit-content;
+    padding: 20px;
+    border-radius: 20px;
+
+    .title {
+        font-size: 16px;
+    }
+
+    .value {
+        font-size: 20px;
+        font-weight: 500;
+    }
+}

@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useDispatch, useSelector } from "react-redux";
 import { useTypedSelector } from "./hooks/useTypedSelector";
 import Levels from "./views/Levels/Levels";
+import Profile from "./views/Profile/Profile";
 
 
 function App() {
@@ -77,6 +78,13 @@ function App() {
                                    path="/levels"
                                    element={
                                         <Levels
+                                        />
+                                   }
+                              />
+                              <Route
+                                   path="/profile"
+                                   element={
+                                        <Profile
                                         />
                                    }
                               />
