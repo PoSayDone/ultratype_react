@@ -14,4 +14,17 @@ public static class Extensions
             Password = user.Password
         };
     }
+
+    public static TestDto AsDto(this Test test)
+    {
+        return new TestDto()
+        {
+            Id = test.Id,
+            UserId = test.UserId,
+            Mode = test.Mode,
+            Wpm = test.Wpm,
+            Accuracy = test.Accuracy,
+            Date = test.Date
+        };
+    }
 }
