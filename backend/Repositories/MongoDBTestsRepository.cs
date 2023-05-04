@@ -33,5 +33,11 @@ namespace backend.Repositories
             var filter = filterBuilder.Eq(test => test.UserId, userId);
             return userId == null ? await testsCollection.Find(new BsonDocument()).ToListAsync() : await testsCollection.Find(filter).ToListAsync();
         }
+        
+        public async Task DeleteTestAsync(Guid id)
+        {
+            var filter = filterBuilder.Eq(test => test.Id, id);
+            await testsCollection.DeleteOneAsync(filter);
+        }
     }
 }

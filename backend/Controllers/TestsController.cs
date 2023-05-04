@@ -45,5 +45,17 @@ namespace backend.Controllers
             await repo.AddTestAsync(test);
             return CreatedAtAction(nameof(GetTestAsync), new { id = test.Id }, test.AsDto());
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteTestAsync(Guid id)
+        {
+            var existingUser = await repo.GetTestAsync(id);
+            if (existingUser == null)
+            {
+                return NotFound();
+            }
+            await repo.DeleteTestAsync(id);
+            return NoContent();
+        }
     }
 }
