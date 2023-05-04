@@ -17,21 +17,21 @@ namespace backend.Repositories
             testsCollection = database.GetCollection<Test>(collectionName);
         }
 
-        public void AddTest(Test test)
+        public async Task AddTestAsync(Test test)
         {
-            testsCollection.InsertOne(test);
+            await testsCollection.InsertOneAsync(test);
         }
 
-        public Test GetTest(Guid id)
+        public async Task<Test> GetTestAsync(Guid id)
         {
             var filter = filterBuilder.Eq(test => test.Id, id);
-            return testsCollection.Find(filter).SingleOrDefault();
+            return await testsCollection.Find(filter).SingleOrDefaultAsync();
         }
 
-        public IEnumerable<Test> GetTests(Guid? userId)
+        public async Task<IEnumerable<Test>> GetTestsAsync(Guid? userId)
         {
             var filter = filterBuilder.Eq(test => test.UserId, userId);
-            return userId == null  ? testsCollection.Find(new BsonDocument()).ToList() : testsCollection.Find(filter).ToList();
+            return userId == null ? await testsCollection.Find(new BsonDocument()).ToListAsync() : await testsCollection.Find(filter).ToListAsync();
         }
     }
 }

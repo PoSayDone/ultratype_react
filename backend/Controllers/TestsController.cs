@@ -17,21 +17,21 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<TestDto> GetTests(Guid? userId)
+        public async Task<IEnumerable<TestDto>> GetTestsAsync(Guid? userId)
         {
-            
-            return userId == null ? repo.GetTests().Select(test => test.AsDto()) : repo.GetTests(userId).Select(test => test.AsDto()) ;
+
+            return userId == null ? (await repo.GetTestsAsync()).Select(test => test.AsDto()) : (await repo.GetTestsAsync(userId)).Select(test => test.AsDto());
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TestDto> GetTest(Guid id)
+        public async Task<ActionResult<TestDto>> GetTestAsync(Guid id)
         {
-            var test = repo.GetTest(id);
+            var test = await repo.GetTestAsync(id);
             return test == null ? NotFound() : test.AsDto();
         }
 
         [HttpPost]
-        public void AddTest(AddTestDto testDto)
+        public async Task<ActionResult> AddTest(AddTestDto testDto)
         {
             Test test = new()
             {
@@ -42,8 +42,8 @@ namespace backend.Controllers
                 Accuracy = testDto.Accuracy,
                 Date = DateTime.UtcNow
             };
-            repo.AddTest(test);
-            // return CreatedAtAction(nameof(GetTest), new { id = test.Id }, test.AsDto());
+            await repo.AddTestAsync(test);
+            return CreatedAtAction(nameof(GetTestAsync), new { id = test.Id }, test.AsDto());
         }
 
     }

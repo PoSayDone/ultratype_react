@@ -4,7 +4,7 @@ namespace backend.Repositories;
 
 public interface ITestsRepository
 {
-    void AddTest(Test test);
-    Test GetTest(Guid id);
-    IEnumerable<Test> GetTests(Guid? userId = null);
+    Task AddTestAsync(Test test);
+    Task<Test> GetTestAsync(Guid id);
+    Task<IEnumerable<Test>> GetTestsAsync(Guid? userId = null);
 }
