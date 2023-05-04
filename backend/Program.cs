@@ -15,7 +15,8 @@ builder.Services.AddSingleton<IMongoClient>(settingsProvider => {
     var setting  = builder.Configuration.GetSection(nameof(MongoDbSetting)).Get<MongoDbSetting>();
     return new MongoClient(setting.ConnectionString);
 });
-builder.Services.AddSingleton<IUserRepository , MongoDBRepository>();
+builder.Services.AddSingleton<IUserRepository , MongoDBUserRepository>();
+builder.Services.AddSingleton<ITestsRepository , MongoDBTestsRepository>();
 builder.Services.AddControllers(options => {
     options.SuppressAsyncSuffixInActionNames = false;
 });

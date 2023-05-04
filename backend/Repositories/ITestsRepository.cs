@@ -6,7 +6,5 @@ public interface ITestsRepository
 {
     void AddTest(Test test);
     Test GetTest(Guid id);
-    IEnumerable<Test> GetTests(
-        // Guid userId
-        );
+    IEnumerable<Test> GetTests(Guid? userId = null);
 }

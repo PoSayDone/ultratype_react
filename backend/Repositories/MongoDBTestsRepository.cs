@@ -1,4 +1,3 @@
-using System.Data.Common;
 using backend.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -29,12 +28,10 @@ namespace backend.Repositories
             return testsCollection.Find(filter).SingleOrDefault();
         }
 
-        public IEnumerable<Test> GetTests(
-            // Guid userId
-            )
+        public IEnumerable<Test> GetTests(Guid? userId)
         {
-            // var filter = filterBuilder.Eq(test => test.UserId, userId);
-            return testsCollection.Find(new BsonDocument()).ToList();
+            var filter = filterBuilder.Eq(test => test.UserId, userId);
+            return userId == null  ? testsCollection.Find(new BsonDocument()).ToList() : testsCollection.Find(filter).ToList();
         }
     }
 }

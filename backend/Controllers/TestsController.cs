@@ -17,11 +17,10 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<TestDto> GetTests(
-            // Guid userId
-            )
+        public IEnumerable<TestDto> GetTests(Guid? userId)
         {
-            return repo.GetTests().Select(test => test.AsDto());
+            
+            return userId == null ? repo.GetTests().Select(test => test.AsDto()) : repo.GetTests(userId).Select(test => test.AsDto()) ;
         }
 
         [HttpGet("{id}")]
@@ -32,7 +31,7 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddTest(AddTestDto testDto)
+        public void AddTest(AddTestDto testDto)
         {
             Test test = new()
             {
@@ -44,7 +43,7 @@ namespace backend.Controllers
                 Date = DateTime.UtcNow
             };
             repo.AddTest(test);
-            return CreatedAtAction(nameof(GetTest), new { id = test.Id }, test.AsDto());
+            // return CreatedAtAction(nameof(GetTest), new { id = test.Id }, test.AsDto());
         }
 
     }

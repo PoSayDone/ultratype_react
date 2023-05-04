@@ -3,7 +3,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace backend.Repositories{
-    public class MongoDBRepository : IUserRepository
+    public class MongoDBUserRepository : IUserRepository
     {
 
         private const string databaseName = "backend";
@@ -11,7 +11,7 @@ namespace backend.Repositories{
         private readonly IMongoCollection<User> userCollection;
         private readonly FilterDefinitionBuilder<User> filterBuilder = Builders<User>.Filter;
 
-        public MongoDBRepository(IMongoClient mongoClient){
+        public MongoDBUserRepository(IMongoClient mongoClient){
             IMongoDatabase database = mongoClient.GetDatabase(databaseName);
             userCollection = database.GetCollection<User>(collectionName);
         }
