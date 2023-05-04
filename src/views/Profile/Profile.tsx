@@ -5,11 +5,18 @@ import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 
-const src = "http://localhost:5206/tests/"
+const src = "https://localhost:44388/tests?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6"
+interface Tests{
+    wpm: number,
+    accuracy: number,
+    mode: string,
+    date: string,
+}
+
 
 const Profile = () => {
     const { t, i18n } = useTranslation()
-    const [tests, setTests] = useState([]);
+    const [tests, setTests] = useState<Tests[]>([]);
     const [avgWpm, setAvgWpm] = useState(0);
     const [bestWpm, setBestWpm] = useState(0);
     const [avgAccuracy, setAvgAccuracy] = useState(0);
