@@ -11,18 +11,31 @@ var builder = WebApplication.CreateBuilder(args);
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(MongoDB.Bson.BsonType.String));
 
-builder.Services.AddSingleton<IMongoClient>(settingsProvider => {
-    var setting  = builder.Configuration.GetSection(nameof(MongoDbSetting)).Get<MongoDbSetting>();
+builder.Services.AddSingleton<IMongoClient>(settingsProvider =>
+{
+    var setting = builder.Configuration.GetSection(nameof(MongoDbSetting)).Get<MongoDbSetting>();
     return new MongoClient(setting.ConnectionString);
 });
-builder.Services.AddSingleton<IUserRepository , MongoDBUserRepository>();
-builder.Services.AddSingleton<ITestsRepository , MongoDBTestsRepository>();
-builder.Services.AddControllers(options => {
+builder.Services.AddSingleton<IUserRepository, MongoDBUserRepository>();
+builder.Services.AddSingleton<ITestsRepository, MongoDBTestsRepository>();
+builder.Services.AddControllers(options =>
+{
     options.SuppressAsyncSuffixInActionNames = false;
 });
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:5174");
+                      });
+});
+
 
 var app = builder.Build();
 
@@ -35,6 +48,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors(MyAllowSpecificOrigins);
 app.UseAuthorization();
 
 app.MapControllers();

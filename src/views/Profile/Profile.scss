@@ -48,3 +48,46 @@
         font-weight: 500;
     }
 }
+
+.tests-list {
+    border-spacing: 0;
+    /* Removes the cell spacing via CSS */
+    border-collapse: collapse;
+
+    /* Optional - if you don't want to have double border where cells touch */
+    thead {
+        font-weight: 500;
+        font-size: 18px;
+
+        td {
+            padding: 20px;
+        }
+
+        td:first-child {
+            padding-left: 30px;
+        }
+    }
+
+    tbody {
+        tr:nth-child(odd) td {
+            background-color: var(--background_secondary);
+        }
+
+        td {
+            padding: 20px;
+        }
+
+        td:first-child {
+            padding-left: 30px;
+            border-top-left-radius: 1000px;
+            border-bottom-left-radius: 1000px;
+        }
+
+        td:last-child {
+            border-top-right-radius: 1000px;
+            border-bottom-right-radius: 1000px;
+        }
+
+        font-size: 16px;
+    }
+}
