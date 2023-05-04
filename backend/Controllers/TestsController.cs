@@ -45,6 +45,5 @@ namespace backend.Controllers
             await repo.AddTestAsync(test);
             return CreatedAtAction(nameof(GetTestAsync), new { id = test.Id }, test.AsDto());
         }
-
     }
 }

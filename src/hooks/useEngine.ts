@@ -6,10 +6,9 @@ import { useTypedSelector } from "./useTypedSelector";
 import { generateWords, NUMBER_OF_WORDS, WordsActions, WordsActionTypes } from "../store/reducers/wordsReducer";
 import { useDispatch } from "react-redux";
 import { COUNTDOWN_SECONDS, SetDefaultCoundownSeconds } from "../store/reducers/countDownReducer";
+import axios from "axios";
 
 export type State = "start" | "run" | "finish" | "restart";
-
-
 
 const useEngine = () => {
     const timeConst = 140;
@@ -77,7 +76,21 @@ const useEngine = () => {
         () => {
             if (state === "finish") {
                 setTimerIsActive(false);
-                // SaveLastStats()
+                // Формируем резы
+                const stats = {
+                    userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                    mode: "unknown",
+                    wpm: wpm,
+                    accuracy: (accuracy / 100)
+                }
+                // Отправляем результаты на сервер
+                axios
+                    .post("http://localhost:5206/tests/", stats,
+                        {
+                            headers: {
+                                "Content-Type": "application/json"
+                            }
+                        })
             }
         },
         [state]

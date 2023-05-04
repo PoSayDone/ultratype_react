@@ -18,6 +18,18 @@
             "description": "Complete a carefully designed training course that will improve your skills"
         }
     },
+    "profile": {
+        "average": "Avg.",
+        "hours": "h",
+        "seconds": "s",
+        "hours_week": "Hours per week",
+        "mode": "Mode",
+        "date": "Date",
+        "best_wpm": "Best WPM",
+        "best_accuracy": "Best accuracy",
+        "total_tests": "Tests total",
+        "total_words": "Words total"
+    },
     "typing": {
         "title": "Learning",
         "levelName": "f and j characters",
