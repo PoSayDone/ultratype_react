@@ -12,6 +12,7 @@ import { useTypedSelector } from "./hooks/useTypedSelector";
 import Levels from "./views/Levels/Levels";
 import Profile from "./views/Profile/Profile";
 import { AnimatePresence } from 'framer-motion';
+import Login from "./views/Login/Login";
 
 
 function App() {
@@ -74,6 +75,13 @@ function App() {
                                 path="/profile"
                                 element={
                                     <Profile
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/login"
+                                element={
+                                    <Login
                                     />
                                 }
                             />

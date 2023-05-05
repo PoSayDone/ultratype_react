@@ -19,6 +19,7 @@
         }
     },
     "profile": {
+        "title":"Профиль",
         "average": "Ср.",
         "hours": "ч",
         "seconds": "с",
