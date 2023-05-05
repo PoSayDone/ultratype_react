@@ -81,10 +81,12 @@ function App() {
                             <Route
                                 path="/login"
                                 element={
-                                    <Login
+                                    <Login title={'Вход'}
                                     />
                                 }
                             />
+                            <Route path="/register"
+                                   element = {<Login title={'Регистрация'}/>}/>
                         </Routes>
                     </AnimatePresence>
                 </main>

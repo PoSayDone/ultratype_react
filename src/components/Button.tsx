@@ -1,11 +1,13 @@
 import React from 'react'
 
-type Props = {}
+type Props = {
+    title: string
+}
 
 const Button = (props: Props) => {
     return (
         <button className="button">
-            Войти
+            {props.title}
             <span className="material-symbols-rounded">
                 arrow_right_alt
             </span>
