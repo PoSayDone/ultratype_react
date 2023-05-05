@@ -5,7 +5,7 @@ import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 
-const src = "https://localhost:44388/tests?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6"
+const src = "https://localhost:7025/tests?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6"
 interface Tests{
     wpm: number,
     accuracy: number,
