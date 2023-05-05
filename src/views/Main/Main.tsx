@@ -11,7 +11,7 @@ const Main = () => {
             className="container"
             initial={{ opacity: 0}}
             animate={{ opacity: "100%" }}
-            exit={{ translateY: 0 }}
+            exit={{ opacity: 0 }}
             transition={{
                 type: "spring",
                 stiffness: 200,

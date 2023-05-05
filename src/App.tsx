@@ -13,6 +13,7 @@ import Levels from "./views/Levels/Levels";
 import Profile from "./views/Profile/Profile";
 import { AnimatePresence } from 'framer-motion';
 import Login from "./views/Login/Login";
+import Register from "./views/Register/Register";
 
 
 function App() {
@@ -44,7 +45,7 @@ function App() {
             <BrowserRouter>
                 <main>
                     <Header />
-                    <AnimatePresence>
+                    <AnimatePresence mode="wait">
                         <Routes>
                             <Route path="/" element={<Main />} />
                             <Route
@@ -82,6 +83,13 @@ function App() {
                                 path="/login"
                                 element={
                                     <Login
+                                    />
+                                }
+                            />
+                            <Route
+                                path="/register"
+                                element={
+                                    <Register
                                     />
                                 }
                             />
