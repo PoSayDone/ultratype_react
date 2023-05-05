@@ -19,6 +19,7 @@
         }
     },
     "profile": {
+        "title":"Profile",
         "average": "Avg.",
         "hours": "h",
         "seconds": "s",

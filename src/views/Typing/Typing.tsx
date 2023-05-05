@@ -64,7 +64,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                         <Keyboard currentChar={currentChar} />
                     </div>
                 }
-            <AnimatePresence>
+            <AnimatePresence initial={false}>
                 {state == 'finish' &&
                     <Results accuracyPercentage={accuracy} wpm={wpm} time={timeConst - timeLeft}></Results>}
             </AnimatePresence>

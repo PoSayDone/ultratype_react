@@ -4,6 +4,7 @@ import Heading from '../../components/Heading/Heading'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
+import Skeleton from 'react-loading-skeleton'
 
 const src = "https://localhost:7025/tests?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6"
 interface Tests{
@@ -70,7 +71,7 @@ const Profile = () => {
 
     return (
         <motion.div className="container"
-            initial={{ opacity: 0}}
+            initial={{ opacity: 0 }}
             animate={{ opacity: "100%" }}
             exit={{ translateY: 0 }}
             transition={{
@@ -81,7 +82,7 @@ const Profile = () => {
         >
             <div className='profile__wrapper'>
                 <div className='title__section'>
-                    <Heading headingLevel={"h1"}>Профиль</Heading>
+                    <Heading headingLevel={"h1"}>{t("profile.title")}</Heading>
                 </div>
                 <div className="main-stats">
                     <div className="main-stat">
