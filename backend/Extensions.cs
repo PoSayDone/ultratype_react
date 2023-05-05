@@ -10,7 +10,8 @@ public static class Extensions
         return new UserDto()
         {
             Id = user.Id,
-            Name = user.Name,
+            Email = user.Email,
+            Username = user.Username,
             Password = user.Password
         };
     }

@@ -43,5 +43,22 @@ namespace backend.Repositories{
             var filter = filterBuilder.Eq(existingUser => existingUser.Id, user.Id);
             await userCollection.ReplaceOneAsync(filter, user);
         }
+
+        public async Task<User> GetUserByNameAndPass(string name, string password)
+        {
+            var filter = filterBuilder.Eq(user => user.Username, name) & filterBuilder.Eq(user => user.Password, password) ;
+            return await userCollection.Find(filter).SingleOrDefaultAsync();
+        }
+        public async Task<User> GetUserByUsername(string name)
+        {
+            var filter = filterBuilder.Eq(user => user.Username, name);
+            return await userCollection.Find(filter).SingleOrDefaultAsync();
+        }
+        
+        public async Task<User> GetUserByEmail(string email)
+        {
+            var filter = filterBuilder.Eq(user => user.Email, email);
+            return await userCollection.Find(filter).SingleOrDefaultAsync();
+        }
     }
 }

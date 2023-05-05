@@ -4,7 +4,9 @@ namespace backend.Dtos;
 
 public record UpdateUserDto {
     [Required]
-    public string Name { get; init; }
+    public string Email { get; init; }
+    [Required]
+    public string Username { get; init; }
     
     [Required]
     public string Password { get; init; }

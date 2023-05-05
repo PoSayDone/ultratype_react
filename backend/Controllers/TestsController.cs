@@ -1,6 +1,9 @@
+using System.Net;
+using System.Security.Claims;
 using backend.Dtos;
 using backend.Entities;
 using backend.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
@@ -17,10 +20,27 @@ namespace backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<TestDto>> GetTestsAsync(Guid? userId)
+        [Authorize]
+        public async Task<IEnumerable<TestDto>> GetTestsAsync()
         {
+            User user = GetCurrentUser();
+            return (await repo.GetTestsAsync(user.Id)).Select(test => test.AsDto());
+        }
 
-            return userId == null ? (await repo.GetTestsAsync()).Select(test => test.AsDto()) : (await repo.GetTestsAsync(userId)).Select(test => test.AsDto());
+        private User GetCurrentUser()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                var userClaims = identity.Claims;
+                return new User
+                {
+                    Username = userClaims.FirstOrDefault(prop => prop.Type == ClaimTypes.Name)?.Value,
+                    Email = userClaims.FirstOrDefault(prop => prop.Type == ClaimTypes.Email)?.Value,
+                    Id = new Guid(userClaims.FirstOrDefault(prop => prop.Type == ClaimTypes.NameIdentifier)?.Value),
+                };
+            }
+            return null;
         }
 
         [HttpGet("{id}")]

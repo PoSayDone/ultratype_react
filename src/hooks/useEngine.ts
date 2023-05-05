@@ -85,7 +85,7 @@ const useEngine = () => {
                 }
                 // Отправляем результаты на сервер
                 axios
-                    .post("http://localhost:5206/tests/", stats,
+                    .post("https://localhost:7025/tests", stats,
                         {
                             headers: {
                                 "Content-Type": "application/json"
