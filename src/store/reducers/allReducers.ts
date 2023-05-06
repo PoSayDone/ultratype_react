@@ -6,8 +6,10 @@ import { inputReducer } from "./inputReducer";
 import { wordsReducer } from "./wordsReducer";
 import { countDownReducer } from "./countDownReducer";
 import { authReducer } from "./authReducer";
+import { statusReducer } from "./statusReducer";
 
 export const rootReducer = combineReducers({
+    status: statusReducer,
     theme: themeReducer,
     language: languageReducer,
     font: fontReducer,

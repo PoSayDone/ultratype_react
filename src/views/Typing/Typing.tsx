@@ -19,7 +19,7 @@ interface TypingProps {
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
     const { t, i18n } = useTranslation()
-    const { timeConst, accuracy, restart, state, words, typed, wpm, timeLeft, cursor, currentCharacterRef } = useEngine();
+    const { timeConst, accuracy, restart, status, words, typed, wpm, timeLeft, cursor, currentCharacterRef } = useEngine();
     const [currentChar, setCurrentChar] = useState(words[0])
 
     useEffect(() => {
@@ -51,10 +51,10 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                 />
             </div>
                 {
-                    state != "finish" &&
+                    status != "finish" &&
                     <div className="typing__container">
                         <div className="input__section">
-                            <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={state} />
+                            <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={status} />
                         </div>
                         <div className="typing__metrics">
                             <CountdownTimer timeLeft={timeLeft} />
@@ -65,7 +65,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                     </div>
                 }
             <AnimatePresence initial={false}>
-                {state == 'finish' &&
+                {status == 'finish' &&
                     <Results accuracyPercentage={accuracy} wpm={wpm} time={timeConst - timeLeft}></Results>}
             </AnimatePresence>
         </motion.div >

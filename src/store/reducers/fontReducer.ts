@@ -1,4 +1,3 @@
-
 interface IFontState{
 	isMonospace : boolean
 }

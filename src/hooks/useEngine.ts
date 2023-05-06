@@ -3,40 +3,35 @@ import useInput from "./useInput";
 import useSymbolsTypedMetric from "./useSymbolsTypedMetric";
 import useCountdown from "./useCountdown";
 import { useTypedSelector } from "./useTypedSelector";
-import { generateWords, NUMBER_OF_WORDS, WordsActions, WordsActionTypes } from "../store/reducers/wordsReducer";
-import { useDispatch } from "react-redux";
 import { COUNTDOWN_SECONDS, SetDefaultCoundownSeconds } from "../store/reducers/countDownReducer";
 import axios from "axios";
-import { AuthActions } from "../store/reducers/authReducer";
 import Cookies from "js-cookie";
-
-export type State = "start" | "run" | "finish" | "restart";
+import { InputActions } from "../store/reducers/inputReducer";
+import { StatusActionType } from "../store/reducers/statusReducer";
+import { useDispatch } from "react-redux";
 
 const useEngine = () => {
-    const user = useTypedSelector(state => state.login);
+    const dispatch = useDispatch()
     const timeConst = 140;
-    const [state, setState] = useState<State>("start");
-    const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
-
-
-    // useWords как таковой теперь не нужен ( пока его не удалял(
+    // const [state, setState] = useState<State>();
+    const { status } = useTypedSelector(state => state.status);
     const { words } = useTypedSelector(state => state.words);
+    const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
+    const [isMounted, setIsMounted] = useState(false);
 
     // если она нужна будет ? (достал из useWords но вроде нигде не юзалась)
-    const updateWords = useCallback(() => {
-        const dispatch: Dispatch<WordsActions> = useDispatch()
-        dispatch({ type: WordsActionTypes.SET_WORDS, payload: generateWords(NUMBER_OF_WORDS) })
-    }, [NUMBER_OF_WORDS])
-
+    // const updateWords = useCallback(() => {
+    //     const dispatch: Dispatch<WordsActions> = useDispatch()
+    //     dispatch({ type: WordsActionTypes.SET_WORDS, payload: generateWords(NUMBER_OF_WORDS) })
+    // }, [NUMBER_OF_WORDS])
 
     useEffect(() => {
-        if (state === "start") {
+        if (status === "start") {
             setTimerIsActive(false)
             SetDefaultCoundownSeconds(timeConst)
             setTimeLeft(COUNTDOWN_SECONDS) // тут делается нужное время
         }
-    }, [state])
-
+    }, [status])
 
     const {
         typed,
@@ -46,20 +41,20 @@ const useEngine = () => {
         restartTyping,
         accuracy,
         setTypedNumber
-    } = useInput(state !== "finish", words);
+    } = useInput(status !== "finish", words);
 
     const { wpm } = useSymbolsTypedMetric(
-        state !== "finish",
+        status !== "finish",
         totalTyped,
         timeConst,
         timeLeft,
     );
     const currentCharacterRef = useRef<HTMLSpanElement>(null);
-    const isStarting = state === "start" && cursor > 0;
+    const isStarting = status === "start" && cursor > 0;
 
     useEffect(
         () => {
-            if (state === "run") {
+            if (status === "run") {
                 if (
                     typed[cursor - 1] &&
                     typed[cursor - 1] === words[cursor - 1]
@@ -77,34 +72,38 @@ const useEngine = () => {
 
     useEffect(
         () => {
-            if (state === "finish") {
-                setTimerIsActive(false);
+            if (isMounted) {
+                if (status === "finish") {
+                    setTimerIsActive(false);
 
-                // Формируем резы
-                const stats = {
-                    mode: "unknown",
-                    wpm: wpm,
-                    accuracy: (accuracy / 100)
+                    // Формируем резы
+                    const stats = {
+                        mode: "unknown",
+                        wpm: wpm,
+                        accuracy: (accuracy / 100)
+                    }
+
+                    // Отправляем результаты на сервер
+                    axios
+                        .post("https://localhost:7025/tests", stats,
+                            {
+                                headers: {
+                                    "Authorization": `Bearer ${Cookies.get("_auth")}`,
+                                    "Content-Type": "application/json"
+                                }
+                            })
                 }
-                
-                // Отправляем результаты на сервер
-                axios
-                    .post("https://localhost:7025/tests", stats,
-                        {
-                            headers: {
-                                "Authorization": `Bearer ${Cookies.get("_auth")}`,
-                                "Content-Type": "application/json"
-                            }
-                        })
+            } else {
+                setIsMounted(true);
             }
         },
-        [state]
+        [status]
     );
 
     useEffect(
         () => {
             if (isStarting) {
-                setState("run");
+                dispatch({ type: "CHANGE_STATE", payload: "run" })
                 setTimerIsActive(true);
             }
         },
@@ -113,27 +112,29 @@ const useEngine = () => {
 
     useEffect(
         () => {
-            if (!timerIsActive && state === "run") {
-                setState("finish");
+            if (!timerIsActive && status === "run") {
+                dispatch({ type: "CHANGE_STATE", payload: "finish" })
             }
         },
-        [timerIsActive, state]
+        [timerIsActive, status]
     );
 
     useEffect(
         () => {
-            if (words.length === cursor) setState("finish");
+            if (words.length === cursor) {
+                dispatch({ type: "CHANGE_STATE", payload: "finish" })
+            }
         },
         [words, typed]
     );
 
     const restart = () => {
-        setState("start");
+        dispatch({ type: "CHANGE_STATE", payload: "start" })
         restartTyping();
     };
 
     return {
-        state,
+        status,
         words,
         typed,
         wpm,
