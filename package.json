@@ -16,6 +16,7 @@
     "i18next-browser-languagedetector": "^7.0.1",
     "i18next-http-backend": "^2.2.0",
     "react": "^18.2.0",
+    "react-auth-kit": "^2.12.2",
     "react-dom": "^18.2.0",
     "react-i18next": "^12.2.0",
     "react-loading-skeleton": "^3.3.0",

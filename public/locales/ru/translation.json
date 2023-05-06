@@ -31,6 +31,16 @@
         "total_tests": "Всего тестов",
         "total_words": "Всего слов"
     },
+    "auth": {
+        "username": "Имя пользователя",
+        "password": "Пароль",
+        "email": "Почта",
+        "confirm_pass": "Подтвердите пароль",
+        "no_acc": "Нет аккаунта?",
+        "login": "Вход",
+        "registration": "Регистрация",
+        "register": "Зарегистрироваться"
+    },
     "typing": {
         "title": "Обучение",
         "levelName": "Клавиши f и j",

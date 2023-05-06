@@ -1,21 +1,25 @@
-import {motion} from 'framer-motion'
-import React, {Dispatch, useState} from 'react'
+import React, { Dispatch, useState } from 'react'
 import Heading from '../../components/Heading/Heading'
 import "./Login.scss"
 import Button from '../../components/Button'
-import {Link} from 'react-router-dom'
-import {RegisterLink} from "./RegisterLink";
-import {useTypedSelector} from "../../hooks/useTypedSelector";
-import axios, {AxiosError} from "axios";
-import {useDispatch} from "react-redux";
-import {AuthAction, AuthActions} from "../../store/reducers/authReducer";
+import { Link } from 'react-router-dom'
+import { useTypedSelector } from "../../hooks/useTypedSelector";
+import axios, { AxiosError } from "axios";
+import { useDispatch } from "react-redux";
+import { AuthAction, AuthActions } from "../../store/reducers/authReducer";
+import { motion } from 'framer-motion'
+import AuthInput from '../../components/AuthInput/AuthInput'
+import { useTranslation } from 'react-i18next'
+import { useAuthUser, useSignIn } from 'react-auth-kit'
 
-type Props = {
-	title: string
-}
+const Login = () => {
+    const { t, i18n } = useTranslation()
+    const signIn = useSignIn();
+    let Logged = useTypedSelector(state => state.login);
+    const dispatch: Dispatch<AuthActions> = useDispatch()
+    const [nameValue, setNameValue] = useState("")
+    let [passwordValue, setPasswordValue] = useState("")
 
-const Login = (props: Props) => {
-<<<<<<< HEAD
     return (
         <motion.div className="container"
             initial={{ opacity: 0 }}
@@ -24,79 +28,44 @@ const Login = (props: Props) => {
         >
             <div className="auth-block">
                 <Heading headingLevel={"h1"} className="auth-block__title">
-                    Вход
+                    {t("auth.login")}
                 </Heading>
                 <div className="auth-block__inputs">
-                    <div className="auth-block__input">
-                        <input/>
-                        <label>Username</label>
-                    </div>
-                    <div className="auth-block__input">
-                        <input/>
-                        <label>Username</label>
-                    </div>
+                    <AuthInput label={t("auth.username")} type={'text'} value={nameValue} onChange={event => setNameValue(event.target.value)} />
+                    <AuthInput label={t("auth.password")} type={'password'} value={passwordValue} onChange={event => setPasswordValue(event.target.value)} />
                 </div>
-                <Button text={'Войти'} icon={'arrow_right_alt'}/>
+                <Button title={'Войти'} icon={'arrow_right_alt'} onClick={GetAuth} />
                 <div className="auth-block__register-text">
-                    Нет аккаунта? <Link to={'/register'}>Зарегистрируйтесь</Link>
+                    {t("auth.no_acc")} <Link to={'/register'}>{t("auth.register")}</Link>
                 </div>
+                {/* {Logged.statusCode == 200 ? <Heading headingLevel={"h1"}>Успешно</Heading> : ""}
+                {Logged.statusCode == 404 ? <Heading headingLevel={"h1"}>Пользователь не найден</Heading> : ""}
+                {Logged.statusCode == 400 ? <Heading headingLevel={"h1"}>Неверный пароль</Heading> : ""} */}
             </div>
         </motion.div>
     )
-=======
-	let Logged = useTypedSelector(state => state.login);
-	const dispatch: Dispatch<AuthActions> = useDispatch()
-	const [nameValue, setNameValue] = useState("")
-	let [passwordValue, setPasswordValue] = useState("")
-	return (
-		<motion.div className="container" >
-			<div className="auth-block">
-				<Heading headingLevel={"h1"} className="auth-block__title">
-					{props.title}
-				</Heading>
-				<div className="auth-block__inputs">
-					<div className="auth-block__input">
-						<input value={nameValue} onChange={event => setNameValue(event.target.value)}/>
-						<label>Username</label>
-					</div>
-					<div className="auth-block__input">
-						<input type="password"
-						       value={passwordValue}
-						       onChange={event => setPasswordValue(event.target.value)}
-						/>
-						<label>Passowrd</label>
-					</div>
-				</div>
-				<Button title={props.title} onClick={GetAuth}/>
-				{props.title === 'Вход' ? <RegisterLink/> : ""}
-				{Logged.statusCode == 200 ? <Heading headingLevel={"h1"}>Успешно</Heading> : ""}
-				{Logged.statusCode == 404 ? <Heading headingLevel={"h1"}>Пользователь не найден</Heading> : ""}
-				{Logged.statusCode == 400 ? <Heading headingLevel={"h1"}>Неверный пароль</Heading> : ""}
-			</div>
-		</motion.div>
-	)
 
-	function GetAuth() {
-		axios.get(`https://localhost:7025/auth/${nameValue}:${passwordValue}`)
-			.then(res => {
-				if (res.status == 200){
-					dispatch({
-						type: AuthAction.SET_USER_DATA,
-						payload: {
-							userName: nameValue,
-							password: passwordValue
-						}
-					})
-				}
-			})
-			.catch( error => {
-				dispatch({
-					type: AuthAction.SET_CODE,
-					payload: error.response.status
-				})
-			})
-	}
->>>>>>> refs/remotes/origin/develop
+    async function GetAuth() {
+        const login = {
+            username: nameValue,
+            password: passwordValue
+        }
+        // Отправляем результаты на сервер
+        const res = await axios
+            .post("https://localhost:7025/login", login,
+                {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+
+        signIn({
+            token: res.data.token,
+            expiresIn: res.data.expiresIn,
+            tokenType: "Bearer",
+            authState: res.data.username,
+        })
+    }
 }
 
 export default Login

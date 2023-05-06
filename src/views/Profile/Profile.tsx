@@ -4,16 +4,15 @@ import Heading from '../../components/Heading/Heading'
 import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import Skeleton from 'react-loading-skeleton'
+import { useAuthHeader, useAuthUser } from 'react-auth-kit'
 
-const src = "https://localhost:7025/tests?userId=3fa85f64-5717-4562-b3fc-2c963f66afa6"
-interface Tests{
+const src = "https://localhost:7025/tests"
+interface Tests {
     wpm: number,
     accuracy: number,
     mode: string,
     date: string,
 }
-
 
 const Profile = () => {
     const { t, i18n } = useTranslation()
@@ -62,10 +61,17 @@ const Profile = () => {
     }, [tests])
 
     useEffect(() => {
+        const jwtCookie = document.cookie.split(';').find(cookie => cookie.startsWith('_auth='))
+        const jwtToken = jwtCookie ? jwtCookie.split('=')[1] : null
+
         axios
-            .get(src)
+            .get(src, {
+                headers: {
+                    Authorization: `Bearer ${jwtToken}`
+                }
+            })
             .then(data => {
-                setTests(data.data);
+                setTests(data.data)
             })
     }, [])
 

@@ -14,6 +14,7 @@ import Profile from "./views/Profile/Profile";
 import { AnimatePresence } from 'framer-motion';
 import Login from "./views/Login/Login";
 import Register from "./views/Register/Register";
+import { RequireAuth } from "react-auth-kit";
 
 
 function App() {
@@ -42,62 +43,63 @@ function App() {
 
     return (
         <>
-            <BrowserRouter>
-                <main>
-                    <Header />
-                    <AnimatePresence mode="wait">
-                        <Routes>
-                            <Route path="/" element={<Main />} />
-                            <Route
-                                path="/settings"
-                                element={
-                                    <Settings
-                                        text={t}
-                                    />
-                                }
-                            />
-                            <Route
-                                path="/typing/"
-                                element={
-                                    <Typing
-                                        title="Обучение"
-                                        subtitle="Клавиши f и j"
-                                    />
-                                }
-                            />
-                            <Route
-                                path="/levels"
-                                element={
-                                    <Levels
-                                    />
-                                }
-                            />
-                            <Route
-                                path="/profile"
-                                element={
-                                    <Profile
-                                    />
-                                }
-                            />
-                            <Route
-                                path="/login"
-                                element={
-                                    <Login
-                                    />
-                                }
-                            />
-                            <Route
-                                path="/register"
-                                element={
-                                    <Register
-                                    />
-                                }
-                            />
-                        </Routes>
-                    </AnimatePresence>
-                </main>
-                <Navbar language={t} />
-            </BrowserRouter>
+            <main>
+                <Header />
+                <AnimatePresence mode="wait">
+                    <Routes>
+                        <Route path="/" element={<Main />} />
+                        <Route
+                            path="/settings"
+                            element={
+                                <Settings
+                                    text={t}
+                                />
+                            }
+                        />
+                        <Route
+                            path="/typing/"
+                            element={
+                                <Typing
+                                    title="Обучение"
+                                    subtitle="Клавиши f и j"
+                                />
+                            }
+                        />
+                        <Route
+                            path="/levels"
+                            element={
+                                <Levels
+                                />
+                            }
+                        />
+                        <Route
+                            path="/profile"
+                            element={
+                                <RequireAuth
+                                    loginPath={"/login"}
+                                >
+                                    <Profile />
+                                </RequireAuth>
+                            }
+                        />
+                        <Route
+                            path="/login"
+                            element={
+                                <Login
+                                />
+                            }
+                        />
+                        <Route
+                            path="/register"
+                            element={
+                                <Register
+                                />
+                            }
+                        />
+                    </Routes>
+                </AnimatePresence>
+            </main>
+            <Navbar language={t} />
         </>
     );
 }

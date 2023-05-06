@@ -18,6 +18,16 @@
             "description": "Complete a carefully designed training course that will improve your skills"
         }
     },
+    "auth": {
+        "username": "Username",
+        "password": "Password",
+        "email": "Email",
+        "confirm_pass": "Confirm password",
+        "no_acc": "Don't have an account?",
+        "login": "Login",
+        "registration": "Registration",
+        "register": "Register"
+    },
     "profile": {
         "title":"Profile",
         "average": "Avg.",

@@ -4,6 +4,8 @@ import Heading from '../../components/Heading/Heading'
 import Button from '../../components/Button'
 import { Link } from 'react-router-dom'
 import "./Register.scss"
+import AuthInput from '../../components/AuthInput/AuthInput'
+import { t } from 'i18next'
 
 type Props = {}
 
@@ -19,24 +21,12 @@ const Register = (props: Props) => {
                     Регистрация
                 </Heading>
                 <div className="auth-block__inputs">
-                    <div className="auth-block__input">
-                        <input />
-                        <label>Email</label>
-                    </div>
-                    <div className="auth-block__input">
-                        <input />
-                        <label>Username</label>
-                    </div>
-                    <div className="auth-block__input">
-                        <input />
-                        <label>Password</label>
-                    </div>
-                    <div className="auth-block__input">
-                        <input />
-                        <label>Confirm password</label>
-                    </div>
+                    <AuthInput label={t("auth.email")} type={'email'}/>
+                    <AuthInput label={t("auth.username")} type={'text'}/>
+                    <AuthInput label={t("auth.password")} type={'text'}/>
+                    <AuthInput label={t("auth.confirm_pass")} type={'text'}/>
                 </div>
-                <Button text={'Зарегистрироваться'} icon={'arrow_right_alt'} />
+                <Button title={'Зарегистрироваться'} icon={'arrow_right_alt'} onClick={undefined} />
             </div>
         </motion.div >
     )

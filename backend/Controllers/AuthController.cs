@@ -34,9 +34,18 @@ public class AuthController : ControllerBase
         if (user != null)
         {
             var token = Generate(user);
-            var data = new {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            var expirationTime = jwtToken.ValidTo;
+            var expiresIn = expirationTime.Subtract(DateTime.UtcNow).TotalSeconds;
+
+            var data = new
+            {
                 token = token,
+                expiresIn = expiresIn,
+                username = userLogin.Username,
             };
+
             return Ok(data);
         }
 
