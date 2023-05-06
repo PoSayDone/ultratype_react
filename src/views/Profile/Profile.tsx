@@ -5,6 +5,8 @@ import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
 import { useAuthHeader, useAuthUser } from 'react-auth-kit'
+import { useTypedSelector } from '../../hooks/useTypedSelector'
+import Cookies from 'js-cookie'
 
 const src = "https://localhost:7025/tests"
 interface Tests {
@@ -15,6 +17,7 @@ interface Tests {
 }
 
 const Profile = () => {
+    const user = useTypedSelector(state => state.login);
     const { t, i18n } = useTranslation()
     const [tests, setTests] = useState<Tests[]>([]);
     const [avgWpm, setAvgWpm] = useState(0);
@@ -60,14 +63,12 @@ const Profile = () => {
         calculateBestAccuracy();
     }, [tests])
 
+    const token = Cookies.get("_auth");
     useEffect(() => {
-        const jwtCookie = document.cookie.split(';').find(cookie => cookie.startsWith('_auth='))
-        const jwtToken = jwtCookie ? jwtCookie.split('=')[1] : null
-
         axios
             .get(src, {
                 headers: {
-                    Authorization: `Bearer ${jwtToken}`
+                    Authorization: `Bearer ${token}`
                 }
             })
             .then(data => {
@@ -117,14 +118,6 @@ const Profile = () => {
                         <div className="title">{t("profile.best_accuracy")}</div>
                         <div className="value">{bestAccuracy}%</div>
                     </div>
-                    {/* <div className="secondary-stat">
-                    <div className="title">{t("profile.total_tests")}</div>
-                    <div className="value">256</div>
-                </div>
-                <div className="secondary-stat">
-                    <div className="title">{t("profile.total_words")}</div>
-                    <div className="value">12932</div>
-                </div> */}
                 </div>
                 <table className="tests-list">
                     <thead>

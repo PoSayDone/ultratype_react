@@ -69,6 +69,9 @@ body {
 header {
     color: var(--on_background);
     margin-top: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .button {

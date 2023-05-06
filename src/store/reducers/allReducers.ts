@@ -2,10 +2,10 @@ import { combineReducers } from "redux";
 import { languageReducer } from "./languageReducer";
 import { fontReducer } from "./fontReducer";
 import { themeReducer } from "./themeReducer";
-import {inputReducer} from "./inputReducer";
-import {wordsReducer} from "./wordsReducer";
-import {countDownReducer} from "./countDownReducer";
-import {authReducer} from "./authReducer";
+import { inputReducer } from "./inputReducer";
+import { wordsReducer } from "./wordsReducer";
+import { countDownReducer } from "./countDownReducer";
+import { authReducer } from "./authReducer";
 
 export const rootReducer = combineReducers({
     theme: themeReducer,

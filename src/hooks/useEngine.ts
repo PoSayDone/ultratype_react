@@ -7,10 +7,13 @@ import { generateWords, NUMBER_OF_WORDS, WordsActions, WordsActionTypes } from "
 import { useDispatch } from "react-redux";
 import { COUNTDOWN_SECONDS, SetDefaultCoundownSeconds } from "../store/reducers/countDownReducer";
 import axios from "axios";
+import { AuthActions } from "../store/reducers/authReducer";
+import Cookies from "js-cookie";
 
 export type State = "start" | "run" | "finish" | "restart";
 
 const useEngine = () => {
+    const user = useTypedSelector(state => state.login);
     const timeConst = 140;
     const [state, setState] = useState<State>("start");
     const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
@@ -76,18 +79,20 @@ const useEngine = () => {
         () => {
             if (state === "finish") {
                 setTimerIsActive(false);
+
                 // Формируем резы
                 const stats = {
-                    userId: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
                     mode: "unknown",
                     wpm: wpm,
                     accuracy: (accuracy / 100)
                 }
+                
                 // Отправляем результаты на сервер
                 axios
                     .post("https://localhost:7025/tests", stats,
                         {
                             headers: {
+                                "Authorization": `Bearer ${Cookies.get("_auth")}`,
                                 "Content-Type": "application/json"
                             }
                         })

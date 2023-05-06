@@ -1,4 +1,5 @@
 import React from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 type Props = {
     icon: string
@@ -6,8 +7,7 @@ type Props = {
     onClick?: Function
 }
 
-const Button = (props: Props) => {
-
+const LoginButton = (props: Props) => {
     const handleClick = () => {
         if (props.onClick) {
             props.onClick();
@@ -15,7 +15,7 @@ const Button = (props: Props) => {
     };
 
     return (
-        <button className="button" onClick={event => handleClick()}>
+        <button type='submit' className="button" onClick={event => handleClick()}>
             {props.title}
             <span className="material-symbols-rounded">
                 {props.icon}
@@ -24,4 +24,4 @@ const Button = (props: Props) => {
     )
 }
 
-export default Button
+export default LoginButton

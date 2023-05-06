@@ -10,8 +10,6 @@ namespace backend.Dtos
     {
 
         [Required]
-        public Guid UserId { get; init; }
-        [Required]
         public string Mode { get; init; }
         [Required]
         public int Wpm { get; init; }

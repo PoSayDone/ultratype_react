@@ -27,21 +27,6 @@ namespace backend.Controllers
             return (await repo.GetTestsAsync(user.Id)).Select(test => test.AsDto());
         }
 
-        private User GetCurrentUser()
-        {
-            var identity = HttpContext.User.Identity as ClaimsIdentity;
-            if (identity != null)
-            {
-                var userClaims = identity.Claims;
-                return new User
-                {
-                    Username = userClaims.FirstOrDefault(prop => prop.Type == ClaimTypes.Name)?.Value,
-                    Email = userClaims.FirstOrDefault(prop => prop.Type == ClaimTypes.Email)?.Value,
-                    Id = new Guid(userClaims.FirstOrDefault(prop => prop.Type == ClaimTypes.NameIdentifier)?.Value),
-                };
-            }
-            return null;
-        }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TestDto>> GetTestAsync(Guid id)
@@ -51,12 +36,14 @@ namespace backend.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> AddTest(AddTestDto testDto)
         {
+            User currentUser = GetCurrentUser();
             Test test = new()
             {
                 Id = Guid.NewGuid(),
-                UserId = testDto.UserId,
+                UserId = currentUser.Id,
                 Mode = testDto.Mode,
                 Wpm = testDto.Wpm,
                 Accuracy = testDto.Accuracy,
@@ -76,6 +63,21 @@ namespace backend.Controllers
             }
             await repo.DeleteTestAsync(id);
             return NoContent();
+        }
+        private User GetCurrentUser()
+        {
+            var identity = HttpContext.User.Identity as ClaimsIdentity;
+            if (identity != null)
+            {
+                var userClaims = identity.Claims;
+                return new User
+                {
+                    Username = userClaims.FirstOrDefault(prop => prop.Type == ClaimTypes.Name)?.Value,
+                    Email = userClaims.FirstOrDefault(prop => prop.Type == ClaimTypes.Email)?.Value,
+                    Id = new Guid(userClaims.FirstOrDefault(prop => prop.Type == ClaimTypes.NameIdentifier)?.Value),
+                };
+            }
+            return null;
         }
     }
 }
