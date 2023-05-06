@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import { useAuthHeader, useAuthUser } from 'react-auth-kit'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import Cookies from 'js-cookie'
+import {number} from "yup";
 
 const src = "https://localhost:7025/tests"
 interface Tests {
@@ -94,11 +95,11 @@ const Profile = () => {
                 <div className="main-stats">
                     <div className="main-stat">
                         <Heading headingLevel={"h3"} className="title">{t("profile.average")} {t("typing.wpm")}</Heading>
-                        <div className="value">{avgWpm}</div>
+                        <div className="value">{Number.isNaN(avgWpm) ? 0 : avgWpm}</div>
                     </div>
                     <div className="main-stat">
                         <Heading headingLevel={"h3"} className="title">{t("typing.accuracy")}</Heading>
-                        <div className="value">{avgAccuracy}%</div>
+                        <div className="value">{Number.isNaN(avgAccuracy) ? 0 : avgAccuracy}%</div>
                     </div>
                     {/* <div className="main-stat">
                     <Heading headingLevel={"h3"} className="title">{t("typing.time")}</Heading>
