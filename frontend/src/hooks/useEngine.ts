@@ -9,21 +9,24 @@ import Cookies from "js-cookie";
 import { InputActions } from "../store/reducers/inputReducer";
 import { StatusActionType } from "../store/reducers/statusReducer";
 import { useDispatch } from "react-redux";
+import TestsService from "../services/TestsService";
 
 const useEngine = () => {
     const dispatch = useDispatch()
     const timeConst = 140;
-    // const [state, setState] = useState<State>();
     const { status } = useTypedSelector(state => state.status);
     const { words } = useTypedSelector(state => state.words);
     const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
     const [isMounted, setIsMounted] = useState(false);
 
-    // если она нужна будет ? (достал из useWords но вроде нигде не юзалась)
-    // const updateWords = useCallback(() => {
-    //     const dispatch: Dispatch<WordsActions> = useDispatch()
-    //     dispatch({ type: WordsActionTypes.SET_WORDS, payload: generateWords(NUMBER_OF_WORDS) })
-    // }, [NUMBER_OF_WORDS])
+    const addTest = async () => {
+        try {
+            await TestsService.addTest("unknown", wpm, (accuracy / 100));
+        }
+        catch (e: any) {
+            console.log(e.response?.data?.message);
+        }
+    }
 
     useEffect(() => {
         if (status === "start") {
@@ -75,23 +78,7 @@ const useEngine = () => {
             if (isMounted) {
                 if (status === "finish") {
                     setTimerIsActive(false);
-
-                    // Формируем резы
-                    const stats = {
-                        mode: "unknown",
-                        wpm: wpm,
-                        accuracy: (accuracy / 100)
-                    }
-
-                    // Отправляем результаты на сервер
-                    axios
-                        .post("https://localhost:7025/tests", stats,
-                            {
-                                headers: {
-                                    "Authorization": `Bearer ${Cookies.get("_auth")}`,
-                                    "Content-Type": "application/json"
-                                }
-                            })
+                    addTest()
                 }
             } else {
                 setIsMounted(true);
