@@ -1,0 +1,42 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Backend",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/backend/bin/Debug/net7.0/backend.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/backend",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/backend/Views"
+            }
+        },
+        {
+            "name": "Frontend",
+            "type": "node",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/frontend",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "dev",
+            ]
+        },
+    ],
+    "compounds": [
+        {
+            "name": "Front + Back",
+            "configurations": [
+                "Frontend",
+                "Backend",
+            ],
+            "stopAll": true
+        }
+    ]
+}
