@@ -23,6 +23,7 @@
         "password": "Password",
         "email": "Email",
         "confirm_pass": "Confirm password",
+        "have_acc": "Already have an account?",
         "no_acc": "Don't have an account?",
         "login": "Login",
         "registration": "Registration",

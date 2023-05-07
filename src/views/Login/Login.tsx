@@ -1,4 +1,4 @@
-import React, { Dispatch, useState } from 'react'
+import React, { Dispatch, FormEvent, useState } from 'react'
 import Heading from '../../components/Heading/Heading'
 import "./Login.scss"
 import LoginButton from '../../components/LoginButton'
@@ -40,7 +40,8 @@ const Login = () => {
         }
     };
 
-    const handleClick = () => {
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
         handleLogin(username.value, password.value)
     }
 
@@ -50,8 +51,8 @@ const Login = () => {
     const { t, i18n } = useTranslation()
     const signIn = useSignIn();
 
-    const username = useAuthInput('', { isEmpty: true, minLength: 3, isEmail: false })
-    const password = useAuthInput('', { isEmpty: true, minLength: 8, isEmail: false })
+    const username = useAuthInput('', { isEmpty: true, minLength: 3 })
+    const password = useAuthInput('', { isEmpty: true, minLength: 8 })
 
     return (
         <motion.div className="container"
@@ -59,7 +60,7 @@ const Login = () => {
             animate={{ opacity: "100%" }}
             exit={{ opacity: 0 }}
         >
-            <div className="auth-block">
+            <form className="auth-block" onSubmit={handleSubmit}>
                 <Heading headingLevel={"h1"} className="auth-block__title">
                     {t("auth.login")}
                 </Heading>
@@ -79,11 +80,15 @@ const Login = () => {
                             )
                     })}
                 </div>
-                <LoginButton disabled={username.inputValid && password.inputValid} title={'Войти'} icon={'arrow_right_alt'} onClick={handleClick} />
+                <LoginButton
+                    disabled={(!username.inputValid || !password.inputValid)}
+                    title={'Войти'}
+                    icon={'arrow_right_alt'}
+                />
                 <div className="auth-block__register-text">
-                    {t("auth.no_acc")} <Link to={'/register'}>{t("auth.register")}</Link>
+                    {t("auth.no_acc")} <Link to={'/registration'}>{t("auth.register")}</Link>
                 </div>
-            </div>
+            </form>
         </motion.div >
     )
 }

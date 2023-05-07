@@ -4,6 +4,7 @@ export interface ValidationsType {
     minLength?: number;
     isEmpty?: boolean;
     isEmail?: boolean;
+    isConfirm?: boolean;
 }
 
 export interface ValidationResultType {
@@ -11,13 +12,15 @@ export interface ValidationResultType {
     minLengthError: boolean;
     emailError: boolean;
     inputValid: boolean;
+    isSame: boolean;
     errorStringArray: string[]
 }
 
-const useValidation = (value: string, validations: ValidationsType): ValidationResultType => {
+const useValidation = (value: string, validations: ValidationsType, confirmValue?: string): ValidationResultType => {
     const [isEmpty, setIsEmpty] = useState<boolean>(true);
+    const [isNotSame, setIsNotSame] = useState<boolean>(false);
     const [minLengthError, setMinLengthError] = useState<boolean>(false);
-    const [emailError, setEmailError] = useState<boolean>(true);
+    const [emailError, setEmailError] = useState<boolean>(false);
     const [inputValid, setInputValid] = useState<boolean>(false);
     const [errorStringArray, setErrorStringArray] = useState([""]);
 
@@ -36,17 +39,20 @@ const useValidation = (value: string, validations: ValidationsType): ValidationR
                     const re = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
                     re.test(String(value).toLowerCase()) ? setEmailError(false) : setEmailError(true);
                     break;
+                case 'isConfirm':
+                    value == confirmValue ? setIsNotSame(false) : setIsNotSame(true)
+                    break;
             }
         }
     }, [value, validations]);
 
     useEffect(() => {
-        if (isEmpty || minLengthError || emailError) {
+        if (isEmpty || minLengthError || emailError || isNotSame) {
             setInputValid(false);
         } else {
             setInputValid(true);
         }
-    }, [isEmpty, minLengthError, emailError]);
+    }, [isEmpty, minLengthError, emailError, isNotSame]);
 
     useEffect(() => {
         setErrorStringArray([])
@@ -59,13 +65,17 @@ const useValidation = (value: string, validations: ValidationsType): ValidationR
         if (emailError && validations.isEmail) {
             setErrorStringArray(errorString => [...errorString, `В поле должен находится email`]);
         }
-    }, [isEmpty, minLengthError, emailError]);
+        if (isNotSame) {
+            setErrorStringArray(errorString => [...errorString, `Поля должны совпадать`]);
+        }
+    }, [isEmpty, minLengthError, emailError, isNotSame]);
 
     return {
         isEmpty,
         minLengthError,
         emailError,
         inputValid,
+        isSame: isNotSame,
         errorStringArray
     };
 };

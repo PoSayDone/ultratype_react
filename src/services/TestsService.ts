@@ -4,6 +4,6 @@ import { ITest } from "../models/ITest";
 
 export default class TestsService {
     static fetchTests(): Promise<AxiosResponse<ITest[]>> {
-        return $api.get<ITest[]>('/tests')
+        return $api.get<ITest[]>('/tests/getTests')
     }
 }

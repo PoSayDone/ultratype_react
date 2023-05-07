@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { ChangeEvent } from 'react'
 import "./AuthInput.scss"
 
 type Props = {
     label: string,
     type: string,
     value: string,
-    onBlur: any,
-    onChange: (event: any) => void
+    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+    onBlur: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 const AuthInput = (props: Props) => {
 

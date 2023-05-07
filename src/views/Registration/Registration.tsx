@@ -1,4 +1,4 @@
-import { Dispatch, useState } from 'react'
+import { Dispatch, FormEvent, useState } from 'react'
 import Heading from '../../components/Heading/Heading'
 import LoginButton from '../../components/LoginButton'
 import axios from "axios";
@@ -7,17 +7,20 @@ import { motion } from 'framer-motion'
 import AuthInput from '../../components/AuthInput/AuthInput'
 import { useSignIn } from 'react-auth-kit'
 import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthService from '../../services/AuthServices';
 import "./Registration.scss"
+import useAuthInput from '../../hooks/useAuthInput';
 
 type Props = {}
 
 const Registration = (props: Props) => {
     const dispatch = useDispatch();
-    const [usernameValue, setUsernameValue] = useState("")
-    const [emailValue, setEmailValue] = useState("")
-    const [passwordValue, setPasswordValue] = useState("")
+
+    const email = useAuthInput('', { isEmpty: false, minLength: 0, isEmail: true })
+    const username = useAuthInput('', { isEmpty: false, minLength: 3 })
+    const password = useAuthInput('', { isEmpty: false, minLength: 8 })
+    const passwordConfirm = useAuthInput('', { isEmpty: false, minLength: 0, isConfirm: true }, password.value)
 
     const handleRegistration = async (email: string, username: string, password: string) => {
         try {
@@ -41,15 +44,15 @@ const Registration = (props: Props) => {
         }
     };
 
-    const handleClick = () => {
-        handleRegistration(emailValue, usernameValue, passwordValue)
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+        handleRegistration(email.value, username.value, password.value)
     }
 
     const navigate = useNavigate();
     const location = useLocation();
 
     const { t, i18n } = useTranslation()
-    const [confirmPasswordValue, setConfirmPasswordValue] = useState("")
     const signIn = useSignIn();
 
 
@@ -59,18 +62,49 @@ const Registration = (props: Props) => {
             animate={{ opacity: "100%" }}
             exit={{ opacity: 0 }}
         >
-            <div className="auth-block">
+            <form className="auth-block" onSubmit={handleSubmit}>
                 <Heading headingLevel={"h1"} className="auth-block__title">
                     Регистрация
                 </Heading>
                 <div className="auth-block__inputs">
-                    <AuthInput value={emailValue} onChange={event => setEmailValue(event.target.value)} label={t("auth.email")} type={'email'} />
-                    <AuthInput value={usernameValue} onChange={event => setUsernameValue(event.target.value)} label={t("auth.username")} type={'text'} />
-                    <AuthInput value={passwordValue} onChange={event => setPasswordValue(event.target.value)} label={t("auth.password")} type={'password'} />
-                    <AuthInput value={confirmPasswordValue} onChange={event => setConfirmPasswordValue(event.target.value)} label={t("auth.confirm_pass")} type={'password'} />
+                    <AuthInput label={t("auth.email")} type={'text'} value={email.value} onChange={event => email.onChange(event)} onBlur={event => email.onBlur(event)} />
+                    {email.errorStringArray.map(errorString => {
+                        if (email.isDirty)
+                            return (
+                                <div>{errorString}</div>
+                            )
+                    })}
+                    <AuthInput label={t("auth.username")} type={'text'} value={username.value} onChange={event => username.onChange(event)} onBlur={event => username.onBlur(event)} />
+                    {username.errorStringArray.map(errorString => {
+                        if (username.isDirty)
+                            return (
+                                <div>{errorString}</div>
+                            )
+                    })}
+                    <AuthInput label={t("auth.password")} type={'password'} value={password.value} onChange={event => password.onChange(event)} onBlur={event => password.onBlur(event)} />
+                    {password.errorStringArray.map(errorString => {
+                        if (password.isDirty)
+                            return (
+                                <div>{errorString}</div>
+                            )
+                    })}
+                    <AuthInput label={t("auth.confirm_pass")} type={'password'} value={passwordConfirm.value} onChange={event => passwordConfirm.onChange(event)} onBlur={event => passwordConfirm.onBlur(event)} />
+                    {passwordConfirm.errorStringArray.map(errorString => {
+                        if (passwordConfirm.isDirty)
+                            return (
+                                <div>{errorString}</div>
+                            )
+                    })}
                 </div>
-                <LoginButton title={'Зарегистрироваться'} icon={'arrow_right_alt'} onClick={handleClick} />
-            </div>
+                <LoginButton
+                    title={t("auth.register")}
+                    icon={'arrow_right_alt'}
+                    disabled={!email.inputValid || !username.inputValid || !password.inputValid || !passwordConfirm.inputValid}
+                />
+                <div className="auth-block__register-text">
+                    {t("auth.have_acc")} <Link to={'/login'}>{t("auth.login")}</Link>
+                </div>
+            </form>
         </motion.div >
     )
 }
