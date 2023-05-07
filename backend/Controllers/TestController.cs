@@ -10,16 +10,16 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("tests")]
-    public class TestsController : ControllerBase
+    public class TestController : ControllerBase
     {
         private readonly ITestsRepository repo;
 
-        public TestsController(ITestsRepository repository)
+        public TestController(ITestsRepository repository)
         {
             this.repo = repository;
         }
 
-        [HttpGet]
+        [HttpGet("getTests")]
         [Authorize]
         public async Task<IEnumerable<TestDto>> GetTestsAsync()
         {
@@ -35,7 +35,7 @@ namespace backend.Controllers
             return test == null ? NotFound() : test.AsDto();
         }
 
-        [HttpPost]
+        [HttpPost("addTest")]
         [Authorize]
         public async Task<ActionResult> AddTest(AddTestDto testDto)
         {

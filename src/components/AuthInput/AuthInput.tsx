@@ -4,30 +4,21 @@ import "./AuthInput.scss"
 type Props = {
     label: string,
     type: string,
-    value?: string,
-    onChange?: (event: any) => void
+    value: string,
+    onBlur: any,
+    onChange: (event: any) => void
 }
 const AuthInput = (props: Props) => {
 
-    const handleChange = () => {
-        if (props.onChange) {
-            return props.onChange;
-        }
-    }
-
-    const handleValue = () => {
-        if (props.value) {
-            return props.value;
-        }
-    }
 
     return (
         <div className="input__container">
             <input
                 required
                 type={props.type}
-                value={handleValue()}
-                onChange={handleChange()}
+                value={props.value}
+                onChange={props.onChange}
+                onBlur={props.onBlur}
             />
             <label>{props.label}</label>
         </div>

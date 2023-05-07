@@ -8,12 +8,12 @@ type HeadingProps = {
 }
 
 const Heading: React.FC<HeadingProps> = ({
-  headingLevel,
-  children,
-  className,
+    headingLevel,
+    children,
+    className,
 }) => {
-  const Heading = headingLevel;
-  return <Heading className={className}>{children}</Heading>
+    const Heading = headingLevel;
+    return <Heading className={className}>{children}</Heading>
 }
 
 export default Heading

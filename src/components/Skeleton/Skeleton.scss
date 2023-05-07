@@ -1,0 +1,19 @@
+.skeleton {
+    display: inline-flex;
+    position: relative;
+    line-height: normal;
+    margin-bottom: .25rem;
+    opacity: .7;
+    animation: skeleton-loading 1s linear infinite alternate;
+    border-radius: 0.8rem;
+}
+
+@keyframes skeleton-loading {
+    0% {
+      background-color: var(--secondary_active);
+    }
+  
+    100% {
+      background-color: var(--background_secondary);
+    }
+  }

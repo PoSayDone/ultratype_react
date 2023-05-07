@@ -1,13 +1,11 @@
 import { Link } from "react-router-dom"
 import { Theme } from "../store/reducers/themeReducer";
 import { useTypedSelector } from "../hooks/useTypedSelector";
-import Cookies from 'js-cookie';
-
 
 const Header = () => {
     const theme: Theme = useTypedSelector(state => state.theme.theme)
-    const username = Cookies.get("_auth_state");
-    
+    const user = useTypedSelector(state => state.user);
+
     return (
         <>
             <header>
@@ -17,8 +15,8 @@ const Header = () => {
                 <div className="header__user">
                     <span className="header__user-username">
                         {
-                            username
-                                ? username.replaceAll("\"", "")
+                            user.username
+                                ? user.username
                                 : (<Link to={"/login"}>Войти</Link>)
                         }
                     </span>

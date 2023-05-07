@@ -12,7 +12,7 @@ public static class Extensions
             Id = user.Id,
             Email = user.Email,
             Username = user.Username,
-            Password = user.Password
+            // Password = user.Password
         };
     }
 

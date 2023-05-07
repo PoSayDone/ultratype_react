@@ -1,9 +1,7 @@
-import React from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-
 type Props = {
     icon: string
     title: string
+    disabled: boolean
     onClick?: Function
 }
 
@@ -15,7 +13,7 @@ const LoginButton = (props: Props) => {
     };
 
     return (
-        <button type='submit' className="button" onClick={event => handleClick()}>
+        <button disabled={props.disabled} type='submit' className="button" onClick={event => handleClick()}>
             {props.title}
             <span className="material-symbols-rounded">
                 {props.icon}

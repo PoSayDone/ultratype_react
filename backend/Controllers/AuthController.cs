@@ -13,20 +13,20 @@ using Microsoft.IdentityModel.Tokens;
 namespace backend.Controllers;
 
 [ApiController]
-[Route("login")]
+[Route("auth")]
 public class AuthController : ControllerBase
 {
     private IConfiguration _config;
-    private readonly IUserRepository repo;
+    private readonly IUserRepository userRepo;
 
     public AuthController(IConfiguration configuration, IUserRepository repository)
     {
         this._config = configuration;
-        this.repo = repository;
+        this.userRepo = repository;
     }
 
     [AllowAnonymous]
-    [HttpPost]
+    [HttpPost("login")]
     public async Task<ActionResult<User>> Login([FromBody] LoginUserDto userLogin)
     {
         var user = await Authenticate(userLogin);
@@ -43,13 +43,49 @@ public class AuthController : ControllerBase
             {
                 token = token,
                 expiresIn = expiresIn,
-                username = userLogin.Username,
+                user = user.AsDto()
             };
 
             return Ok(data);
         }
 
         return NotFound("User not found");
+    }
+
+    [AllowAnonymous]
+    [HttpPost("register")]
+    public async Task<ActionResult> AddUserAsync(AddUserDto userDto)
+    {
+        if (await userRepo.GetUserByUsername(userDto.Username) != null
+        || await userRepo.GetUserByEmail(userDto.Email) != null)
+        {
+            return Conflict("User with this email or Username already exists");
+        }
+
+        User user = new()
+        {
+            Id = Guid.NewGuid(),
+            Email = userDto.Email,
+            Username = userDto.Username,
+            Password = userDto.Password
+        };
+
+        await userRepo.AddUserAsync(user);
+
+        var token = Generate(user);
+        var handler = new JwtSecurityTokenHandler();
+        var jwtToken = handler.ReadJwtToken(token);
+        var expirationTime = jwtToken.ValidTo;
+        var expiresIn = expirationTime.Subtract(DateTime.UtcNow).TotalSeconds;
+
+        var data = new
+        {
+            token = token,
+            expiresIn = expiresIn,
+            user = user.AsDto()
+        };
+
+        return Ok(data);
     }
 
     private string Generate(User user)
@@ -67,7 +103,7 @@ public class AuthController : ControllerBase
         var token = new JwtSecurityToken(_config["Jwt:Issuer"],
             _config["Jwt:Audience"],
             claims,
-            expires: DateTime.Now.AddMinutes(15),
+            expires: DateTime.Now.AddDays(30),
             signingCredentials: credentals);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
@@ -75,7 +111,7 @@ public class AuthController : ControllerBase
 
     private async Task<User?> Authenticate(LoginUserDto userLogin)
     {
-        var currentUser = await repo.GetUserByNameAndPass(userLogin.Username, userLogin.Password);
+        var currentUser = await userRepo.GetUserByNameAndPass(userLogin.Username, userLogin.Password);
         if (currentUser != null)
         {
             return currentUser;

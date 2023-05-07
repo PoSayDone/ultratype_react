@@ -1,12 +1,12 @@
-import React, { Suspense } from 'react'
+import React, { Suspense, useEffect } from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import './i18n';
-import { Provider } from "react-redux";
+import { Provider, useDispatch } from "react-redux";
 import { store } from "./store";
 import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider } from 'react-auth-kit';
-
+import { AuthProvider, useIsAuthenticated } from 'react-auth-kit';
+import Cookies from 'js-cookie';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <React.StrictMode>

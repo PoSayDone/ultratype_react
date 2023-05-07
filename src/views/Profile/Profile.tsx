@@ -1,30 +1,34 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import "./Profile.scss"
 import Heading from '../../components/Heading/Heading'
-import axios from 'axios'
 import { useTranslation } from 'react-i18next'
 import { motion } from 'framer-motion'
-import { useAuthHeader, useAuthUser } from 'react-auth-kit'
-import { useTypedSelector } from '../../hooks/useTypedSelector'
-import Cookies from 'js-cookie'
-import {number} from "yup";
-
-const src = "https://localhost:7025/tests"
-interface Tests {
-    wpm: number,
-    accuracy: number,
-    mode: string,
-    date: string,
-}
+import { useIsAuthenticated } from 'react-auth-kit'
+import { ITest } from '../../models/ITest'
+import TestsService from '../../services/TestsService'
 
 const Profile = () => {
-    const user = useTypedSelector(state => state.login);
+    const isAuthenticated = useIsAuthenticated();
     const { t, i18n } = useTranslation()
-    const [tests, setTests] = useState<Tests[]>([]);
+    const [tests, setTests] = useState<ITest[]>([]);
     const [avgWpm, setAvgWpm] = useState(0);
     const [bestWpm, setBestWpm] = useState(0);
     const [avgAccuracy, setAvgAccuracy] = useState(0);
     const [bestAccuracy, setBestAccuracy] = useState(0);
+
+    useEffect(() => {
+        updateTests()
+    }, [isAuthenticated])
+
+    const updateTests = async () => {
+        try {
+            const response = await TestsService.fetchTests();
+            setTests(response.data)
+        }
+        catch (e: any) {
+            console.log(e.response?.data?.message);
+        }
+    }
 
     const calculateAvgWpm = () => {
         let totalWpm = 0;
@@ -33,6 +37,7 @@ const Profile = () => {
         });
         setAvgWpm(Math.round(totalWpm / tests.length));
     }
+
     const calculateBestWpm = () => {
         let bestWpm = 0;
         tests.forEach(test => {
@@ -64,18 +69,6 @@ const Profile = () => {
         calculateBestAccuracy();
     }, [tests])
 
-    const token = Cookies.get("_auth");
-    useEffect(() => {
-        axios
-            .get(src, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-            .then(data => {
-                setTests(data.data)
-            })
-    }, [])
 
     return (
         <motion.div className="container"

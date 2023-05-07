@@ -13,11 +13,21 @@ import Levels from "./views/Levels/Levels";
 import Profile from "./views/Profile/Profile";
 import { AnimatePresence } from 'framer-motion';
 import Login from "./views/Login/Login";
-import Register from "./views/Register/Register";
-import { RequireAuth } from "react-auth-kit";
+import Registration from "./views/Registration/Registration";
+import { RequireAuth, useIsAuthenticated } from "react-auth-kit";
+import { useDispatch } from "react-redux";
+import Cookies from "js-cookie";
 
 
 function App() {
+    const IsAuthenticated = useIsAuthenticated()
+    const dispatch = useDispatch();
+    useEffect(() => {
+        if (IsAuthenticated()) {
+            dispatch({ type: "SET_USER", payload: JSON.parse(Cookies.get("_auth_state")!) })
+        }
+    }, [])
+
     const theme = useTypedSelector(state => state.theme.theme)
     const { t, i18n } = useTranslation();
     const changeLanguage = (language: string) => {
@@ -90,9 +100,9 @@ function App() {
                             }
                         />
                         <Route
-                            path="/register"
+                            path="/registration"
                             element={
-                                <Register
+                                <Registration
                                 />
                             }
                         />

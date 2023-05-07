@@ -3,26 +3,55 @@ import Heading from '../../components/Heading/Heading'
 import LoginButton from '../../components/LoginButton'
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import { AuthAction, AuthActions } from "../../store/reducers/authReducer";
 import { motion } from 'framer-motion'
 import AuthInput from '../../components/AuthInput/AuthInput'
 import { useSignIn } from 'react-auth-kit'
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
+import AuthService from '../../services/AuthServices';
+import "./Registration.scss"
 
 type Props = {}
 
-const Register = (props: Props) => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    
-    const { t, i18n } = useTranslation()
+const Registration = (props: Props) => {
+    const dispatch = useDispatch();
     const [usernameValue, setUsernameValue] = useState("")
     const [emailValue, setEmailValue] = useState("")
     const [passwordValue, setPasswordValue] = useState("")
+
+    const handleRegistration = async (email: string, username: string, password: string) => {
+        try {
+            const response = await AuthService.register(email, username, password);
+            if (signIn({
+                token: response.data.token,
+                expiresIn: response.data.expiresIn,
+                tokenType: "Bearer",
+                authState: response.data.user,
+            })) {
+                dispatch({ type: "SET_USER", payload: response.data.user })
+                if (location.state?.from) {
+                    navigate(location.state.from)
+                }
+                else {
+                    navigate("/")
+                }
+            }
+        } catch (e: any) {
+            console.log(e.response?.data?.message);
+        }
+    };
+
+    const handleClick = () => {
+        handleRegistration(emailValue, usernameValue, passwordValue)
+    }
+
+    const navigate = useNavigate();
+    const location = useLocation();
+
+    const { t, i18n } = useTranslation()
     const [confirmPasswordValue, setConfirmPasswordValue] = useState("")
     const signIn = useSignIn();
-    const dispatch: Dispatch<AuthActions> = useDispatch()
+
 
     return (
         <motion.div className="container"
@@ -40,57 +69,10 @@ const Register = (props: Props) => {
                     <AuthInput value={passwordValue} onChange={event => setPasswordValue(event.target.value)} label={t("auth.password")} type={'password'} />
                     <AuthInput value={confirmPasswordValue} onChange={event => setConfirmPasswordValue(event.target.value)} label={t("auth.confirm_pass")} type={'password'} />
                 </div>
-                <LoginButton title={'Зарегистрироваться'} icon={'arrow_right_alt'} onClick={register} />
+                <LoginButton title={'Зарегистрироваться'} icon={'arrow_right_alt'} onClick={handleClick} />
             </div>
         </motion.div >
     )
-
-    async function register() {
-        const values = {
-            email: emailValue,
-            username: usernameValue,
-            password: confirmPasswordValue
-        }
-
-        // Отправляем результаты на сервер
-        const register = await axios
-            .post("https://localhost:7025/users", values,
-                {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-
-        const res = await axios
-            .post("https://localhost:7025/login", values,
-                {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                
-        if (signIn({
-            token: res.data.token,
-            expiresIn: res.data.expiresIn,
-            tokenType: "Bearer",
-            authState: res.data.username,
-        })) {
-            dispatch({
-                type: AuthAction.SET_USER_DATA,
-                payload: {
-                    token: res.data.token,
-                    username: res.data.username
-                }
-            })
-
-            if (location.state?.from) {
-                navigate(location.state.from)
-            }
-            else {
-                navigate("/")
-            }
-        }
-    }
 }
 
-export default Register
+export default Registration

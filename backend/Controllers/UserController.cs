@@ -19,7 +19,7 @@ namespace backend.Controllers
             this.userRepo = repository;
         }
 
-        [HttpGet]
+        [HttpGet("getUsers")]
         public async Task<IEnumerable<UserDto>> GetUsersAsync()
         {
             return (await userRepo.GetUsersAsync()).Select(user => user.AsDto());
@@ -32,27 +32,6 @@ namespace backend.Controllers
             return user == null ? NotFound() : user.AsDto();
         }
 
-        [HttpPost]
-        public async Task<ActionResult> AddUserAsync(AddUserDto itemDto)
-        {
-            if (await userRepo.GetUserByUsername(itemDto.Username) != null
-            || await userRepo.GetUserByEmail(itemDto.Email) != null)
-            {
-                return Conflict("User with this email or Username already exists");
-            }
-
-            User user = new()
-            {
-                Id = Guid.NewGuid(),
-                Email = itemDto.Email,
-                Username = itemDto.Username,
-                Password = itemDto.Password
-            };
-
-            await userRepo.AddUserAsync(user);
-            return CreatedAtAction(nameof(GetUsersAsync), new { id = user.Id }, user.AsDto());
-
-        }
 
         [HttpPut("{id}")]
         public async Task<ActionResult> UpdateUserAsync(Guid id, UpdateUserDto userDto)

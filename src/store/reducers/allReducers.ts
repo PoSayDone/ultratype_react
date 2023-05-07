@@ -5,8 +5,8 @@ import { themeReducer } from "./themeReducer";
 import { inputReducer } from "./inputReducer";
 import { wordsReducer } from "./wordsReducer";
 import { countDownReducer } from "./countDownReducer";
-import { authReducer } from "./authReducer";
 import { statusReducer } from "./statusReducer";
+import { userReducer } from "./userReducer";
 
 export const rootReducer = combineReducers({
     status: statusReducer,
@@ -16,7 +16,7 @@ export const rootReducer = combineReducers({
     input: inputReducer,
     words: wordsReducer,
     countDown: countDownReducer,
-    login: authReducer
+    user: userReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
