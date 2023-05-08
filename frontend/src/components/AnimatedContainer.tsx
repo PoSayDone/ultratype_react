@@ -5,7 +5,7 @@ type Props = {
     children: any
 }
 
-const AnimatedContinaer = (props: Props) => {
+const AnimatedContainer = (props: Props) => {
     return (
         <motion.div
             className="container"
@@ -21,4 +21,4 @@ const AnimatedContinaer = (props: Props) => {
     )
 }
 
-export default AnimatedContinaer
+export default AnimatedContainer

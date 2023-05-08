@@ -11,7 +11,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthService from '../../services/AuthServices';
 import "./Registration.scss"
 import useAuthInput from '../../hooks/useAuthInput';
-import AnimatedContinaer from '../../components/AnimatedContinaer';
+import AnimatedContainer from '../../components/AnimatedContainer';
 
 type Props = {}
 
@@ -58,7 +58,7 @@ const Registration = (props: Props) => {
 
 
     return (
-        <AnimatedContinaer>
+        <AnimatedContainer>
             <form className="auth-block" onSubmit={handleSubmit}>
                 <Heading headingLevel={"h1"} className="auth-block__title">
                     Регистрация
@@ -102,7 +102,7 @@ const Registration = (props: Props) => {
                     {t("auth.have_acc")} <Link to={'/login'}>{t("auth.login")}</Link>
                 </div>
             </form>
-        </AnimatedContinaer>
+        </AnimatedContainer>
     )
 }
 

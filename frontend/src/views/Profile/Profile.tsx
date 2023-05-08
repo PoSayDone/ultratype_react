@@ -8,7 +8,7 @@ import { ITest } from '../../models/ITest'
 import TestsService from '../../services/TestsService'
 import Skeleton from '../../components/Skeleton/Skeleton'
 import AnimatedDiv from '../../components/AnimatedDiv'
-import AnimatedContinaer from '../../components/AnimatedContinaer'
+import AnimatedContainer from '../../components/AnimatedContainer'
 
 const Profile = () => {
     const isAuthenticated = useIsAuthenticated();
@@ -77,88 +77,88 @@ const Profile = () => {
 
 
     return (
-        <AnimatedContinaer>
+        <AnimatedContainer>
             <div className='profile__wrapper'>
                 <div className='title__section'>
                     <Heading headingLevel={"h1"}>{t("profile.title")}</Heading>
                 </div>
-                <AnimatePresence mode='wait'>
-                    <div className="main-stats">
-                        <div className="main-stat">
-                            <Heading headingLevel={"h3"} className="title">{t("profile.average")} {t("typing.wpm")}</Heading>
-                            <div className="value">
-                                {Number.isNaN(avgWpm)
-                                    ? <Skeleton width={120} height={110}></Skeleton>
-                                    : <AnimatedDiv>{avgWpm}</AnimatedDiv>}
-                            </div>
+                <div className="main-stats">
+                    <div className="main-stat">
+                        <Heading headingLevel={"h3"} className="title">{t("profile.average")} {t("typing.wpm")}</Heading>
+                        <div className="value">
+                            {Number.isNaN(avgWpm)
+                                ? <Skeleton width={120} height={110}></Skeleton>
+                                : <AnimatedDiv>{avgWpm}</AnimatedDiv>}
                         </div>
-                        <div className="main-stat">
-                            <Heading headingLevel={"h3"} className="title">{t("typing.accuracy")}</Heading>
-                            <div className="value">
+                    </div>
+                    <div className="main-stat">
+                        <Heading headingLevel={"h3"} className="title">{t("typing.accuracy")}</Heading>
+                        <div className="value">
+                            <AnimatePresence mode='wait'>
                                 {Number.isNaN(avgAccuracy)
                                     ? <Skeleton width={120} height={110}></Skeleton>
                                     : <AnimatedDiv>{avgAccuracy}%</AnimatedDiv>
                                 }
-                            </div>
+                            </AnimatePresence>
                         </div>
                     </div>
-                    <div className="secondary-stats">
-                        <div className="secondary-stat">
-                            <div className="title">{t("profile.best_wpm")}</div>
-                            <div className="value">
-                                {bestWpm == 0
-                                    ? <Skeleton height={20}></Skeleton>
-                                    : <AnimatedDiv>{bestWpm}</AnimatedDiv>
-                                }
-                                {/* {bestWpm} */}
-                            </div>
-                        </div>
-                        <div className="secondary-stat">
-                            <div className="title">{t("profile.best_accuracy")}</div>
-                            <div className="value">
-                                {bestAccuracy == 0
-                                    ? <Skeleton height={20}></Skeleton>
-                                    : <AnimatedDiv>{bestAccuracy}%</AnimatedDiv>
-                                }
-                            </div>
+                </div>
+                <div className="secondary-stats">
+                    <div className="secondary-stat">
+                        <div className="title">{t("profile.best_wpm")}</div>
+                        <div className="value">
+                            {bestWpm == 0
+                                ? <Skeleton height={20}></Skeleton>
+                                : <AnimatedDiv>{bestWpm}</AnimatedDiv>
+                            }
+                            {/* {bestWpm} */}
                         </div>
                     </div>
-                    <table className="tests-list">
-                        {tableIsVisible && (
-                            <motion.thead
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                transition={{ duration: 0.6 }}
-                            >
-                                <tr>
-                                    <td className='mode'>{t("profile.mode")}</td>
-                                    <td className='wpm'>{t("typing.wpm")}</td>
-                                    <td className='accuracy'>{t("typing.accuracy")}</td>
-                                    <td className='date'>{t("profile.date")}</td>
-                                </tr>
-                            </motion.thead>)}
-                        <tbody>
-                            {tests.map(test => {
-                                return (
-                                    <motion.tr
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.6 }}
-                                    >
-                                        <td>{test.mode}</td>
-                                        <td>{test.wpm}</td>
-                                        <td>{Math.round(test.accuracy * 100)}%</td>
-                                        <td>{test.date}</td>
-                                    </motion.tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                </AnimatePresence>
+                    <div className="secondary-stat">
+                        <div className="title">{t("profile.best_accuracy")}</div>
+                        <div className="value">
+                            {bestAccuracy == 0
+                                ? <Skeleton height={20}></Skeleton>
+                                : <AnimatedDiv>{bestAccuracy}%</AnimatedDiv>
+                            }
+                        </div>
+                    </div>
+                </div>
+                <table className="tests-list">
+                    {tableIsVisible && (
+                        <motion.thead
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <tr>
+                                <td className='mode'>{t("profile.mode")}</td>
+                                <td className='wpm'>{t("typing.wpm")}</td>
+                                <td className='accuracy'>{t("typing.accuracy")}</td>
+                                <td className='date'>{t("profile.date")}</td>
+                            </tr>
+                        </motion.thead>)}
+                    <tbody>
+                        {tests.map(test => {
+                            return (
+                                <motion.tr
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.6 }}
+                                >
+                                    <td>{test.mode}</td>
+                                    <td>{test.wpm}</td>
+                                    <td>{Math.round(test.accuracy * 100)}%</td>
+                                    <td>{test.date}</td>
+                                </motion.tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
             </div>
-        </AnimatedContinaer>
+        </AnimatedContainer>
     )
 }
 

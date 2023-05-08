@@ -13,7 +13,7 @@ import { useAuthUser, useSignIn } from 'react-auth-kit'
 import AuthService from '../../services/AuthServices'
 import { IUser } from '../../models/IUser'
 import useAuthInput from '../../hooks/useAuthInput'
-import AnimatedContinaer from '../../components/AnimatedContinaer'
+import AnimatedContainer from '../../components/AnimatedContainer'
 
 const Login = () => {
 
@@ -56,7 +56,7 @@ const Login = () => {
     const password = useAuthInput('', { isEmpty: true, minLength: 8 })
 
     return (
-        <AnimatedContinaer>
+        <AnimatedContainer>
             <form className="auth-block" onSubmit={handleSubmit}>
                 <Heading headingLevel={"h1"} className="auth-block__title">
                     {t("auth.login")}
@@ -86,7 +86,7 @@ const Login = () => {
                     {t("auth.no_acc")} <Link to={'/registration'}>{t("auth.register")}</Link>
                 </div>
             </form>
-        </AnimatedContinaer>
+        </AnimatedContainer>
     )
 }
 
