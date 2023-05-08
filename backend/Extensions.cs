@@ -18,6 +18,11 @@ public static class Extensions
 
     public static TestDto AsDto(this Test test)
     {
+
+        string hours = test.Date.Hour / 10 == 0 ? $"0{test.Date.Hour}" : test.Date.Hour.ToString();
+        string minutes = test.Date.Minute / 10 == 0 ? $"0{test.Date.Minute}" : test.Date.Minute.ToString();
+        string days = test.Date.Day / 10 == 0 ? $"0{test.Date.Day}" : test.Date.Day.ToString();
+        string month = test.Date.Month / 10 == 0 ? $"0{test.Date.Month}" : test.Date.Month.ToString();
         return new TestDto()
         {
             Id = test.Id,
@@ -25,7 +30,7 @@ public static class Extensions
             Mode = test.Mode,
             Wpm = test.Wpm,
             Accuracy = test.Accuracy,
-            Date = test.Date
+            Date = $"{hours}:{minutes}  {days}.{month}.{test.Date.Year}"
         };
     }
 }

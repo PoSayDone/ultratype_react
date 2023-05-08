@@ -12,6 +12,6 @@ namespace backend.Dtos
         public string Mode { get; init; }
         public int Wpm { get; init; }
         public float Accuracy { get; init; }
-        public DateTime Date { get; set; }
+        public string Date { get; set; }
     }
 }
