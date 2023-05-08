@@ -75,7 +75,6 @@ const Profile = () => {
         calculateBestAccuracy();
     }, [tests])
 
-
     return (
         <AnimatedContainer>
             <div className='profile__wrapper'>

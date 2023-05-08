@@ -13,7 +13,7 @@ export interface ValidationResultType {
     emailError: boolean;
     inputValid: boolean;
     isSame: boolean;
-    errorStringArray: string[]
+    errorString: string;
 }
 
 const useValidation = (value: string, validations: ValidationsType, confirmValue?: string): ValidationResultType => {
@@ -22,7 +22,7 @@ const useValidation = (value: string, validations: ValidationsType, confirmValue
     const [minLengthError, setMinLengthError] = useState<boolean>(false);
     const [emailError, setEmailError] = useState<boolean>(false);
     const [inputValid, setInputValid] = useState<boolean>(false);
-    const [errorStringArray, setErrorStringArray] = useState([""]);
+    const [errorString, setErrorString] = useState<string>("");
 
     useEffect(() => {
         for (const validation in validations) {
@@ -55,18 +55,18 @@ const useValidation = (value: string, validations: ValidationsType, confirmValue
     }, [isEmpty, minLengthError, emailError, isNotSame]);
 
     useEffect(() => {
-        setErrorStringArray([])
-        if (isEmpty) {
-            setErrorStringArray(errorString => [...errorString, "Поле не может быть пустым"]);
-        }
-        if (minLengthError) {
-            setErrorStringArray(errorString => [...errorString, `Минимальная длина ${validations['minLength']}`]);
-        }
+        setErrorString("")
         if (emailError && validations.isEmail) {
-            setErrorStringArray(errorString => [...errorString, `В поле должен находится email`]);
+            setErrorString(`В поле должен находится email`);
         }
         if (isNotSame) {
-            setErrorStringArray(errorString => [...errorString, `Поля должны совпадать`]);
+            setErrorString(`Поля должны совпадать`);
+        }
+        if (minLengthError) {
+            setErrorString(`Минимальная длина ${validations['minLength']}`);
+        }
+        if (isEmpty) {
+            setErrorString("Поле не может быть пустым");
         }
     }, [isEmpty, minLengthError, emailError, isNotSame]);
 
@@ -76,7 +76,7 @@ const useValidation = (value: string, validations: ValidationsType, confirmValue
         emailError,
         inputValid,
         isSame: isNotSame,
-        errorStringArray
+        errorString
     };
 };
 
