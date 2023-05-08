@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import "./App.scss";
 import Main from "./views/Main/Main";
 import Header from "./components/Header";
@@ -20,6 +20,7 @@ import Cookies from "js-cookie";
 
 
 function App() {
+    const location = useLocation();
     const IsAuthenticated = useIsAuthenticated()
     const dispatch = useDispatch();
     useEffect(() => {
@@ -56,7 +57,7 @@ function App() {
             <main>
                 <Header />
                 <AnimatePresence mode="wait">
-                    <Routes>
+                    <Routes key={location.pathname} location={location}>
                         <Route path="/" element={<Main />} />
                         <Route
                             path="/settings"

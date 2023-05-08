@@ -1,13 +1,9 @@
-import { Dispatch, useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import useInput from "./useInput";
 import useSymbolsTypedMetric from "./useSymbolsTypedMetric";
 import useCountdown from "./useCountdown";
 import { useTypedSelector } from "./useTypedSelector";
 import { COUNTDOWN_SECONDS, SetDefaultCoundownSeconds } from "../store/reducers/countDownReducer";
-import axios from "axios";
-import Cookies from "js-cookie";
-import { InputActions } from "../store/reducers/inputReducer";
-import { StatusActionType } from "../store/reducers/statusReducer";
 import { useDispatch } from "react-redux";
 import TestsService from "../services/TestsService";
 
@@ -28,14 +24,6 @@ const useEngine = () => {
         }
     }
 
-    useEffect(() => {
-        if (status === "start") {
-            setTimerIsActive(false)
-            SetDefaultCoundownSeconds(timeConst)
-            setTimeLeft(COUNTDOWN_SECONDS) // тут делается нужное время
-        }
-    }, [status])
-
     const {
         typed,
         maxTyped,
@@ -54,6 +42,14 @@ const useEngine = () => {
     );
     const currentCharacterRef = useRef<HTMLSpanElement>(null);
     const isStarting = status === "start" && cursor > 0;
+
+    useEffect(() => {
+        if (status === "start") {
+            setTimerIsActive(false)
+            SetDefaultCoundownSeconds(timeConst)
+            setTimeLeft(COUNTDOWN_SECONDS) // тут делается нужное время
+        }
+    }, [status])
 
     useEffect(
         () => {
@@ -132,7 +128,6 @@ const useEngine = () => {
         currentCharacterRef,
         accuracy
     };
-
 };
 
 export default useEngine;

@@ -3,21 +3,12 @@ import Card from "../../components/Card"
 import Settings from "../Settings/Settings"
 import { useTranslation } from "react-i18next";
 import { motion } from 'framer-motion'
+import AnimatedContinaer from "../../components/AnimatedContinaer";
 
 const Main = () => {
     const { t, i18n } = useTranslation()
     return (
-        <motion.div
-            className="container"
-            initial={{ opacity: 0}}
-            animate={{ opacity: "100%" }}
-            exit={{ opacity: 0 }}
-            transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 30
-            }}
-        >
+        <AnimatedContinaer>
             <div
                 className="cards__wrapper"
             >
@@ -46,7 +37,7 @@ const Main = () => {
                     url={"learning"}
                 />
             </div>
-        </motion.div>
+        </AnimatedContinaer>
     )
 }
 

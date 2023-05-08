@@ -54,6 +54,15 @@
     /* Removes the cell spacing via CSS */
     border-collapse: collapse;
 
+    .mode {
+        width: 20%;   
+    }
+    .wpm {
+        width: 20%;   
+    }
+    .accuracy {
+        width: 20%;
+    }
     /* Optional - if you don't want to have double border where cells touch */
     thead {
         font-weight: 500;

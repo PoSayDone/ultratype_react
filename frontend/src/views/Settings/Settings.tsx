@@ -4,6 +4,7 @@ import { TFunction } from 'i18next';
 import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useDispatch } from "react-redux";
 import { motion } from 'framer-motion';
+import AnimatedContinaer from '../../components/AnimatedContinaer';
 
 interface SettingsProps {
     text: TFunction<"translation", undefined, "translation">
@@ -26,16 +27,7 @@ const Settings = ({ text }: SettingsProps) => {
     }
 
     return (
-        <motion.div className="container"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: "100%" }}
-            exit={{ translateY: 0 }}
-            transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 30
-            }}
-        >
+        <AnimatedContinaer>
             <div className="settings">
                 <div className="title__section">
                     <Heading headingLevel="h1">{text("settings.title")}</Heading>
@@ -84,7 +76,7 @@ const Settings = ({ text }: SettingsProps) => {
                     </form>
                 </div>
             </div>
-        </motion.div>
+        </AnimatedContinaer>
     );
 }
 

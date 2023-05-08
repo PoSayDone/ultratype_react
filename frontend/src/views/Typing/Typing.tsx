@@ -11,6 +11,7 @@ import AccuracyMetric from '../../components/AccuracyMetric';
 import { useTranslation } from 'react-i18next';
 import Results from '../../components/Results';
 import { AnimatePresence, motion } from 'framer-motion';
+import AnimatedContinaer from '../../components/AnimatedContinaer';
 
 interface TypingProps {
     title: string;
@@ -26,17 +27,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
         setCurrentChar(words[cursor])
     }, [words, cursor])
     return (
-        <motion.div
-            className="container"
-            initial={{ opacity: 0}}
-            animate={{ opacity: "100%" }}
-            exit={{ translateY: 0 }}
-            transition={{
-                type: "spring",
-                stiffness: 200,
-                damping: 30
-            }}
-        >
+        <AnimatedContinaer>
             <div className="title__section">
                 <div className="title__section--text">
                     <Heading headingLevel="h1" className="title">
@@ -68,7 +59,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                 {status == 'finish' &&
                     <Results accuracyPercentage={accuracy} wpm={wpm} time={timeConst - timeLeft}></Results>}
             </AnimatePresence>
-        </motion.div >
+        </AnimatedContinaer>
     )
 }
 export default Typing
