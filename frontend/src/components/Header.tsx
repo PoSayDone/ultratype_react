@@ -23,33 +23,37 @@ const Header = () => {
 
     return (
         <>
-            <header>
-                <Link to="/" className="header__logo">
-                    <img src={`../src/assets/logo_${theme}.svg`} alt="" />
-                </Link>
-                {
-                    user.username
-                        ? (
-                            <AnimatedDiv className="header__user">
-                                <span className="header__username">{user.username}</span>
-                                <button
-                                    className="logout__button"
-                                    onClick={() => {
-                                        signOut()
-                                        dispatch({ type: UserAction.CLEAR_USER })
-                                    }}
-                                >
-                                    <span className="material-symbols-rounded">
-                                        logout
-                                    </span>
-                                </button>
-                            </AnimatedDiv>
-                        )
-                        : <AnimatedDiv>
-                            <LoginButton icon={"arrow_right_alt"} title={t("auth.login")} onClick={handleClick} disabled={false}></LoginButton>
-                        </AnimatedDiv>
-                }
-            </header >
+            <AnimatePresence mode="wait">
+                <header>
+                    <Link to="/" className="header__logo">
+                        <img src={`../src/assets/logo_${theme}.svg`} alt="" />
+                    </Link>
+                    {
+                        user.username
+                            ? (
+                                <AnimatedDiv key={user.username} className="header__user">
+                                    <span className="header__username">{user.username}</span>
+                                    <button
+                                        className="logout__button"
+                                        onClick={() => {
+                                            signOut()
+                                            dispatch({ type: UserAction.CLEAR_USER })
+                                        }}
+                                    >
+                                        <span className="material-symbols-rounded">
+                                            logout
+                                        </span>
+                                    </button>
+                                </AnimatedDiv>
+                            )
+                            : (
+                                <AnimatedDiv>
+                                    <LoginButton icon={"arrow_right_alt"} title={t("auth.login")} onClick={handleClick} disabled={false}></LoginButton>
+                                </AnimatedDiv>
+                            )
+                    }
+                </header >
+            </AnimatePresence>
         </>
     )
 }
