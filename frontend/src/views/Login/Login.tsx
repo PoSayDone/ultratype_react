@@ -1,19 +1,16 @@
-import React, { Dispatch, FormEvent, useState } from 'react'
+import { FormEvent } from 'react'
 import Heading from '../../components/Heading/Heading'
 import "./Login.scss"
 import LoginButton from '../../components/LoginButton'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { useTypedSelector } from "../../hooks/useTypedSelector";
-import axios, { AxiosError } from "axios";
 import { useDispatch } from "react-redux";
-import { motion } from 'framer-motion'
 import AuthInput from '../../components/AuthInput/AuthInput'
 import { useTranslation } from 'react-i18next'
-import { useAuthUser, useSignIn } from 'react-auth-kit'
+import { useSignIn } from 'react-auth-kit'
 import AuthService from '../../services/AuthServices'
-import { IUser } from '../../models/IUser'
 import useAuthInput from '../../hooks/useAuthInput'
-import AnimatedContinaer from '../../components/AnimatedContinaer'
+import AnimatedContainer from '../../components/AnimatedContainer'
+import AnimatedDiv from '../../components/AnimatedDiv'
 
 const Login = () => {
 
@@ -56,26 +53,16 @@ const Login = () => {
     const password = useAuthInput('', { isEmpty: true, minLength: 8 })
 
     return (
-        <AnimatedContinaer>
+        <AnimatedContainer>
             <form className="auth-block" onSubmit={handleSubmit}>
                 <Heading headingLevel={"h1"} className="auth-block__title">
                     {t("auth.login")}
                 </Heading>
                 <div className="auth-block__inputs">
                     <AuthInput label={t("auth.username")} type={'text'} value={username.value} onChange={e => username.onChange(e)} onBlur={e => username.onBlur(e)} />
-                    {username.errorStringArray.map(errorString => {
-                        if (username.isDirty)
-                            return (
-                                <div>{errorString}</div>
-                            )
-                    })}
+                    {username.isDirty && username.inputValid == false ? <AnimatedDiv>{username.errorString}</AnimatedDiv> : ""}
                     <AuthInput label={t("auth.password")} type={'password'} value={password.value} onChange={e => password.onChange(e)} onBlur={e => password.onBlur(e)} />
-                    {password.errorStringArray.map(errorString => {
-                        if (password.isDirty)
-                            return (
-                                <div>{errorString}</div>
-                            )
-                    })}
+                    {password.isDirty && password.inputValid == false ? <AnimatedDiv>{password.errorString}</AnimatedDiv> : ""}
                 </div>
                 <LoginButton
                     disabled={(!username.inputValid || !password.inputValid)}
@@ -86,7 +73,7 @@ const Login = () => {
                     {t("auth.no_acc")} <Link to={'/registration'}>{t("auth.register")}</Link>
                 </div>
             </form>
-        </AnimatedContinaer>
+        </AnimatedContainer>
     )
 }
 

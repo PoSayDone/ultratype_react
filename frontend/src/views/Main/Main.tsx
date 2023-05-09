@@ -3,12 +3,12 @@ import Card from "../../components/Card"
 import Settings from "../Settings/Settings"
 import { useTranslation } from "react-i18next";
 import { motion } from 'framer-motion'
-import AnimatedContinaer from "../../components/AnimatedContinaer";
+import AnimatedContainer from "../../components/AnimatedContainer";
 
 const Main = () => {
     const { t, i18n } = useTranslation()
     return (
-        <AnimatedContinaer>
+        <AnimatedContainer>
             <div
                 className="cards__wrapper"
             >
@@ -37,7 +37,7 @@ const Main = () => {
                     url={"learning"}
                 />
             </div>
-        </AnimatedContinaer>
+        </AnimatedContainer>
     )
 }
 

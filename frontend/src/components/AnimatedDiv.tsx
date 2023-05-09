@@ -1,13 +1,10 @@
 import { motion } from 'framer-motion'
 import React from 'react'
 
-type Props = {
-    children: any
-}
-
-const AnimatedDiv = (props: Props) => {
+const AnimatedDiv = ({...rest}) => {
     return (
         <motion.div
+            {...rest}
             initial={{ opacity: 0 }}
             animate={{ opacity: "100%" }}
             exit={{ translateY: 0 }}
@@ -15,7 +12,6 @@ const AnimatedDiv = (props: Props) => {
                 duration: 0.6
             }}
         >
-            {props.children}
         </motion.div>
     )
 }

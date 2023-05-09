@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, useEffect } from "react";
-import useValidation, { ValidationsType, ValidationResultType } from "../store/reducers/useValidation";
+import useValidation, { ValidationsType, ValidationResultType } from "./useValidation";
 
 interface UseAuthInputReturnType extends ValidationResultType {
     value: string;

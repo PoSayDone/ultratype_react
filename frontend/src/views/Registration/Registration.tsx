@@ -9,9 +9,10 @@ import { useSignIn } from 'react-auth-kit'
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AuthService from '../../services/AuthServices';
-import "./Registration.scss"
+import "../Login/Login.scss"
 import useAuthInput from '../../hooks/useAuthInput';
-import AnimatedContinaer from '../../components/AnimatedContinaer';
+import AnimatedContainer from '../../components/AnimatedContainer';
+import AnimatedDiv from '../../components/AnimatedDiv';
 
 type Props = {}
 
@@ -58,40 +59,20 @@ const Registration = (props: Props) => {
 
 
     return (
-        <AnimatedContinaer>
+        <AnimatedContainer>
             <form className="auth-block" onSubmit={handleSubmit}>
                 <Heading headingLevel={"h1"} className="auth-block__title">
                     Регистрация
                 </Heading>
                 <div className="auth-block__inputs">
                     <AuthInput label={t("auth.email")} type={'text'} value={email.value} onChange={event => email.onChange(event)} onBlur={event => email.onBlur(event)} />
-                    {email.errorStringArray.map(errorString => {
-                        if (email.isDirty)
-                            return (
-                                <div>{errorString}</div>
-                            )
-                    })}
+                    {email.isDirty && email.inputValid == false ? <AnimatedDiv>{email.errorString}</AnimatedDiv> : ""}
                     <AuthInput label={t("auth.username")} type={'text'} value={username.value} onChange={event => username.onChange(event)} onBlur={event => username.onBlur(event)} />
-                    {username.errorStringArray.map(errorString => {
-                        if (username.isDirty)
-                            return (
-                                <div>{errorString}</div>
-                            )
-                    })}
+                    {username.isDirty && username.inputValid == false ? <AnimatedDiv>{username.errorString}</AnimatedDiv> : ""}
                     <AuthInput label={t("auth.password")} type={'password'} value={password.value} onChange={event => password.onChange(event)} onBlur={event => password.onBlur(event)} />
-                    {password.errorStringArray.map(errorString => {
-                        if (password.isDirty)
-                            return (
-                                <div>{errorString}</div>
-                            )
-                    })}
+                    {password.isDirty && password.inputValid == false ? <AnimatedDiv>{password.errorString}</AnimatedDiv> : ""}
                     <AuthInput label={t("auth.confirm_pass")} type={'password'} value={passwordConfirm.value} onChange={event => passwordConfirm.onChange(event)} onBlur={event => passwordConfirm.onBlur(event)} />
-                    {passwordConfirm.errorStringArray.map(errorString => {
-                        if (passwordConfirm.isDirty)
-                            return (
-                                <div>{errorString}</div>
-                            )
-                    })}
+                    {passwordConfirm.isDirty && passwordConfirm.inputValid == false ? <AnimatedDiv>{passwordConfirm.errorString}</AnimatedDiv> : ""}
                 </div>
                 <LoginButton
                     title={t("auth.register")}
@@ -102,7 +83,7 @@ const Registration = (props: Props) => {
                     {t("auth.have_acc")} <Link to={'/login'}>{t("auth.login")}</Link>
                 </div>
             </form>
-        </AnimatedContinaer>
+        </AnimatedContainer>
     )
 }
 

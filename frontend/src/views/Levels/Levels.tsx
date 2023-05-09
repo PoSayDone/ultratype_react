@@ -2,14 +2,14 @@ import React from 'react'
 import Heading from '../../components/Heading/Heading'
 import { useTranslation } from 'react-i18next'
 import ContinueButton from '../../components/ContinueButton'
-import AnimatedContinaer from '../../components/AnimatedContinaer'
+import AnimatedContainer from '../../components/AnimatedContainer'
 
 type Props = {}
 
 const Levels = (props: Props) => {
     const { t, i18n } = useTranslation()
     return (
-        <AnimatedContinaer>
+        <AnimatedContainer>
             <div className='title__section'>
                 <div className="title__section--text">
                     <Heading headingLevel={"h1"}>{t("education.title")}</Heading>
@@ -32,7 +32,7 @@ const Levels = (props: Props) => {
                 </div>
 
             </div>
-        </AnimatedContinaer>
+        </AnimatedContainer>
     )
 }
 

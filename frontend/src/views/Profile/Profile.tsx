@@ -8,7 +8,7 @@ import { ITest } from '../../models/ITest'
 import TestsService from '../../services/TestsService'
 import Skeleton from '../../components/Skeleton/Skeleton'
 import AnimatedDiv from '../../components/AnimatedDiv'
-import AnimatedContinaer from '../../components/AnimatedContinaer'
+import AnimatedContainer from '../../components/AnimatedContainer'
 
 const Profile = () => {
     const isAuthenticated = useIsAuthenticated();
@@ -77,7 +77,7 @@ const Profile = () => {
 
 
     return (
-        <AnimatedContinaer>
+        <AnimatedContainer>
             <div className='profile__wrapper'>
                 <div className='title__section'>
                     <Heading headingLevel={"h1"}>{t("profile.title")}</Heading>
@@ -158,7 +158,7 @@ const Profile = () => {
                     </table>
                 </AnimatePresence>
             </div>
-        </AnimatedContinaer>
+        </AnimatedContainer>
     )
 }
 
