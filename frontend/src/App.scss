@@ -52,8 +52,8 @@ main {
 * {
     // transition: 100ms;
 }
-.container {
-}
+
+.container {}
 
 body {
     color: var(--on_background);
@@ -73,17 +73,31 @@ header {
     justify-content: space-between;
     align-items: center;
 
-    .button{
-        padding: 5px 12px;
-        a{
-            text-decoration: none;
-        }
-    }
-    .header__user-username{
+    .header__user {
         display: flex;
-        flex-direction: row;
+        justify-content: center;
         align-items: center;
-        gap: 10px
+        gap: 10px;
+    }
+
+    .logout__button {
+        background: var(--secondary_active);
+        display: flex;
+        border: none;
+        border-radius: 9px;
+        margin: 0;
+        padding: 7px;
+        color: var(--on_secondary);
+        cursor: pointer;
+
+        span {
+            font-size: 18px;
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 700,
+                'GRAD' 0,
+                'opsz' 48,
+        }
     }
 }
 
