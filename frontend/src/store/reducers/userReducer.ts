@@ -1,12 +1,17 @@
 import { IUser } from "../../models/IUser"
 
 export enum UserAction {
-    SET_USER = "SET_USER"
+    SET_USER = "SET_USER",
+    CLEAR_USER = "CLEAR_USER"
 }
 
 interface setUser {
     type: UserAction.SET_USER,
     payload: IUser
+}
+
+interface clearUser{
+    type: UserAction.CLEAR_USER,
 }
 
 const defaultState: IUser = {
@@ -15,7 +20,7 @@ const defaultState: IUser = {
     username: ""
 }
 
-export type UserActions = | setUser
+export type UserActions = clearUser | setUser
 
 export function userReducer(state = defaultState, action: UserActions): IUser {
     switch (action.type) {
@@ -26,6 +31,8 @@ export function userReducer(state = defaultState, action: UserActions): IUser {
                 email: action.payload.email,
                 username: action.payload.username
             }
+        case UserAction.CLEAR_USER:
+            return defaultState
         default:
             return state;
     }

@@ -72,6 +72,19 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    .button{
+        padding: 5px 12px;
+        a{
+            text-decoration: none;
+        }
+    }
+    .header__user-username{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 10px
+    }
 }
 
 .button {

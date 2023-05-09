@@ -1,11 +1,15 @@
-import { Link } from "react-router-dom"
-import { Theme } from "../store/reducers/themeReducer";
-import { useTypedSelector } from "../hooks/useTypedSelector";
+import {Link} from "react-router-dom"
+import {useTypedSelector} from "../hooks/useTypedSelector";
+import {useSignOut} from "react-auth-kit";
+import {Dispatch} from "react";
+import {UserAction, UserActions} from "../store/reducers/userReducer";
+import {useDispatch} from "react-redux";
 
 const Header = () => {
     const theme: Theme = useTypedSelector(state => state.theme.theme)
     const user = useTypedSelector(state => state.user);
-
+    const signOut = useSignOut()
+    const dispatch : Dispatch<UserActions> = useDispatch()
     return (
         <>
             <header>
@@ -16,8 +20,11 @@ const Header = () => {
                     <span className="header__user-username">
                         {
                             user.username
-                                ? user.username
-                                : (<Link to={"/login"}>Войти</Link>)
+                                ? (<>{user.username} <br/> <button className="button" onClick={() => {signOut()
+                                dispatch({type: UserAction.CLEAR_USER})
+                                }
+                                }>Выйти</button> </>)
+                                : (<button className="button" ><Link to={"/login"}>Войти</Link></button>)
                         }
                     </span>
                 </div>
