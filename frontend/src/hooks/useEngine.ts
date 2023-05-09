@@ -6,6 +6,7 @@ import { useTypedSelector } from "./useTypedSelector";
 import { COUNTDOWN_SECONDS, SetDefaultCoundownSeconds } from "../store/reducers/countDownReducer";
 import { useDispatch } from "react-redux";
 import TestsService from "../services/TestsService";
+import useWords from "./useWords";
 
 const useEngine = () => {
     const dispatch = useDispatch()
