@@ -3,7 +3,7 @@ import {AxiosResponse} from 'axios';
 import { IWords } from "../models/IWords";
 
 export default class WordsService {
-    static fetchWords(mask: string, mainChar: string): Promise<AxiosResponse<IWords>> {
-        return $api.get<IWords>(`/words/${mask}/${mainChar}`)
+    static fetchWords(mask: string, mainChar: string , len: number): Promise<AxiosResponse<IWords>> {
+        return $api.get<IWords>(`/words/${mask}/${mainChar}/${len}`)
     }
 }

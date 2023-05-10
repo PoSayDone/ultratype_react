@@ -27,7 +27,7 @@ const Results = (props: Props) => {
             <div className="results">
                 <div className='results__item'>
                     <Heading headingLevel={'h2'}>wpm</Heading>
-                    <div className='results__item_title'>{wpm}</div>
+                    <div className='results__item_title'>{Number.isNaN(wpm) ? '0' : wpm}</div>
                     <Heading headingLevel={"h2"}>+12% к ср.</Heading>
                 </div>
                 <div className='results__item'>

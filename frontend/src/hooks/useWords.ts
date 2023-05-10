@@ -52,13 +52,14 @@ const useWords = () => {
         setLettersToAdd(lettersToAdd.slice(1))
     }
 
-    const generateWordsTutorial = async (mask: string, mainChar: string) => {
-        const response = await WordsService.fetchWords(mask, mainChar);
-        setWords(response.data.Strings.join(" "))
+    const generateWordsTutorial = async (mask: string, mainChar: string, len: number) => {
+        const response = await WordsService.fetchWords(mask, mainChar,len);
+        console.log(response.data)
+        setWords(response.data.strings.join(" "))
     }
 
     useEffect(() => {
-        generateWordsTutorial("enitrl", "e")
+        generateWordsTutorial("enitrl", "e",20)
     }, []);
 
     return words

@@ -50,7 +50,7 @@ namespace backend.Controllers
                 Date = DateTime.UtcNow
             };
             await repo.AddTestAsync(test);
-            return CreatedAtAction(nameof(GetTestAsync), new { id = test.Id }, test.AsDto());
+            return CreatedAtAction(nameof(AddTest), new { id = test.Id }, test.AsDto());
         }
 
         [HttpDelete("{id}")]

@@ -17,10 +17,10 @@ namespace backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("{mask}/{mainChar}")]
-        public async Task<ActionResult<WordsDto>> GetWords(string mask, char mainChar)
+        [HttpGet("{mask}/{mainChar}/{len}")]
+        public async Task<ActionResult<WordsDto>> GetWords(string mask, char mainChar, int len)
         {
-            var words = await wordsRepo.GetWordsAsync(mask, mainChar);
+            var words = await wordsRepo.GetWordsAsync(mask, mainChar, len);
             return words == null ? NotFound() : words.AsDto();
         }
     }

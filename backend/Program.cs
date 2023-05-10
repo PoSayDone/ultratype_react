@@ -9,7 +9,8 @@ using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
+//скрипт для запуска докер контейнера
+string dockerMongoString = "docker run -d --rm --name mongo -p 27017:27017 -v mongodbdata:/data/db mongo";
 // Add services to the container.
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(MongoDB.Bson.BsonType.String));
