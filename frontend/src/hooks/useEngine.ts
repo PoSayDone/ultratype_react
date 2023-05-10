@@ -7,6 +7,7 @@ import { COUNTDOWN_SECONDS, SetDefaultCoundownSeconds } from "../store/reducers/
 import { useDispatch } from "react-redux";
 import TestsService from "../services/TestsService";
 import useWords from "./useWords";
+import { WordsActionTypes } from "../store/reducers/wordsReducer";
 
 const useEngine = () => {
     const dispatch = useDispatch()

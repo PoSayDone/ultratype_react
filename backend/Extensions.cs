@@ -1,4 +1,5 @@
-﻿using backend.Dtos;
+﻿using System.Globalization;
+using backend.Dtos;
 using backend.Entities;
 
 namespace backend;
@@ -31,6 +32,13 @@ public static class Extensions
             Wpm = test.Wpm,
             Accuracy = test.Accuracy,
             Date = $"{hours}:{minutes}  {days}.{month}.{test.Date.Year}"
+        };
+    }
+
+    public static WordsDto AsDto(this Words words)
+    {
+        return new WordsDto(){
+            Strings = words.Strings
         };
     }
 }

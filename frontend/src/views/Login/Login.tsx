@@ -7,7 +7,7 @@ import { useDispatch } from "react-redux";
 import AuthInput from '../../components/AuthInput/AuthInput'
 import { useTranslation } from 'react-i18next'
 import { useSignIn } from 'react-auth-kit'
-import AuthService from '../../services/AuthServices'
+import AuthService from '../../services/AuthService'
 import useAuthInput from '../../hooks/useAuthInput'
 import AnimatedContainer from '../../components/AnimatedContainer'
 import AnimatedDiv from '../../components/AnimatedDiv'

@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { IWords } from "../models/IWords";
+import WordsService from "../services/WordsService";
+import { useDispatch } from "react-redux";
+import { WordsActionTypes } from "../store/reducers/wordsReducer";
 
 interface letter {
     letter: string,
@@ -7,32 +11,42 @@ interface letter {
     confidence: number,
 }
 const useWords = () => {
+    
+    const dispatch = useDispatch()
     const goodConfidence = 1
-    const [availableLetters, SetAvailableLetters] = useState<letter[]>([]);
-    const [lettersToAdd, setLettersToAdd] = useState<string[]>("ghijklmnopqrstuvwxyz".split(""))
+    const [availableLetters, SetAvailableLetters] = useState<letter[]>([
+        { letter: "e", wpm: 0, errorRate: 0, confidence: 0 },
+        { letter: "n", wpm: 0, errorRate: 0, confidence: 0 },
+        { letter: "i", wpm: 0, errorRate: 0, confidence: 0 },
+        { letter: "t", wpm: 0, errorRate: 0, confidence: 0 },
+        { letter: "r", wpm: 0, errorRate: 0, confidence: 0 },
+        { letter: "l", wpm: 0, errorRate: 0, confidence: 0 }
+    ]);
+    const [lettersToAdd, setLettersToAdd] = useState<string[]>("s".split(""))
 
     // Высчитываем то, как хорошо пользователь управляется с буквой
     const calculateConfidence = (errorRate: number, wpm: number) => {
         const errorFactor = (1 - errorRate) / 100
-        // Используем wpm за весь тест, не будем пытаться высчитывать его для конкретной буквы
         const wpmFactor = wpm / 100
         return errorFactor * wpmFactor
     }
 
-    const findMainLetter = () => {
+    const findMainLetter = (): string => {
         let minConfidence = goodConfidence
-        let tempLetter = null
+        let tempLetter = availableLetters[0]
         availableLetters.forEach(letter => {
-            if (letter.confidence < minConfidence) {
+            if (letter.confidence <= minConfidence) {
                 minConfidence = letter.confidence
                 tempLetter = letter
             }
         });
         if (minConfidence >= goodConfidence) {
             addLetter()
-            return availableLetters.at(-1)
+            if (availableLetters.at(-1) !== undefined) {
+                availableLetters.at(-1)?.letter
+            }
         }
-        return tempLetter
+        return tempLetter.letter
     }
 
     const addLetter = () => {
@@ -41,28 +55,11 @@ const useWords = () => {
         setLettersToAdd(lettersToAdd.slice(1))
     }
 
-    function generateWordsTutorial(numWords: number) {
-        const words: string[] = [];
-        const mainLetter = findMainLetter()?.letter;
-        for (let i = 0; i < numWords; i++) {
-            const wordLength = Math.floor(Math.random() * 6) + 1; // длина слова от 1 до 10
-            let word = "";
-            for (let j = 0; j < wordLength; j++) {
-                // выбираем случайную букву из набора
-                const randomIndex = Math.floor(Math.random() * availableLetters.length);
-                const letter = availableLetters[randomIndex];
-                if (j === 0) {
-                    // в первую позицию ставим главную букву
-                    word += mainLetter;
-                } else {
-                    word += letter.letter;
-                }
-            }
-            words.push(word);
-        }
-        return words;
+    const generateWordsTutorial = async (mask: string, mainChar: string) => {
+        const response = await WordsService.fetchWords(mask, mainChar);
     }
-    const words = generateWordsTutorial(20)
+
+    const words = generateWordsTutorial(availableLetters.toString(), findMainLetter())
     return words
 }
 

@@ -8,7 +8,7 @@ import AuthInput from '../../components/AuthInput/AuthInput'
 import { useSignIn } from 'react-auth-kit'
 import { useTranslation } from 'react-i18next';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import AuthService from '../../services/AuthServices';
+import AuthService from '../../services/AuthService';
 import "../Login/Login.scss"
 import useAuthInput from '../../hooks/useAuthInput';
 import AnimatedContainer from '../../components/AnimatedContainer';

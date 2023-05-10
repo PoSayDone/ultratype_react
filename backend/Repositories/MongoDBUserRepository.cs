@@ -6,7 +6,7 @@ namespace backend.Repositories{
     public class MongoDBUserRepository : IUserRepository
     {
 
-        private const string databaseName = "backend";
+        private const string databaseName = "catalog";
         private const string collectionName = "users";
         private readonly IMongoCollection<User> userCollection;
         private readonly FilterDefinitionBuilder<User> filterBuilder = Builders<User>.Filter;
