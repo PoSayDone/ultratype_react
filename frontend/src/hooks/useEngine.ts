@@ -15,12 +15,9 @@ const useEngine = () => {
     const dispatch = useDispatch()
     const timeConst = 140;
     const { status } = useTypedSelector(state => state.status);
-    // const { words } = useTypedSelector(state => state.words);
-    const words = useWords();
-    dispatch({ type: WordsActionTypes.SET_WORDS, payload: words })
+    const { words } = useTypedSelector(state => state.words);
     const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
     const [isMounted, setIsMounted] = useState(false);
-
 
     const addTest = async () => {
         try {
