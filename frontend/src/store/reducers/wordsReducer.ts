@@ -1,5 +1,4 @@
 import { faker } from "@faker-js/faker";
-import WordsService from "../../services/WordsService";
 
 export const NUMBER_OF_WORDS = 20;
 const generateWords = (count: number) => {

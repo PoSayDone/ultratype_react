@@ -1,8 +1,5 @@
-import { useState } from "react";
-import { IWords } from "../models/IWords";
+import { useEffect, useState } from "react";
 import WordsService from "../services/WordsService";
-import { useDispatch } from "react-redux";
-import { WordsActionTypes } from "../store/reducers/wordsReducer";
 
 interface letter {
     letter: string,
@@ -11,8 +8,7 @@ interface letter {
     confidence: number,
 }
 const useWords = () => {
-    
-    const dispatch = useDispatch()
+
     const goodConfidence = 1
     const [availableLetters, SetAvailableLetters] = useState<letter[]>([
         { letter: "e", wpm: 0, errorRate: 0, confidence: 0 },
@@ -23,6 +19,7 @@ const useWords = () => {
         { letter: "l", wpm: 0, errorRate: 0, confidence: 0 }
     ]);
     const [lettersToAdd, setLettersToAdd] = useState<string[]>("s".split(""))
+    const [words, setWords] = useState<string>("");
 
     // Высчитываем то, как хорошо пользователь управляется с буквой
     const calculateConfidence = (errorRate: number, wpm: number) => {
@@ -57,9 +54,13 @@ const useWords = () => {
 
     const generateWordsTutorial = async (mask: string, mainChar: string) => {
         const response = await WordsService.fetchWords(mask, mainChar);
+        setWords(response.data.Strings.join(" "))
     }
 
-    const words = generateWordsTutorial(availableLetters.toString(), findMainLetter())
+    useEffect(() => {
+        generateWordsTutorial("enitrl", "e")
+    }, []);
+
     return words
 }
 

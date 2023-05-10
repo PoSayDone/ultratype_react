@@ -8,14 +8,19 @@ import { useDispatch } from "react-redux";
 import TestsService from "../services/TestsService";
 import useWords from "./useWords";
 import { WordsActionTypes } from "../store/reducers/wordsReducer";
+import WordsService from "../services/WordsService";
 
 const useEngine = () => {
+
     const dispatch = useDispatch()
     const timeConst = 140;
     const { status } = useTypedSelector(state => state.status);
-    const { words } = useTypedSelector(state => state.words);
+    // const { words } = useTypedSelector(state => state.words);
+    const words = useWords();
+    dispatch({ type: WordsActionTypes.SET_WORDS, payload: words })
     const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
     const [isMounted, setIsMounted] = useState(false);
+
 
     const addTest = async () => {
         try {
