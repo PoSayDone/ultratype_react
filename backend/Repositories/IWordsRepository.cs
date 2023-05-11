@@ -4,6 +4,6 @@ namespace backend.Repositories
 {
     public interface IWordsRepository
     {
-        Task<Words> GetWordsAsync(string mask, char mainChar);
+        Task<Words> GetWordsAsync(string mask, char mainChar, int len);
     }
 }

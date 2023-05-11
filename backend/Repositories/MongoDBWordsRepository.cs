@@ -18,7 +18,7 @@ namespace backend.Repositories
             wordsCollection = database.GetCollection<BsonDocument>(collectionName);
         }
 
-        public async Task<Words> GetWordsAsync(string mask, char mainChar)
+        public async Task<Words> GetWordsAsync(string mask, char mainChar, int len)
         {
             var filter = Builders<BsonDocument>.Filter.And(
                 Builders<BsonDocument>.Filter.Regex("word", new BsonRegularExpression("^["+mask+"]+$")),
@@ -26,9 +26,15 @@ namespace backend.Repositories
             );
             var words = await wordsCollection.Find(filter).ToListAsync();
             var wordList = words.Select(doc => doc["word"].AsString).ToList();
+            var randomWordList = new List<string>();
+            for (int i = 0; i < len; i++)
+            {
+                Random rnd = new Random();
+                randomWordList.Add(wordList[rnd.Next(0,wordList.Count)]);
+            }
             return new Words()
             {
-                Strings = wordList
+                Strings = randomWordList
             };
         }
     }
