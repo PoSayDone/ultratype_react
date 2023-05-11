@@ -16,7 +16,7 @@ const useEngine = () => {
     const timeConst = 140;
     const { status } = useTypedSelector(state => state.status);
     // const { words } = useTypedSelector(state => state.words);
-    const words = useWords()
+    const { words, isLoading, isError } = useWords({ mask: "enitrl", mainChar: "e", len: 20 })
     const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
     const [isMounted, setIsMounted] = useState(false);
 
@@ -45,8 +45,9 @@ const useEngine = () => {
         timeConst,
         timeLeft,
     );
+
     const currentCharacterRef = useRef<HTMLSpanElement>(null);
-    const isStarting = status === "start" && cursor > 0;
+    const isStarting = status === "start" && cursor > 0 && isLoading === false;
 
     useEffect(() => {
         if (status === "start") {
@@ -91,6 +92,7 @@ const useEngine = () => {
     useEffect(
         () => {
             if (isStarting) {
+                console.log(isLoading)
                 dispatch({ type: "CHANGE_STATE", payload: "run" })
                 setTimerIsActive(true);
             }
@@ -109,7 +111,7 @@ const useEngine = () => {
 
     useEffect(
         () => {
-            if (words.length === cursor) {
+            if (words.length === cursor && status === "run") {
                 dispatch({ type: "CHANGE_STATE", payload: "finish" })
             }
         },

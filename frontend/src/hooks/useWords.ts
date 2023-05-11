@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import WordsService from "../services/WordsService";
+import { IWordsQuery } from "../models/IWordsQuery";
 
 interface letter {
     letter: string,
@@ -7,7 +8,7 @@ interface letter {
     errorRate: number,
     confidence: number,
 }
-const useWords = () => {
+const useWords = (query: IWordsQuery) => {
 
     const goodConfidence = 1
     const [availableLetters, SetAvailableLetters] = useState<letter[]>([
@@ -20,6 +21,8 @@ const useWords = () => {
     ]);
     const [lettersToAdd, setLettersToAdd] = useState<string[]>("s".split(""))
     const [words, setWords] = useState<string>("");
+    const [isLoading, setLoading] = useState(true);
+    const [isError, setError] = useState(false);
 
     // Высчитываем то, как хорошо пользователь управляется с буквой
     const calculateConfidence = (errorRate: number, wpm: number) => {
@@ -52,17 +55,31 @@ const useWords = () => {
         setLettersToAdd(lettersToAdd.slice(1))
     }
 
-    const generateWordsTutorial = async (mask: string, mainChar: string, len: number) => {
-        const response = await WordsService.fetchWords(mask, mainChar,len);
-        console.log(response.data)
-        setWords(response.data.strings.join(" "))
+    const fetchWords = async () => {
+        setLoading(true);
+        setError(false);
+        try {
+            const result = await WordsService.fetchWords(query.mask, query.mainChar, query.len)
+            setWords(result.data.strings.join(" "));
+            setLoading(false);
+        } catch (error) {
+            console.error(error);
+            setLoading(false);
+            setError(true);
+        }
     }
 
+
     useEffect(() => {
-        generateWordsTutorial("enitrl", "e",20)
+        if (!query || query.mask === '' || query.mainChar === '' || query.len === 0) {
+            setWords("");
+            return;
+        } else {
+            fetchWords();
+        }
     }, []);
 
-    return words
+    return {words, isLoading, isError}
 }
 
 export default useWords

@@ -41,20 +41,21 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                     onRestart={() => restart()}
                 />
             </div>
-                {
-                    status != "finish" &&
-                    <div className="typing__container">
-                        <div className="input__section">
-                            <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={status} />
-                        </div>
-                        <div className="typing__metrics">
-                            <CountdownTimer timeLeft={timeLeft} />
-                            <SymbolsTypedMetric wpm={wpm} />
-                            <AccuracyMetric accuracy={accuracy} />
-                        </div>
-                        <Keyboard currentChar={currentChar} />
+            {
+                words != "" &&
+                status != "finish" &&
+                <div className="typing__container">
+                    <div className="input__section">
+                        <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={status} />
                     </div>
-                }
+                    <div className="typing__metrics">
+                        <CountdownTimer timeLeft={timeLeft} />
+                        <SymbolsTypedMetric wpm={wpm} />
+                        <AccuracyMetric accuracy={accuracy} />
+                    </div>
+                    <Keyboard currentChar={currentChar} />
+                </div>
+            }
             <AnimatePresence initial={false}>
                 {status == 'finish' &&
                     <Results accuracyPercentage={accuracy} wpm={wpm} time={timeConst - timeLeft}></Results>}
