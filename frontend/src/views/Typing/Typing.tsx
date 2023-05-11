@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import Results from '../../components/Results';
 import { AnimatePresence, motion } from 'framer-motion';
 import AnimatedContainer from '../../components/AnimatedContainer';
+import Skeleton from '../../components/Skeleton/Skeleton';
 
 interface TypingProps {
     title: string;
@@ -26,6 +27,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
     useEffect(() => {
         setCurrentChar(words[cursor])
     }, [words, cursor])
+
     return (
         <AnimatedContainer>
             <div className="title__section">
@@ -42,12 +44,17 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                 />
             </div>
             {
-                words != "" &&
                 status != "finish" &&
                 <div className="typing__container">
+                        <AnimatePresence>
                     <div className="input__section">
-                        <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={status} />
+                        {
+                            words === ""
+                                ? <><Skeleton height={24} style={{marginTop: "5px"}}></Skeleton><Skeleton height={24} style={{marginTop: "6px"}}></Skeleton></>
+                                : <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={status} />
+                        }
                     </div>
+                        </AnimatePresence>
                     <div className="typing__metrics">
                         <CountdownTimer timeLeft={timeLeft} />
                         <SymbolsTypedMetric wpm={wpm} />
