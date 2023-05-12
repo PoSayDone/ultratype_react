@@ -13,6 +13,7 @@ import Results from '../../components/Results';
 import { AnimatePresence, motion } from 'framer-motion';
 import AnimatedContainer from '../../components/AnimatedContainer';
 import Skeleton from '../../components/Skeleton/Skeleton';
+import LearningIndicator from '../../components/LearningIndicator/LearningIndicator';
 
 interface TypingProps {
     title: string;
@@ -46,15 +47,16 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             {
                 status != "finish" &&
                 <div className="typing__container">
-                        <AnimatePresence>
-                    <div className="input__section">
-                        {
-                            words === ""
-                                ? <><Skeleton height={24} style={{marginTop: "5px"}}></Skeleton><Skeleton height={24} style={{marginTop: "6px"}}></Skeleton></>
-                                : <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={status} />
-                        }
-                    </div>
-                        </AnimatePresence>
+                    <LearningIndicator></LearningIndicator>
+                    <AnimatePresence>
+                        <div className="input__section">
+                            {
+                                words === ""
+                                    ? <><Skeleton height={24} style={{ marginTop: "5px" }}></Skeleton><Skeleton height={24} style={{ marginTop: "6px" }}></Skeleton></>
+                                    : <Input text={words} userText={typed} cursorPosition={cursor} currentCharacterRef={currentCharacterRef} state={status} />
+                            }
+                        </div>
+                    </AnimatePresence>
                     <div className="typing__metrics">
                         <CountdownTimer timeLeft={timeLeft} />
                         <SymbolsTypedMetric wpm={wpm} />
