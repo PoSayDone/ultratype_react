@@ -49,6 +49,11 @@ public class AuthController : ControllerBase
             return Ok(data);
         }
 
+        var existedUser = await userRepo.GetUserByUsername(userLogin.Username);
+        if (existedUser != null)
+        {
+            return BadRequest("Wrong password");
+        }
         return NotFound("User not found");
     }
 
@@ -56,12 +61,17 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult> AddUserAsync(AddUserDto userDto)
     {
-        if (await userRepo.GetUserByUsername(userDto.Username) != null
-        || await userRepo.GetUserByEmail(userDto.Email) != null)
+
+        if (await userRepo.GetUserByUsername(userDto.Username) != null)
         {
-            return Conflict("User with this email or Username already exists");
+            return Conflict("User with this username already exist");
         }
 
+        if (await userRepo.GetUserByEmail(userDto.Email) != null)
+        {
+            return Conflict("User with this email already exists");
+        }
+        
         User user = new()
         {
             Id = Guid.NewGuid(),
