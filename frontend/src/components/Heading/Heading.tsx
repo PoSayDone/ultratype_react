@@ -3,7 +3,7 @@ import "./Heading.module.scss";
 
 type HeadingProps = {
     className?: string;
-    children?: React.ReactNode;
+    children?: React.ReactNode | string;
     headingLevel?: any;
 }
 

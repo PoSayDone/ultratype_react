@@ -72,7 +72,7 @@ const useWords = (query: IWordsQuery) => {
         }
     }, []);
 
-    return { words, isLoading, isError }
+    return { words, isLoading, isError , letters  }
 }
 
 export default useWords

@@ -2,19 +2,21 @@ import { ILetter } from "../../models/ILetter"
 
 
 const defaultState : ILetter = {
-    "e": { wpm: 0, errorRate: 0, confidence: 0 },
-    "n": { wpm: 0, errorRate: 0, confidence: 0 },
-    "i": { wpm: 0, errorRate: 0, confidence: 0 },
-    "t": { wpm: 0, errorRate: 0, confidence: 0 },
-    "r": { wpm: 0, errorRate: 0, confidence: 0 },
-    "l": { wpm: 0, errorRate: 0, confidence: 0 }
+    "e": { wpm: 0, errorRate: 0, confidence: 0 , typedCounter: 0 , errorCounter: 0},
+    "n": { wpm: 0, errorRate: 0, confidence: 0 , typedCounter: 0 , errorCounter: 0},
+    "i": { wpm: 0, errorRate: 0, confidence: 0 , typedCounter: 0 , errorCounter: 0},
+    "t": { wpm: 0, errorRate: 0, confidence: 0 , typedCounter: 0 , errorCounter: 0},
+    "r": { wpm: 0, errorRate: 0, confidence: 0 , typedCounter: 0 , errorCounter: 0},
+    "l": { wpm: 0, errorRate: 0, confidence: 0 , typedCounter: 0 , errorCounter: 0}
 }
 
 export enum LetterActionTypes {
     SET_WPM = "SET_WPM",
     SET_ERROR_RATE = "SET_ERROR_RATE",
     SET_CONFIDENCE = "SET_CONFIDENCE",
-    ADD_LETTER = "ADD_LETTER"
+    ADD_LETTER = "ADD_LETTER",
+    INCREMENT_TYPED_COUNTER = "INCREMENT_TYPED_COUNTER",
+    INCREMENT_ERROR_COUNTER = "INCREMENT_ERROR_COUNTER"
 }
 
 interface SetWPMAction {
@@ -48,7 +50,21 @@ interface AddLetter{
     }
 }
 
-export type LetterActions = SetWPMAction | SetErrorRateAction | SetConfidence | AddLetter
+interface IncrementTypedCounter{
+    type: LetterActionTypes.INCREMENT_TYPED_COUNTER,
+    payload:{
+        letter: string
+    }
+}
+
+interface IncrementErrorCounter{
+    type: LetterActionTypes.INCREMENT_ERROR_COUNTER
+    payload:{
+        letter: string
+    }
+}
+
+export type LetterActions = SetWPMAction | SetErrorRateAction | SetConfidence | AddLetter | IncrementErrorCounter | IncrementTypedCounter
 
 export const letterReducer = (state = defaultState, action: LetterActions) => {
     switch (action.type) {
@@ -72,8 +88,22 @@ export const letterReducer = (state = defaultState, action: LetterActions) => {
             state[action.payload.letter] = {
                 wpm: 0,
                 errorRate: 0,
-                confidence: 0
+                confidence: 0,
+                typedCounter: 0,
+                errorCounter: 0
             }
+        case LetterActionTypes.INCREMENT_TYPED_COUNTER:
+            state[action.payload.letter] = {
+                ...state[action.payload.letter],
+                typedCounter: state[action.payload.letter].typedCounter+1
+            }
+            return state
+        case LetterActionTypes.INCREMENT_ERROR_COUNTER:
+            state[action.payload.letter] = {
+                ...state[action.payload.letter],
+                errorCounter: state[action.payload.letter].errorCounter+1
+            }
+            return state
         default:
             return state
     }

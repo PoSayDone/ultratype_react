@@ -18,7 +18,7 @@ type Props = {}
 
 const Registration = (props: Props) => {
     const dispatch = useDispatch();
-
+    const [errorLoginMessage, setErrorLoginMessage] = useState("")
     const email = useAuthInput('', { isEmpty: false, minLength: 0, isEmail: true })
     const username = useAuthInput('', { isEmpty: false, minLength: 3 })
     const password = useAuthInput('', { isEmpty: false, minLength: 8 })
@@ -42,7 +42,17 @@ const Registration = (props: Props) => {
                 }
             }
         } catch (e: any) {
-            console.log(e.response?.data?.message);
+            console.log(e.response?.data);
+            switch (e.response.data){
+                case "User with this username already exist":
+                    setErrorLoginMessage("Пользователь с таким именем уже существует")
+                    break;
+                case "User with this email already exists":
+                    setErrorLoginMessage("Пользователь с такой почтой уже существует")
+                    break;
+                default:
+                    setErrorLoginMessage("Ошибка: попробуйте еще раз")
+            }
         }
     };
 
@@ -64,6 +74,7 @@ const Registration = (props: Props) => {
                 <Heading headingLevel={"h1"} className="auth-block__title">
                     Регистрация
                 </Heading>
+                {errorLoginMessage != "" && <AnimatedDiv> <Heading headingLevel={"h2"} className="auth_block_error_message">{errorLoginMessage}</Heading></AnimatedDiv>}
                 <div className="auth-block__inputs">
                     <AuthInput label={t("auth.email")} type={'text'} value={email.value} onChange={event => email.onChange(event)} onBlur={event => email.onBlur(event)} />
                     {email.isDirty && email.inputValid == false ? <AnimatedDiv>{email.errorString}</AnimatedDiv> : ""}
