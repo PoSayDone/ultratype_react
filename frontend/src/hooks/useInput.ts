@@ -80,7 +80,6 @@ const useInput = (enabled: boolean, text: string) => {
         [cursor, enabled]
     );
 
-    // Очищает введенное и ставит курсор на ноль
     const clearTyped = useCallback(() => {
         dispatch({ type: InputActionTypes.SET_TYPED, payload: "" })
         dispatch({ type: InputActionTypes.SET_CURSOR, payload: 0 })

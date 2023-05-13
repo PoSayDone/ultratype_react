@@ -1,28 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, useEffect, useRef, useState } from "react";
 import WordsService from "../services/WordsService";
 import { IWordsQuery } from "../models/IWordsQuery";
+import { ILetter } from "../models/ILetter";
+import { useTypedSelector } from "./useTypedSelector";
+import { useDispatch } from "react-redux";
+import { LetterActionTypes, LetterActions } from "../store/reducers/letterReducer";
 
-interface letter {
-    letter: string,
-    wpm: number,
-    errorRate: number,
-    confidence: number,
-}
 const useWords = (query: IWordsQuery) => {
 
     const goodConfidence = 1
-    const [availableLetters, SetAvailableLetters] = useState<letter[]>([
-        { letter: "e", wpm: 0, errorRate: 0, confidence: 0 },
-        { letter: "n", wpm: 0, errorRate: 0, confidence: 0 },
-        { letter: "i", wpm: 0, errorRate: 0, confidence: 0 },
-        { letter: "t", wpm: 0, errorRate: 0, confidence: 0 },
-        { letter: "r", wpm: 0, errorRate: 0, confidence: 0 },
-        { letter: "l", wpm: 0, errorRate: 0, confidence: 0 }
-    ]);
+    const letters : ILetter = useTypedSelector(state => state.letters)
     const [lettersToAdd, setLettersToAdd] = useState<string[]>("s".split(""))
     const [words, setWords] = useState<string>("");
     const [isLoading, setLoading] = useState(true);
     const [isError, setError] = useState(false);
+
+    const dispatch : Dispatch<LetterActions> = useDispatch();
 
     // Высчитываем то, как хорошо пользователь управляется с буквой
     const calculateConfidence = (errorRate: number, wpm: number) => {
@@ -31,27 +24,27 @@ const useWords = (query: IWordsQuery) => {
         return errorFactor * wpmFactor
     }
 
-    const findMainLetter = (): string => {
-        let minConfidence = goodConfidence
-        let tempLetter = availableLetters[0]
-        availableLetters.forEach(letter => {
-            if (letter.confidence <= minConfidence) {
-                minConfidence = letter.confidence
-                tempLetter = letter
-            }
-        });
-        if (minConfidence >= goodConfidence) {
-            addLetter()
-            if (availableLetters.at(-1) !== undefined) {
-                availableLetters.at(-1)?.letter
+    const findMainLetter = () => {
+
+        let minConfidence = goodConfidence;
+        let minLetter = null;
+
+        // проходимся по всем ключам объекта
+        for (const letter in letters) {
+            // проверяем, что объект соответствующий ключу содержит свойство confidence
+            if (letters[letter].hasOwnProperty("confidence")) {
+                const confidence = letters[letter].confidence;
+                if (confidence < minConfidence) {
+                    minConfidence = confidence;
+                    minLetter = letter;
+                }
             }
         }
-        return tempLetter.letter
+        return minLetter;
     }
 
     const addLetter = () => {
-        const newLetter: letter = { letter: lettersToAdd[0], wpm: 0, errorRate: 0, confidence: 0 }
-        SetAvailableLetters([...availableLetters, newLetter])
+        dispatch({type: LetterActionTypes.ADD_LETTER, payload: { letter : lettersToAdd[0] } })
         setLettersToAdd(lettersToAdd.slice(1))
     }
 
@@ -79,7 +72,7 @@ const useWords = (query: IWordsQuery) => {
         }
     }, []);
 
-    return {words, isLoading, isError}
+    return { words, isLoading, isError }
 }
 
 export default useWords

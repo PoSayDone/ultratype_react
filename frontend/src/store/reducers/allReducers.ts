@@ -7,6 +7,7 @@ import { wordsReducer } from "./wordsReducer";
 import { countDownReducer } from "./countDownReducer";
 import { statusReducer } from "./statusReducer";
 import { userReducer } from "./userReducer";
+import { letterReducer } from "./letterReducer";
 
 export const rootReducer = combineReducers({
     status: statusReducer,
@@ -16,7 +17,8 @@ export const rootReducer = combineReducers({
     input: inputReducer,
     words: wordsReducer,
     countDown: countDownReducer,
-    user: userReducer
+    user: userReducer,
+    letters: letterReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
