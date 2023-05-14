@@ -39,8 +39,8 @@ const useLettersData = () => {
     }
 
     const updateLetters = () => {
-        setMask(Object.keys(letters).join(""))
         setMainLetter(findMainLetter())
+        setMask(Object.keys(letters).join(""))
     }
 
     useEffect(() => {

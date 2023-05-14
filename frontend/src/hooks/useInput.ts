@@ -21,7 +21,7 @@ const useInput = (enabled: boolean, text: string) => {
     const letterDispatch: Dispatch<LetterActions> = useDispatch()
     const [startTime, setStartTime] = useState<Date | null>(null);
     const [endTime, setEndTime] = useState<Date | null>(null);
-    const { cursor, typed, totalTyped, accuracy } = useTypedSelector((state) => state.input);
+    const { cursor, typed } = useTypedSelector((state) => state.input);
     const currentIndex = typed.split(" ").length - 1;
 
     const keydownHandler = useCallback(
@@ -162,15 +162,12 @@ const useInput = (enabled: boolean, text: string) => {
     // Ф-ия для перезапуска печати
     const restartTyping = useCallback(() => {
         dispatch({ type: InputActionTypes.RESTART_TYPING });
-        dispatch({ type: InputActionTypes.SET_TOTAL_TYPED, payload: 0 });
     }, [dispatch]);
 
     return {
         typed,
         cursor,
-        totalTyped,
         restartTyping,
-        accuracy,
     };
 };
 

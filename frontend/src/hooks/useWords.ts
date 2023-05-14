@@ -8,7 +8,7 @@ import { LetterActionTypes, LetterActions } from "../store/reducers/letterReduce
 import { WordsActionTypes } from "../store/reducers/wordsReducer";
 import useLettersData from "./useLettersData";
 
-const useWords = (query: IWordsQuery) => {
+const useWords = (mask: string, mainLetter: string, len: number) => {
 
     const [isLoading, setLoading] = useState(true);
     const [isError, setError] = useState(false);
@@ -19,7 +19,7 @@ const useWords = (query: IWordsQuery) => {
         setLoading(true);
         setError(false);
         try {
-            const result = await WordsService.fetchWords(query.mask, query.mainLetter, query.len)
+            const result = await WordsService.fetchWords(mask, mainLetter, len)
             dispatch({ type: WordsActionTypes.SET_WORDS, payload: result.data.strings.join(" ") })
             setLoading(false);
         } catch (error) {
@@ -30,13 +30,14 @@ const useWords = (query: IWordsQuery) => {
     }
 
     useEffect(() => {
-        if (!query || query.mask === '' || query.mainLetter === '' || query.len === 0) {
+        console.log(mask, mainLetter, len)
+        if (mask === '' || mainLetter === '' || len === 0) {
             dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
             return;
         } else {
             fetchWords();
         }
-    }, [query.mainLetter, query.mask]);
+    }, [mainLetter, mask]);
 
     return { words, isLoading, isError }
 }

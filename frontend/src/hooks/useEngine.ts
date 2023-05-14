@@ -11,6 +11,7 @@ import useAccuracy from "./useAccuracy";
 import useLettersData from "./useLettersData";
 
 const useEngine = () => {
+    const mode = "learning"
     const dispatch = useDispatch();
     const timeConst = 140;
     const [isMounted, setIsMounted] = useState(false);
@@ -18,7 +19,7 @@ const useEngine = () => {
     const { updateLetters, mask, mainLetter } = useLettersData();
     const { status } = useTypedSelector(state => state.status);
     const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
-    const { words, isLoading } = useWords({ mask: mask, mainLetter: mainLetter, len: 20 });
+    const { words, isLoading } = useWords(mask, mainLetter, 10);
     const { typed, cursor, restartTyping } = useInput(status !== "finish", words);
     const wpm = useWpm(typed, timeConst, timeLeft);
     const accuracy = useAccuracy(words, typed, cursor);
@@ -74,8 +75,12 @@ const useEngine = () => {
     useEffect(
         () => {
             if (!timerIsActive && status === "run" || words.length === cursor && status === "run") {
-                dispatch({ type: "CHANGE_STATE", payload: "finish" })
                 updateLetters()
+                if (mode !== "learning")
+                    dispatch({ type: "CHANGE_STATE", payload: "finish" })
+                else {
+                    restart()
+                }
             }
         },
         [timerIsActive, status, words, typed]
