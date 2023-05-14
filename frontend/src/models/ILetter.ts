@@ -4,6 +4,7 @@ export interface ILetter {
         errorRate: number,
         confidence: number,
         typedCounter: number,
-        errorCounter: number
+        errorCounter: number,
+        timeElapsed: number,
     };
 }

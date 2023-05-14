@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "./useTypedSelector";
 import { InputActionTypes } from "../store/reducers/inputReducer";
@@ -19,16 +19,9 @@ const isSymbolAllowed = (code: string) => {
 const useInput = (enabled: boolean, text: string) => {
     const dispatch = useDispatch();
     const letterDispatch: Dispatch<LetterActions> = useDispatch()
-
-    const {
-        cursor,
-        typed,
-        totalTyped,
-        accuracy,
-    } = useTypedSelector((state) => state.input);
-
-    const { timeLeft } = useCountdown()
-
+    const [startTime, setStartTime] = useState<Date | null>(null);
+    const [endTime, setEndTime] = useState<Date | null>(null);
+    const { cursor, typed, totalTyped, accuracy } = useTypedSelector((state) => state.input);
     const currentIndex = typed.split(" ").length - 1;
 
     const keydownHandler = useCallback(
@@ -81,6 +74,8 @@ const useInput = (enabled: boolean, text: string) => {
                             payload: cursor + 1,
                         });
                     }
+                    setStartTime(new Date());
+                    setEndTime(null);
                     break;
                 default:
                     if (
@@ -91,7 +86,11 @@ const useInput = (enabled: boolean, text: string) => {
                         return;
                     } else {
                         const isCorrect = text.charAt(cursor) === key;
-                        setLetterData(key, isCorrect);
+                        let timeDiff = 0;
+                        if (startTime !== null) {
+                            timeDiff = endTime ? endTime.getTime() - startTime?.getTime()! : 0;
+                            setLetterData(key, isCorrect, timeDiff);
+                        }
                         dispatch({
                             type: InputActionTypes.SET_TYPED,
                             payload: typed.concat(key),
@@ -100,15 +99,17 @@ const useInput = (enabled: boolean, text: string) => {
                             type: InputActionTypes.SET_CURSOR,
                             payload: cursor + 1,
                         });
+                        setStartTime(new Date());
+                        setEndTime(null);
                     }
                     break;
             }
         },
-        [cursor, enabled, text, typed, dispatch]
+        [cursor, enabled, text, typed, dispatch, startTime, endTime]
     );
 
     const setLetterData = useCallback(
-        (letter: string, isCorrect = true) => {
+        (letter: string, isCorrect = true, timeDiff: number) => {
             letterDispatch({
                 type: LetterActionTypes.INCREMENT_TYPED_COUNTER,
                 payload: { letter },
@@ -119,6 +120,22 @@ const useInput = (enabled: boolean, text: string) => {
                     payload: { letter },
                 });
             }
+            letterDispatch({
+                type: LetterActionTypes.ADD_TIME_ELAPSED,
+                payload: { letter, value: timeDiff }
+            });
+            letterDispatch({
+                type: LetterActionTypes.CALCULATE_ERROR_RATE,
+                payload: { letter }
+            });
+            letterDispatch({
+                type: LetterActionTypes.CALCULATE_WPM,
+                payload: { letter: letter }
+            });
+            letterDispatch({
+                type: LetterActionTypes.CALCULATE_CONFIDENCE,
+                payload: { letter }
+            });
         },
         []
     );
@@ -130,6 +147,17 @@ const useInput = (enabled: boolean, text: string) => {
             window.removeEventListener("keydown", keydownHandler);
         };
     }, [keydownHandler]);
+
+    // Обновляет endTime при отпускании клавиши
+    useEffect(() => {
+        const keyupHandler = () => {
+            setEndTime(new Date());
+        };
+        window.addEventListener("keyup", keyupHandler);
+        return () => {
+            window.removeEventListener("keyup", keyupHandler);
+        };
+    }, []);
 
     // Ф-ия для перезапуска печати
     const restartTyping = useCallback(() => {

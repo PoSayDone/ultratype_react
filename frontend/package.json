@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@use-it/interval": "^1.0.0",
     "axios": "^1.4.0",
     "classnames": "^2.3.2",
     "formik": "^2.2.9",

@@ -22,7 +22,7 @@ interface TypingProps {
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
     const { t, i18n } = useTranslation()
-    const { timeConst, accuracy, restart, status, words, typed, wpm, timeLeft, cursor, currentCharacterRef } = useEngine();
+    const { timeConst, accuracy, restart, status, words, typed, wpm, timeLeft, cursor, currentCharacterRef, mask, mainLetter } = useEngine();
     const [currentChar, setCurrentChar] = useState(words[0])
 
     useEffect(() => {
@@ -47,7 +47,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             {
                 status != "finish" &&
                 <div className="typing__container">
-                    <LearningIndicator></LearningIndicator>
+                    <LearningIndicator letterString={mask} mainLetter={mainLetter}/>
                     <AnimatePresence>
                         <div className="input__section">
                             {

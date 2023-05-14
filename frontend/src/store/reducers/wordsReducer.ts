@@ -1,10 +1,3 @@
-import { faker } from "@faker-js/faker";
-
-export const NUMBER_OF_WORDS = 20;
-const generateWords = (count: number) => {
-    return faker.random.words(count).toLowerCase()
-}
-
 export enum WordsActionTypes {
     SET_WORDS = "SET_WORDS"
 }
@@ -19,7 +12,7 @@ interface WordsState {
 }
 
 const defaulsState = {
-    words: generateWords(NUMBER_OF_WORDS)
+    words: ""
 }
 
 export type WordsActions = SetWordsAction

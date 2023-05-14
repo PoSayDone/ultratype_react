@@ -1,5 +1,5 @@
 export interface IWordsQuery {
     mask: string,
-    mainChar: string,
+    mainLetter: string,
     len: number
 }

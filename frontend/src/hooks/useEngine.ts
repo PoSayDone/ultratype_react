@@ -8,20 +8,22 @@ import TestsService from "../services/TestsService";
 import useWords from "./useWords";
 import useWpm from "./useWpm";
 import useAccuracy from "./useAccuracy";
+import useLettersData from "./useLettersData";
 
 const useEngine = () => {
-
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const timeConst = 140;
-    const { status } = useTypedSelector(state => state.status);
-    const { text, isLoading } = useWords({ mask: "enitrl", mainChar: "e", len: 20 })
-    const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
     const [isMounted, setIsMounted] = useState(false);
-    const { typed, cursor, restartTyping } = useInput(status !== "finish", text);
-    const accuracy = useAccuracy(text, typed, cursor);
+
+    const { updateLetters, mask, mainLetter } = useLettersData();
+    const { status } = useTypedSelector(state => state.status);
+    const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
+    const { words, isLoading } = useWords({ mask: mask, mainLetter: mainLetter, len: 20 });
+    const { typed, cursor, restartTyping } = useInput(status !== "finish", words);
     const wpm = useWpm(typed, timeConst, timeLeft);
-    const currentCharacterRef = useRef<HTMLSpanElement>(null);
+    const accuracy = useAccuracy(words, typed, cursor);
     const isStarting = status === "start" && cursor > 0 && isLoading === false;
+    const currentCharacterRef = useRef<HTMLSpanElement>(null);
 
     const addTest = async () => {
         try {
@@ -50,9 +52,6 @@ const useEngine = () => {
                 if (status === "finish") {
                     setTimerIsActive(false);
                     addTest()
-                    // for (let lettersKey in letters) {
-                    //     console.log(letters[lettersKey])
-                    // }
                 }
             } else {
                 setIsMounted(true);
@@ -74,25 +73,17 @@ const useEngine = () => {
 
     useEffect(
         () => {
-            if (!timerIsActive && status === "run") {
+            if (!timerIsActive && status === "run" || words.length === cursor && status === "run") {
                 dispatch({ type: "CHANGE_STATE", payload: "finish" })
+                updateLetters()
             }
         },
-        [timerIsActive, status]
-    );
-
-    useEffect(
-        () => {
-            if (text.length === cursor && status === "run") {
-                dispatch({ type: "CHANGE_STATE", payload: "finish" })
-            }
-        },
-        [text, typed]
+        [timerIsActive, status, words, typed]
     );
 
     return {
         status,
-        words: text,
+        words,
         typed,
         wpm,
         restart,
@@ -100,7 +91,9 @@ const useEngine = () => {
         timeLeft,
         timeConst,
         currentCharacterRef,
-        accuracy
+        accuracy,
+        mask,
+        mainLetter
     };
 };
 

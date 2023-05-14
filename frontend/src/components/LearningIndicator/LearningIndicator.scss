@@ -12,3 +12,7 @@
     height: 32px;
     background: var(--background_secondary);
 }
+
+.active {
+    border: 1px solid var(--accent);
+}
