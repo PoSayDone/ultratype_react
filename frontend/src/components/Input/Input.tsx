@@ -42,14 +42,7 @@ const Input = ({ userText, text, cursorPosition, currentCharacterRef, state }: I
                             {word.split("").map((character, characterIndex) => {
                                 const isActive =
                                     (characterIndex === userTextArray[userTextArray.length - 1]?.length &&
-                                        wordIndex === userTextArray.length - 1) 
-                                if (isActive)
-                                
-                                {
-                                    console.log(characterIndex, wordIndex, userTextArray.length, cursorPosition, word.length)
-                                    console.log(userTextArray[userTextArray.length-1])
-                                }
-
+                                        wordIndex === userTextArray.length - 1)
                                 return (
                                     <Character
                                         key={`${wordIndex}-${characterIndex}`}

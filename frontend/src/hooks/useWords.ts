@@ -9,13 +9,13 @@ import { LetterActionTypes, LetterActions } from "../store/reducers/letterReduce
 const useWords = (query: IWordsQuery) => {
 
     const goodConfidence = 1
-    const letters : ILetter = useTypedSelector(state => state.letters)
+    const letters: ILetter = useTypedSelector(state => state.letters)
     const [lettersToAdd, setLettersToAdd] = useState<string[]>("s".split(""))
-    const [words, setWords] = useState<string>("");
+    const [text, setText] = useState<string>("");
     const [isLoading, setLoading] = useState(true);
     const [isError, setError] = useState(false);
 
-    const dispatch : Dispatch<LetterActions> = useDispatch();
+    const dispatch: Dispatch<LetterActions> = useDispatch();
 
     // Высчитываем то, как хорошо пользователь управляется с буквой
     const calculateConfidence = (errorRate: number, wpm: number) => {
@@ -44,7 +44,7 @@ const useWords = (query: IWordsQuery) => {
     }
 
     const addLetter = () => {
-        dispatch({type: LetterActionTypes.ADD_LETTER, payload: { letter : lettersToAdd[0] } })
+        dispatch({ type: LetterActionTypes.ADD_LETTER, payload: { letter: lettersToAdd[0] } })
         setLettersToAdd(lettersToAdd.slice(1))
     }
 
@@ -53,7 +53,7 @@ const useWords = (query: IWordsQuery) => {
         setError(false);
         try {
             const result = await WordsService.fetchWords(query.mask, query.mainChar, query.len)
-            setWords(result.data.strings.join(" "));
+            setText(result.data.strings.join(" "));
             setLoading(false);
         } catch (error) {
             console.error(error);
@@ -65,14 +65,14 @@ const useWords = (query: IWordsQuery) => {
 
     useEffect(() => {
         if (!query || query.mask === '' || query.mainChar === '' || query.len === 0) {
-            setWords("");
+            setText("");
             return;
         } else {
             fetchWords();
         }
     }, []);
 
-    return { words, isLoading, isError , letters  }
+    return { text, isLoading, isError, letters }
 }
 
 export default useWords
