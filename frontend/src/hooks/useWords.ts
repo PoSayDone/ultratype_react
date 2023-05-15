@@ -7,6 +7,9 @@ import { useDispatch } from "react-redux";
 import { LetterActionTypes, LetterActions } from "../store/reducers/letterReducer";
 import { WordsActionTypes } from "../store/reducers/wordsReducer";
 import useLettersData from "./useLettersData";
+import {useParams} from "react-router-dom";
+import axios, {Axios, AxiosResponse} from "axios";
+import {IWords} from "../models/IWords";
 
 const useWords = (mask: string, mainLetter: string, len: number) => {
 
@@ -14,12 +17,23 @@ const useWords = (mask: string, mainLetter: string, len: number) => {
     const [isError, setError] = useState(false);
     const dispatch = useDispatch();
     const { words } = useTypedSelector(state => state.words)
-
+    const mode = useParams().mode || "learning"
     const fetchWords = async () => {
         setLoading(true);
         setError(false);
         try {
-            const result = await WordsService.fetchWords(mask, mainLetter, len)
+            let result
+            switch (mode){
+                case "learning":
+                    result = await WordsService.fetchWords(mask, mainLetter, len)
+                    break;
+                case "infinity":
+                    result = await WordsService.fetchRandomWords(len)
+                    break;
+                default:
+                    result = await WordsService.fetchRandomWords(len)
+                    break;
+            }
             dispatch({ type: WordsActionTypes.SET_WORDS, payload: result.data.strings.join(" ") })
             setLoading(false);
         } catch (error) {

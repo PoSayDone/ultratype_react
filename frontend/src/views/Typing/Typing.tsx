@@ -14,17 +14,18 @@ import { AnimatePresence, motion } from 'framer-motion';
 import AnimatedContainer from '../../components/AnimatedContainer';
 import Skeleton from '../../components/Skeleton/Skeleton';
 import LearningIndicator from '../../components/LearningIndicator/LearningIndicator';
+import {useParams} from "react-router-dom";
 
 interface TypingProps {
-    title: string;
-    subtitle: string;
+    title?: string;
+    subtitle?: string;
 }
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
     const { t, i18n } = useTranslation()
     const { timeConst, accuracy, restart, status, words, typed, wpm, timeLeft, cursor, currentCharacterRef, mask, mainLetter } = useEngine();
     const [currentChar, setCurrentChar] = useState(words[0])
-
+    const mode = useParams().mode || "learning"
     useEffect(() => {
         setCurrentChar(words[cursor])
     }, [words, cursor])
@@ -34,7 +35,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             <div className="title__section">
                 <div className="title__section--text">
                     <Heading headingLevel="h1" className="title">
-                        {title}
+                        {title ? title : t("main.card2.title")}
                     </Heading>
                     <Heading headingLevel="h3" className="subtitle">
                         {subtitle}
@@ -47,7 +48,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             {
                 status != "finish" &&
                 <div className="typing__container">
-                    <LearningIndicator letterString={mask} mainLetter={mainLetter}/>
+                    {mode == "learning" && <LearningIndicator letterString={mask} mainLetter={mainLetter}/>}
                     <AnimatePresence>
                         <div className="input__section">
                             {

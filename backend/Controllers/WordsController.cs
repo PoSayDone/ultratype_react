@@ -23,5 +23,13 @@ namespace backend.Controllers
             var words = await wordsRepo.GetWordsAsync(mask, mainChar, len);
             return words == null ? NotFound() : words.AsDto();
         }
+
+        [AllowAnonymous]
+        [HttpGet("len")]
+        public async Task<ActionResult<WordsDto>> GetRandomWords(int len)
+        {
+            var words = await wordsRepo.GetRandomWords(len);
+            return words == null ? NotFound() : words.AsDto();
+        }
     }
 }

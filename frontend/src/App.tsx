@@ -78,6 +78,12 @@ function App() {
                             }
                         />
                         <Route
+                            path="/typing/:mode"
+                            element={
+                            <Typing/>
+                        }>
+                        </Route>
+                        <Route
                             path="/levels"
                             element={
                                 <Levels

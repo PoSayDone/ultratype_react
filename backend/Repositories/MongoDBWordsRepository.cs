@@ -37,5 +37,22 @@ namespace backend.Repositories
                 Strings = randomWordList
             };
         }
+
+        public async Task<Words> GetRandomWords(int len)
+        {
+            var words = await wordsCollection.Find(new BsonDocument()).ToListAsync();
+            var randomList = words.Select(doc => doc["word"].AsString).ToList();
+            var wordList = new List<string>();
+            for (int i = 0; i < len; i++)
+            {
+                Random rnd = new Random();
+                wordList.Add(randomList[rnd.Next(0,words.Count-1)]);
+            }
+
+            return new Words()
+            {
+                Strings = wordList
+            };
+        }
     }
 }

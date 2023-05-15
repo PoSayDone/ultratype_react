@@ -4,6 +4,7 @@ import Caret from "../Caret";
 import React from "react";
 import AnimatedDiv from "../AnimatedDiv";
 import { AnimatePresence } from "framer-motion";
+import {useParams} from "react-router-dom";
 
 // Пропсы для инпута
 type InputProps = {

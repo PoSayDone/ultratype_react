@@ -16,6 +16,10 @@
         "card1": {
             "title": "Education",
             "description": "Complete a carefully designed training course that will improve your skills"
+        },
+        "card2": {
+            "title": "Infinity",
+            "description": "Mode for advanced people to hone their typing skills"
         }
     },
     "auth": {
