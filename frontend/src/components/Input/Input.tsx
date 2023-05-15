@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import Character from "../Character";
 import Caret from "../Caret";
 import React from "react";
+import AnimatedDiv from "../AnimatedDiv";
+import { AnimatePresence } from "framer-motion";
 
 // Пропсы для инпута
 type InputProps = {
@@ -37,7 +39,8 @@ const Input = ({ userText, text, cursorPosition, currentCharacterRef, state }: I
             {state !== "finish" && <Caret leftMargin={leftMargin} topMargin={topMargin} />}
             {textArray.map((word, wordIndex) => {
                 return (
-                    <div className="input__word">
+                    <AnimatedDiv
+                        className="input__word">
                         <React.Fragment key={wordIndex}>
                             {word.split("").map((character, characterIndex) => {
                                 const isActive =
@@ -53,7 +56,7 @@ const Input = ({ userText, text, cursorPosition, currentCharacterRef, state }: I
                                 );
                             })}
                         </React.Fragment>
-                    </div>
+                    </AnimatedDiv>
                 );
             })}
         </>

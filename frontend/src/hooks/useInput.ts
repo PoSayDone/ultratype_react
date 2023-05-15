@@ -23,13 +23,19 @@ const useInput = (enabled: boolean, text: string) => {
     const [endTime, setEndTime] = useState<Date | null>(null);
     const { cursor, typed } = useTypedSelector((state) => state.input);
     const currentIndex = typed.split(" ").length - 1;
+    const [lastKeyPressTime, setLastKeyPressTime] = useState<number | null>(null);
+    let timeSinceLastKeyPress = 0;
 
     const keydownHandler = useCallback(
         ({ key, code, ctrlKey }: KeyboardEvent) => {
             if (!enabled || !isSymbolAllowed(code)) {
                 return;
             }
-
+            if (lastKeyPressTime !== null) {
+                timeSinceLastKeyPress = new Date().getTime() - lastKeyPressTime;
+                setLastKeyPressTime(new Date().getTime());
+            }
+            setLastKeyPressTime(new Date().getTime());
             switch (key) {
                 case "Backspace":
                     if (ctrlKey && typed[typed.length - 1] === " ") {
@@ -85,12 +91,6 @@ const useInput = (enabled: boolean, text: string) => {
                     ) {
                         return;
                     } else {
-                        const isCorrect = text.charAt(cursor) === key;
-                        let timeDiff = 0;
-                        if (startTime !== null) {
-                            timeDiff = endTime ? endTime.getTime() - startTime?.getTime()! : 0;
-                            setLetterData(key, isCorrect, timeDiff);
-                        }
                         dispatch({
                             type: InputActionTypes.SET_TYPED,
                             payload: typed.concat(key),
@@ -99,6 +99,11 @@ const useInput = (enabled: boolean, text: string) => {
                             type: InputActionTypes.SET_CURSOR,
                             payload: cursor + 1,
                         });
+                        const isCorrect = text.charAt(cursor) === key;
+                        // Костыль, для того, чтобы первая буква в тексте не портила WPM (у нее будет время набора 0 соответственно WPM бесконечный)
+                        if (timeSinceLastKeyPress !== 0) {
+                            setLetterData(text.charAt(cursor), isCorrect, timeSinceLastKeyPress);
+                        }
                         setStartTime(new Date());
                         setEndTime(null);
                     }

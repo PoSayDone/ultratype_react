@@ -17,6 +17,7 @@ import Registration from "./views/Registration/Registration";
 import { RequireAuth, useIsAuthenticated } from "react-auth-kit";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
+import Test from "./views/test";
 
 
 function App() {
@@ -97,6 +98,13 @@ function App() {
                             path="/login"
                             element={
                                 <Login
+                                />
+                            }
+                        />
+                        <Route
+                            path="/test"
+                            element={
+                                <Test
                                 />
                             }
                         />

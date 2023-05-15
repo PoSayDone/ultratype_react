@@ -41,6 +41,7 @@ const useLettersData = () => {
     const updateLetters = () => {
         setMainLetter(findMainLetter())
         setMask(Object.keys(letters).join(""))
+        localStorage.setItem("userLetters", JSON.stringify(letters))
     }
 
     useEffect(() => {

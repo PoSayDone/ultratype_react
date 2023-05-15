@@ -13,15 +13,15 @@ import useLettersData from "./useLettersData";
 const useEngine = () => {
     const mode = "learning"
     const dispatch = useDispatch();
-    const timeConst = 140;
+    const timerConst = 140;
     const [isMounted, setIsMounted] = useState(false);
 
     const { updateLetters, mask, mainLetter } = useLettersData();
     const { status } = useTypedSelector(state => state.status);
     const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
-    const { words, isLoading } = useWords(mask, mainLetter, 10);
+    const { words, isLoading } = useWords(mask, mainLetter, 25);
     const { typed, cursor, restartTyping } = useInput(status !== "finish", words);
-    const wpm = useWpm(typed, timeConst, timeLeft);
+    const wpm = useWpm(typed, timerConst, timeLeft);
     const accuracy = useAccuracy(words, typed, cursor);
     const isStarting = status === "start" && cursor > 0 && isLoading === false;
     const currentCharacterRef = useRef<HTMLSpanElement>(null);
@@ -42,7 +42,7 @@ const useEngine = () => {
     useEffect(() => {
         if (status === "start") {
             setTimerIsActive(false)
-            SetDefaultCoundownSeconds(timeConst)
+            SetDefaultCoundownSeconds(timerConst)
             setTimeLeft(COUNTDOWN_SECONDS) // тут делается нужное время
         }
     }, [status])
@@ -94,7 +94,7 @@ const useEngine = () => {
         restart,
         cursor,
         timeLeft,
-        timeConst,
+        timeConst: timerConst,
         currentCharacterRef,
         accuracy,
         mask,

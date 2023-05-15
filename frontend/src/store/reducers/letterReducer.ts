@@ -3,11 +3,15 @@ import { ILetter } from "../../models/ILetter"
 const calculateConfidence = (errorRate: number, wpm: number) => {
     const errorFactor = (1 - errorRate)
     const averageWpm = 60
-    const wpmFactor = (wpm * 100 / averageWpm) / 100
+    const wpmFactor = wpm / averageWpm
     return errorFactor * wpmFactor
 }
 
-const defaultState: ILetter = {
+const storedLetters = localStorage.getItem('userLetters');
+const letters = storedLetters != null ? JSON.parse(storedLetters) : null;
+
+let defaultState: ILetter;
+defaultState = {
     "e": { wpm: 0, errorRate: 0, confidence: 0, typedCounter: 0, errorCounter: 0, timeElapsed: 0 },
     "n": { wpm: 0, errorRate: 0, confidence: 0, typedCounter: 0, errorCounter: 0, timeElapsed: 0 },
     "i": { wpm: 0, errorRate: 0, confidence: 0, typedCounter: 0, errorCounter: 0, timeElapsed: 0 },
@@ -15,6 +19,11 @@ const defaultState: ILetter = {
     "r": { wpm: 0, errorRate: 0, confidence: 0, typedCounter: 0, errorCounter: 0, timeElapsed: 0 },
     "l": { wpm: 0, errorRate: 0, confidence: 0, typedCounter: 0, errorCounter: 0, timeElapsed: 0 }
 }
+
+if (letters !== null) {
+    defaultState = letters
+}
+
 
 export enum LetterActionTypes {
     SET_WPM = "SET_WPM",
@@ -162,7 +171,7 @@ export const letterReducer = (state = defaultState, action: LetterActions) => {
             state[action.payload.letter] = {
                 ...state[action.payload.letter],
                 wpm:
-                    (state[action.payload.letter].typedCounter / 5) / (state[action.payload.letter].timeElapsed / 60000)
+                    (state[action.payload.letter].typedCounter / 5) / (state[action.payload.letter].timeElapsed / 1000 / 60)
             }
             return state
         case LetterActionTypes.CALCULATE_CONFIDENCE:
