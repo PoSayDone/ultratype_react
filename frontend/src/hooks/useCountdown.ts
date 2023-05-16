@@ -1,46 +1,43 @@
-import { Dispatch, useEffect, useState } from "react"
-import { useTypedSelector } from "./useTypedSelector";
-import { CountDownActions, CountDownActionTypes } from "../store/reducers/countDownReducer";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { startCountdown, stopCountdown, resetCountdown, tickCountdown, CountdownActionTypes } from '../store/reducers/countDownReducer';
+import { useTypedSelector } from './useTypedSelector';
 
-
-const useCountdown = () => {
-    const dispatch: Dispatch<CountDownActions> = useDispatch()
-    const [timerId, setTimerId] = useState(0)
-    const { timeLeft, timerIsActive } = useTypedSelector(state => state.countDown)
+const useTimer = (timerConst: number) => {
+    const dispatch = useDispatch();
+    const { timerIsActive, timeLeft } = useTypedSelector(state => state.countDown);
 
     useEffect(() => {
+        dispatch({ type: CountdownActionTypes.SET_START_TIME, payload: timerConst })
+    }, [])
+
+    useEffect(() => {
+        const interval = setInterval(() => {
             if (timeLeft > 0 && timerIsActive) {
-                setTimerId(setTimeout(dispatch, 1000, {
-                    type: CountDownActionTypes.SET_TIMELEFT,
-                    payload: timeLeft - 1
-                }));
-            } else {
-                clearTimeout(timerId)
                 dispatch({
-                    type: CountDownActionTypes.SET_TIMER_ISACTIVE,
-                    payload: false
-                })
+                    type: CountdownActionTypes.TICK_COUNTDOWN
+                });
             }
-    }, [timeLeft, timerIsActive]);
+        }, 1000)
 
-    function setTimerIsActive(isActive: boolean) {
-        dispatch({
-            type: CountDownActionTypes.SET_TIMER_ISACTIVE,
-            payload: isActive
-        })
+        return () => {
+            clearInterval(interval)
+        }
+    }, [timerIsActive, timeLeft]);
+
+    const handleStart = () => {
+        dispatch({ type: CountdownActionTypes.START_COUNTDOWN });
+    };
+
+    const handleStop = () => {
+        dispatch({ type: CountdownActionTypes.STOP_COUNTDOWN });
+    };
+
+    const handleReset = () => {
+        dispatch({ type: CountdownActionTypes.SET_START_TIME, payload: timerConst })
     }
 
-    function setTimeLeft(time: number) {
-        dispatch({
-            type: CountDownActionTypes.SET_TIMELEFT,
-            payload: time
-        })
-    }
+    return { timeLeft, handleStart, handleStop, timerIsActive, handleReset };
+};
 
-    return {
-        timeLeft, timerIsActive, setTimerIsActive, setTimeLeft
-    }
-}
-
-export default useCountdown
+export default useTimer;

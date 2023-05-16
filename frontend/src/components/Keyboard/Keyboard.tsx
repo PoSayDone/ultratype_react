@@ -12,14 +12,16 @@ interface KeyboardButtonProps {
     isUpperCase: boolean,
     setIsUpperCase: any,
     currentChar: string,
+    letterClassName: FunctionStringCallback
 }
 
-const KeyboardButton = ({ currentChar, value, isUpperCase, setIsUpperCase }: KeyboardButtonProps) => {
+const KeyboardButton = ({ currentChar, value, isUpperCase, setIsUpperCase, letterClassName }: KeyboardButtonProps) => {
     return (
         <div
             className={
                 classNames(
                     "keyboard__button",
+                    `${letterClassName}`,
                     {
                         "active": currentChar === value.slice(-1) || currentChar === value.slice(0, -1),
                     }
@@ -65,13 +67,19 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
         <div className="keyboard">
             <div className="keyboard__row r1">
                 {
-                    data.qwerty.keys.row1.map((key, index) =>
-                        <KeyboardButton
+                    data.qwerty.keys.row1.map((key, index) =>{
+                        const letter = key.slice(0,-1)
+                        return(
+                            <KeyboardButton
                             value={key}
                             isUpperCase={isUpperCase}
                             setIsUpperCase={setIsUpperCase}
                             currentChar={currentChar}
+                            letterClassName = {letter}
                         />
+                        )
+                    }
+                        
                     )
                 }
                 <div className="keyboard__button backspace">
@@ -89,6 +97,7 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
                         isUpperCase={isUpperCase}
                         setIsUpperCase={setIsUpperCase}
                         currentChar={currentChar}
+                        letterClassName={key.slice(0,-1)}
                     />
                 )}
             </div>
@@ -103,6 +112,7 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
                         isUpperCase={isUpperCase}
                         setIsUpperCase={setIsUpperCase}
                         currentChar={currentChar}
+                        letterClassName={key.slice(0,-1)}
                     />
                 )}
                 <div className="keyboard__button enter">
@@ -122,6 +132,7 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
                         isUpperCase={isUpperCase}
                         setIsUpperCase={setIsUpperCase}
                         currentChar={currentChar}
+                        letterClassName={key.slice(0,-1) == "." ? "dot" : key.slice(0,-1)}
                     />
                 )}
                 <div className="keyboard__button shift">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Character from "../Character";
 import Caret from "../Caret";
 import React from "react";
@@ -33,6 +33,17 @@ const Input = ({ userText, text, cursorPosition, currentCharacterRef, state }: I
         },
         [cursorPosition]
     )
+    const mode = useParams().mode || "learning"
+    const inputWordRef = useRef()
+
+    useEffect(() => {
+        if (mode == 'infinity'){
+            if (topMargin == 34){
+                console.log('hello');
+                // inputWordRef.current !== undefined ? inputWordRef.
+            }
+        }
+    },[topMargin])
 
     // Возвращаем div'ы слов, состоящие из Character'ов
     return (
@@ -41,7 +52,9 @@ const Input = ({ userText, text, cursorPosition, currentCharacterRef, state }: I
             {textArray.map((word, wordIndex) => {
                 return (
                     <AnimatedDiv
-                        className="input__word">
+                        className="input__word"
+                        ref = {inputWordRef}
+                        >
                         <React.Fragment key={wordIndex}>
                             {word.split("").map((character, characterIndex) => {
                                 const isActive =

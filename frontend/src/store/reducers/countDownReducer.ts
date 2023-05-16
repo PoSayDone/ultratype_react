@@ -1,62 +1,72 @@
 import { useDispatch } from "react-redux";
 
-export let COUNTDOWN_SECONDS = 120;
-export enum CountDownActionTypes {
-    SET_TIMER_ISACTIVE = "SET_TIMER_ISACTIVE",
-    SET_DEFAULT_STATE = "SET_DEFAULT_STATE",
-    SET_TIMELEFT = "SET_TIMELEFT"
+export enum CountdownActionTypes {
+    START_COUNTDOWN = "START_COUNTDOWN",
+    STOP_COUNTDOWN = "STOP_COUNTDOWN",
+    RESET_COUNTDOWN = "RESET_COUNTDOWN",
+    TICK_COUNTDOWN = "TICK_COUNTDOWN",
+    SET_START_TIME = "SET_START_TIME",
+}
+export interface startCountdown {
+    type: CountdownActionTypes.START_COUNTDOWN,
 }
 
-export function SetDefaultCoundownSeconds(time: number) {
-    COUNTDOWN_SECONDS = time
+export interface stopCountdown {
+    type: CountdownActionTypes.STOP_COUNTDOWN,
 }
 
-interface SetTimerIsActiveAction {
-    type: CountDownActionTypes.SET_TIMER_ISACTIVE,
-    payload: boolean
-}
-
-interface SetDefaultStateAction {
-    type: CountDownActionTypes.SET_DEFAULT_STATE,
-    payload: {
-        timeLeft: number,
-        timerIsActive: boolean
-    }
-}
-
-interface SetTimeLeftAction {
-    type: CountDownActionTypes.SET_TIMELEFT,
+export interface resetCountdown {
+    type: CountdownActionTypes.RESET_COUNTDOWN,
     payload: number
 }
 
-interface CountDownState {
+export interface tickCountdown {
+    type: CountdownActionTypes.TICK_COUNTDOWN,
+    payload: number
+}
+
+export interface setStartTime {
+    type: CountdownActionTypes.SET_START_TIME,
+    payload: number
+}
+
+interface CountdownState {
     timeLeft: number,
     timerIsActive: boolean
 }
 
-const defaultState: CountDownState = {
-    timeLeft: COUNTDOWN_SECONDS,
+const defaultState: CountdownState = {
+    timeLeft: 0,
     timerIsActive: false
 }
 
-export type CountDownActions = SetDefaultStateAction | SetTimeLeftAction | SetTimerIsActiveAction
+export type CountdownActions = stopCountdown | startCountdown | resetCountdown | tickCountdown | setStartTime
 
-export function countDownReducer(state: CountDownState = defaultState, action: CountDownActions): CountDownState {
+export function countDownReducer(state: CountdownState = defaultState, action: CountdownActions): CountdownState {
     switch (action.type) {
-        case CountDownActionTypes.SET_TIMER_ISACTIVE:
-            return { ...state, timerIsActive: action.payload }
-        case CountDownActionTypes.SET_DEFAULT_STATE:
+        case CountdownActionTypes.RESET_COUNTDOWN:
+            return defaultState
+        case CountdownActionTypes.START_COUNTDOWN:
             return {
-                timerIsActive: action.payload.timerIsActive,
-                timeLeft: action.payload.timeLeft
+                ...state,
+                timerIsActive: true
             }
-        case CountDownActionTypes.SET_TIMELEFT:
-            COUNTDOWN_SECONDS = action.payload
+        case CountdownActionTypes.STOP_COUNTDOWN:
+            return {
+                ...state,
+                timerIsActive: false
+            }
+        case CountdownActionTypes.TICK_COUNTDOWN:
+            return {
+                ...state,
+                timeLeft: state.timeLeft - 1
+            }
+        case CountdownActionTypes.SET_START_TIME:
             return {
                 ...state,
                 timeLeft: action.payload
             }
         default:
-            return state
+            return state;
     }
 }

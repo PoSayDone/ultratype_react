@@ -18,7 +18,8 @@ export const rootReducer = combineReducers({
     words: wordsReducer,
     countDown: countDownReducer,
     user: userReducer,
-    letters: letterReducer
+    letters: letterReducer,
+    timer: letterReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

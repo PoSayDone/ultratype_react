@@ -1,10 +1,40 @@
 import { ILetter } from "../../models/ILetter"
 
+const calculateWpm = (typed: number, errors: number, time: number) => {
+    const typedRight = (typed - errors) <= 0 ? 0 : (typed - errors);
+    const wpm = (typedRight / 5) / (time / 1000 / 60)
+    console.log(typedRight, time, wpm)
+    return wpm
+}
+
+const CalculateErrorCoefficient = (
+    wpm: number,
+    minWpm: number,
+    maxWpm: number,
+    minCoef: number,
+    maxCoef: number
+) => {
+    // Используем линейную интерполяцию
+    // Для минимальнго wpm выведет minCoef, для максимального wpm maxCoef, для промежуточных значения между
+    const errorCoefficient = minCoef + (wpm - minWpm) * (maxCoef - minCoef) / (maxWpm - minWpm);
+    if (errorCoefficient >= maxCoef) {
+        return maxCoef
+    }
+    return errorCoefficient
+}
+
 const calculateConfidence = (errorRate: number, wpm: number) => {
     const errorFactor = (1 - errorRate)
-    const averageWpm = 60
+    const averageWpm = 50
     const wpmFactor = wpm / averageWpm
-    return errorFactor * wpmFactor
+    const errorCoefficient = CalculateErrorCoefficient(wpm, 0, 40, 0.65, 0.75)
+    const wpmCoefficient = 1 - errorCoefficient
+    const confidence = (errorCoefficient * errorFactor) + (wpmCoefficient * wpmFactor)
+    if (confidence < 0)
+        return 0
+    if (confidence > 1)
+        return 1
+    return confidence
 }
 
 const storedLetters = localStorage.getItem('userLetters');
@@ -171,7 +201,11 @@ export const letterReducer = (state = defaultState, action: LetterActions) => {
             state[action.payload.letter] = {
                 ...state[action.payload.letter],
                 wpm:
-                    (state[action.payload.letter].typedCounter / 5) / (state[action.payload.letter].timeElapsed / 1000 / 60)
+                    calculateWpm(
+                        state[action.payload.letter].typedCounter,
+                        state[action.payload.letter].errorCounter,
+                        state[action.payload.letter].timeElapsed
+                    )
             }
             return state
         case LetterActionTypes.CALCULATE_CONFIDENCE:

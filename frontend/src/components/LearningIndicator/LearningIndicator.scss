@@ -1,4 +1,22 @@
-.learning-indicator {
+.learning-indicator__container {
+    display: grid;
+    grid-template-columns: (10% auto);
+    flex-direction: column;
+    gap: 12px;
+}
+
+.learning-indicator__chars {
+    display: flex;
+    gap: 4px;
+}
+
+.learning-indicator__text{
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.learning-indicator__main-char {
     display: flex;
     gap: 4px;
 }
@@ -6,13 +24,16 @@
 .learning-indicator__item {
     align-items: center;
     justify-content: center;
-    border-radius: 8px;
+    border-radius: 7px;
     display: flex;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     background: var(--background_secondary);
+    color: var(--background);
+    font-weight: 500;
+    font-size: 16px;
 }
 
 .active {
-    border: 1px solid var(--accent);
+    border: 2px solid var(--on_background);
 }

@@ -29,11 +29,11 @@ const useLettersData = () => {
                     minLetter = letter;
                 }
             }
-            if (minConfidence >= goodConfidence) {
-                addLetter()
-                const keys = Object.keys(letters)
-                return keys[keys.length - 1]
-            }
+        }
+        if (minConfidence >= goodConfidence) {
+            addLetter()
+            const keys = Object.keys(letters)
+            return keys[keys.length - 1]
         }
         return minLetter;
     }
@@ -47,7 +47,7 @@ const useLettersData = () => {
     useEffect(() => {
         updateLetters()
     }, []);
-    
+
 
     return { updateLetters, mask, mainLetter }
 

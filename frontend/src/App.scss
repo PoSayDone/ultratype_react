@@ -340,6 +340,35 @@ nav {
             background: var(--background_secondary);
             transition: all 1ms linear;
 
+            &.g,&.f,&.r,&.t,&.v,&.b{
+                &.active{
+                    background-color: #fcc276;
+                }
+            }
+
+            &.j,&.h,&.y,&.u,&.m,&.n{
+                &.active{
+                    background-color: #fdef80 ;
+                }
+            }
+
+            &.d,&.c,&.e,&.k,&.i{
+                &.active{
+                    background-color: #faa5c8;
+                }
+            }
+
+            &.s,&.w,&.x,&.l,&.o{
+                &.active{
+                    background-color: #62e2fa;
+                }
+            }
+
+            &.q,&.a,&.z,&.p{
+                &.active{
+                    background-color: #78e4a8;
+                }
+            }
 
             &.active {
                 background-color: var(--accent);
@@ -347,6 +376,8 @@ nav {
                 animation: smoothActiveButton 200ms;
             }
         }
+
+
     }
 
     .r5 {
@@ -406,7 +437,9 @@ nav {
         font-size: $heading_medium;
         color: var(--input);
         flex-wrap: wrap;
-
+        overflow: hidden;
+        height: 68px;
+            
         .input__word {
             display: flex;
 

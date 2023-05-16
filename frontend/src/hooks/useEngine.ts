@@ -2,25 +2,26 @@ import { useEffect, useRef, useState } from "react";
 import useInput from "./useInput";
 import useCountdown from "./useCountdown";
 import { useTypedSelector } from "./useTypedSelector";
-import { COUNTDOWN_SECONDS, SetDefaultCoundownSeconds } from "../store/reducers/countDownReducer";
 import { useDispatch } from "react-redux";
 import TestsService from "../services/TestsService";
 import useWords from "./useWords";
 import useWpm from "./useWpm";
 import useAccuracy from "./useAccuracy";
 import useLettersData from "./useLettersData";
+import usePageVisibility from "./usePageVisibility";
+import { useParams } from "react-router-dom";
 
 const useEngine = () => {
-    const mode = "learning"
+    const timerConst = 140
+    const mode = useParams().mode || "learning"
     const dispatch = useDispatch();
-    const timerConst = 140;
     const [isMounted, setIsMounted] = useState(false);
-
+    const isVisible = usePageVisibility()
     const { updateLetters, mask, mainLetter } = useLettersData();
     const { status } = useTypedSelector(state => state.status);
-    const { timeLeft, timerIsActive, setTimerIsActive, setTimeLeft } = useCountdown();
-    const { words, isLoading } = useWords(mask, mainLetter, 25);
-    const { typed, cursor, restartTyping } = useInput(status !== "finish", words);
+    const { timerIsActive, timeLeft, handleStart, handleStop, handleReset } = useCountdown(timerConst);
+    const { words, isLoading, fetchWords } = useWords(mask, mainLetter, 25);
+    const { typed, cursor, restartTyping, lastKeyPressTime } = useInput(status !== "finish", words);
     const wpm = useWpm(typed, timerConst, timeLeft);
     const accuracy = useAccuracy(words, typed, cursor);
     const isStarting = status === "start" && cursor > 0 && isLoading === false;
@@ -28,7 +29,7 @@ const useEngine = () => {
 
     const addTest = async () => {
         try {
-            await TestsService.addTest("unknown", wpm, (accuracy / 100));
+            await TestsService.addTest(mode, wpm, (accuracy / 100));
         } catch (e: any) {
             console.log(e.response?.data?.message);
         }
@@ -36,22 +37,16 @@ const useEngine = () => {
 
     const restart = () => {
         dispatch({ type: "CHANGE_STATE", payload: "start" })
+        handleStop()
+        handleReset()
         restartTyping();
     };
-
-    useEffect(() => {
-        if (status === "start") {
-            setTimerIsActive(false)
-            SetDefaultCoundownSeconds(timerConst)
-            setTimeLeft(COUNTDOWN_SECONDS) // тут делается нужное время
-        }
-    }, [status])
 
     useEffect(
         () => {
             if (isMounted) {
                 if (status === "finish") {
-                    setTimerIsActive(false);
+                    handleStop()
                     addTest()
                 }
             } else {
@@ -64,9 +59,8 @@ const useEngine = () => {
     useEffect(
         () => {
             if (isStarting) {
-                // console.log(isLoading)
                 dispatch({ type: "CHANGE_STATE", payload: "run" })
-                setTimerIsActive(true);
+                handleStart()
             }
         },
         [isStarting]
@@ -80,10 +74,29 @@ const useEngine = () => {
                     dispatch({ type: "CHANGE_STATE", payload: "finish" })
                 else {
                     restart()
+                    // fetchWords()
                 }
             }
         },
         [timerIsActive, status, words, typed]
+    );
+
+    useEffect(
+        () => {
+            if (isVisible == false) {
+                restart()
+            }
+        },
+        [timerIsActive, status, isVisible]
+    );
+
+    useEffect(
+        () => {
+            if (timerIsActive && lastKeyPressTime != null && new Date().getTime() - lastKeyPressTime >= 15 * 1000) {
+                restart()
+            }
+        },
+        [timeLeft]
     );
 
     return {

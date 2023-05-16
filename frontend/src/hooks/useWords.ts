@@ -44,7 +44,6 @@ const useWords = (mask: string, mainLetter: string, len: number) => {
     }
 
     useEffect(() => {
-        // console.log(mask, mainLetter, len)
         if (mask === '' || mainLetter === '' || len === 0) {
             dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
             return;
@@ -53,7 +52,7 @@ const useWords = (mask: string, mainLetter: string, len: number) => {
         }
     }, [mainLetter, mask]);
 
-    return { words, isLoading, isError }
+    return { words, isLoading, isError, fetchWords }
 }
 
 export default useWords
