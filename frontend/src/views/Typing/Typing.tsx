@@ -59,7 +59,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                         </div>
                     </AnimatePresence>
                     <div className="typing__metrics">
-                        <CountdownTimer timeLeft={timeLeft} />
+                        {mode != "infinity" && <CountdownTimer timeLeft={timeLeft} />}
                         <SymbolsTypedMetric wpm={wpm} />
                         <AccuracyMetric accuracy={accuracy} />
                     </div>
