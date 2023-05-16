@@ -25,7 +25,7 @@ namespace backend.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("len")]
+        [HttpGet("random/{len}")]
         public async Task<ActionResult<WordsDto>> GetRandomWords(int len)
         {
             var words = await wordsRepo.GetRandomWords(len);

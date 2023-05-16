@@ -44,7 +44,7 @@ const useWords = (mask: string, mainLetter: string, len: number) => {
     }
 
     useEffect(() => {
-        console.log(mask, mainLetter, len)
+        // console.log(mask, mainLetter, len)
         if (mask === '' || mainLetter === '' || len === 0) {
             dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
             return;

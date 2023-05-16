@@ -8,6 +8,6 @@ export default class WordsService {
     }
 
     static fetchRandomWords(len : number) : Promise<AxiosResponse<IWords>>{
-        return $api.get<IWords>(`/words/${len}`)
+        return $api.get<IWords>(`/words/random/${len}`)
     }
 }
