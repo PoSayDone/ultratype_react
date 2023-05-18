@@ -3,7 +3,6 @@ import { ILetter } from "../../models/ILetter"
 const calculateWpm = (typed: number, errors: number, time: number) => {
     const typedRight = (typed - errors) <= 0 ? 0 : (typed - errors);
     const wpm = (typedRight / 5) / (time / 1000 / 60)
-    console.log(typedRight, time, wpm)
     return wpm
 }
 

@@ -9,7 +9,6 @@ const useAccuracy = (originalText: string, typedText: string, index: number): nu
             setAccuracy(100);
             return;
         }
-
         // Сравниваем пользовательский ввод с оригинальным текстом до индекса последнего введенного символа.
         const incorrectCount = typedText.split('').filter((char, i) => char !== originalText.charAt(i)).length;
         const accuracy = ((typedText.length - incorrectCount) / typedText.length) * 100;
