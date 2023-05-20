@@ -5,7 +5,7 @@ import { useTypedSelector } from './useTypedSelector';
 
 const useCountDown = (timerConst: number) => {
     const dispatch = useDispatch();
-    const { timerIsActive, timeLeft } = useTypedSelector(state => state.countDown);
+    const { timerIsActive, time } = useTypedSelector(state => state.countDown);
 
     useEffect(() => {
         dispatch({ type: CountdownActionTypes.SET_START_TIME, payload: timerConst })
@@ -13,7 +13,7 @@ const useCountDown = (timerConst: number) => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            if (timeLeft > 0 && timerIsActive) {
+            if (time > 0 && timerIsActive) {
                 dispatch({
                     type: CountdownActionTypes.TICK_COUNTDOWN
                 });
@@ -23,7 +23,7 @@ const useCountDown = (timerConst: number) => {
         return () => {
             clearInterval(interval)
         }
-    }, [timerIsActive, timeLeft]);
+    }, [timerIsActive, time]);
 
     const handleStart = () => {
         dispatch({ type: CountdownActionTypes.START_COUNTDOWN });
@@ -37,7 +37,7 @@ const useCountDown = (timerConst: number) => {
         dispatch({ type: CountdownActionTypes.SET_START_TIME, payload: timerConst })
     }
 
-    return { timeLeft, handleStart, handleStop, timerIsActive, handleReset };
+    return { time, handleStart, handleStop, timerIsActive, handleReset };
 };
 
 export default useCountDown;

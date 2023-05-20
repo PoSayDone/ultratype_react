@@ -24,12 +24,12 @@ export interface tickTimer {
 }
 
 interface TimerState {
-    timeLeft: number,
+    time: number,
     timerIsActive: boolean
 }
 
 const defaultState: TimerState = {
-    timeLeft: 0,
+    time: 0,
     timerIsActive: false
 }
 
@@ -52,7 +52,7 @@ export default function timerReducer(state: TimerState = defaultState, action: T
         case TimerActionTypes.TICK_TIMER:
             return {
                 ...state,
-                timeLeft: state.timeLeft + 1
+                time: state.time + 1
             }
         default:
             return state;

@@ -12,7 +12,7 @@ interface KeyboardButtonProps {
     isUpperCase: boolean,
     setIsUpperCase: any,
     currentChar: string,
-    letterClassName: FunctionStringCallback
+    letterClassName: string
 }
 
 const KeyboardButton = ({ currentChar, value, isUpperCase, setIsUpperCase, letterClassName }: KeyboardButtonProps) => {
@@ -97,7 +97,7 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
                         isUpperCase={isUpperCase}
                         setIsUpperCase={setIsUpperCase}
                         currentChar={currentChar}
-                        letterClassName={key.slice(0,-1)}
+                        letterClassName={key.slice(0,-1) == "[" ? "left-bracket" : key.slice(0,-1) == ']' ? "right-bracket" : key.slice(0,-1)}
                     />
                 )}
             </div>
@@ -112,7 +112,7 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
                         isUpperCase={isUpperCase}
                         setIsUpperCase={setIsUpperCase}
                         currentChar={currentChar}
-                        letterClassName={key.slice(0,-1)}
+                        letterClassName={key.slice(0,-1) == ';' ? "semicolon" : key.slice(0,-1) == "'" ? 'quote' : key.slice(0,-1)}
                     />
                 )}
                 <div className="keyboard__button enter">
@@ -132,7 +132,7 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
                         isUpperCase={isUpperCase}
                         setIsUpperCase={setIsUpperCase}
                         currentChar={currentChar}
-                        letterClassName={key.slice(0,-1) == "." ? "dot" : key.slice(0,-1)}
+                        letterClassName={key.slice(0,-1)  == "," ? "comma" : key.slice(0,-1) == '.' ? "dot" : key.slice(0,-1) == "/" ? "slash1" : key.slice(0,-1)}
                     />
                 )}
                 <div className="keyboard__button shift">

@@ -2,9 +2,13 @@ import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "./useTypedSelector";
 import { InputActionTypes } from "../store/reducers/inputReducer";
-import { LetterActions, LetterActionTypes } from "../store/reducers/letterReducer";
+import {
+    LetterActions,
+    LetterActionTypes,
+} from "../store/reducers/letterReducer";
 import { Dispatch } from "redux";
 import useCountdown from "./useCountdown";
+import { init } from "i18next";
 
 // Проверяет является ли вводимый символ цифрой, буквой, пробелом или бэкспейсом
 const isSymbolAllowed = (code: string) => {
@@ -18,10 +22,12 @@ const isSymbolAllowed = (code: string) => {
 
 const useInput = (enabled: boolean, text: string) => {
     const dispatch = useDispatch();
-    const letterDispatch: Dispatch<LetterActions> = useDispatch()
-    const { cursor, typed,invisibleTyped } = useTypedSelector((state) => state.input);
+    const letterDispatch: Dispatch<LetterActions> = useDispatch();
+    const { cursor, typed } = useTypedSelector((state) => state.input);
     const currentIndex = typed.split(" ").length - 1;
-    const [lastKeyPressTime, setLastKeyPressTime] = useState<number | null>(null);
+    const [lastKeyPressTime, setLastKeyPressTime] = useState<number | null>(
+        null
+    );
     let timeSinceLastKeyPress = 0;
 
     // Ф-ия для перезапуска печати
@@ -29,7 +35,7 @@ const useInput = (enabled: boolean, text: string) => {
         setLastKeyPressTime(null);
         timeSinceLastKeyPress = 0;
         dispatch({ type: InputActionTypes.RESTART_TYPING });
-    }
+    };
 
     const keydownHandler = useCallback(
         ({ key, code, ctrlKey }: KeyboardEvent) => {
@@ -56,10 +62,6 @@ const useInput = (enabled: boolean, text: string) => {
                             payload: before,
                         });
                         dispatch({
-                            type: InputActionTypes.SET_INVISIBLE_TYPED,
-                            payload: before
-                        })
-                        dispatch({
                             type: InputActionTypes.SET_CURSOR,
                             payload: lastIndex,
                         });
@@ -69,10 +71,6 @@ const useInput = (enabled: boolean, text: string) => {
                         type: InputActionTypes.SET_TYPED,
                         payload: typed.slice(0, -1),
                     });
-                    dispatch({
-                        type: InputActionTypes.SET_INVISIBLE_TYPED,
-                        payload: typed.slice(0, -1)
-                    })
                     if (cursor > 0) {
                         dispatch({
                             type: InputActionTypes.SET_CURSOR,
@@ -81,17 +79,16 @@ const useInput = (enabled: boolean, text: string) => {
                     }
                     break;
                 case " ":
-                    if (typed[typed.length - 1] === " " || text[cursor] !== " ") {
+                    if (
+                        typed[typed.length - 1] === " " ||
+                        text[cursor] !== " "
+                    ) {
                         return;
                     } else {
                         dispatch({
                             type: InputActionTypes.SET_TYPED,
                             payload: typed.concat(key),
                         });
-                        dispatch({
-                            type: InputActionTypes.SET_INVISIBLE_TYPED,
-                            payload: typed.concat(key)
-                        })
                         dispatch({
                             type: InputActionTypes.SET_CURSOR,
                             payload: cursor + 1,
@@ -101,7 +98,7 @@ const useInput = (enabled: boolean, text: string) => {
                 default:
                     if (
                         text.split(" ")[currentIndex].length <=
-                        typed.split(" ")[currentIndex].length &&
+                            typed.split(" ")[currentIndex].length &&
                         typed[typed.length - 1]
                     ) {
                         return;
@@ -111,17 +108,17 @@ const useInput = (enabled: boolean, text: string) => {
                             payload: typed.concat(key),
                         });
                         dispatch({
-                            type: InputActionTypes.SET_INVISIBLE_TYPED,
-                            payload: typed.concat(key),
-                        });
-                        dispatch({
                             type: InputActionTypes.SET_CURSOR,
                             payload: cursor + 1,
                         });
                         const isCorrect = text.charAt(cursor) === key;
                         // Костыль, для того, чтобы первая буква в тексте не портила WPM (у нее будет время набора 0 соответственно WPM бесконечный)
-                        if (timeSinceLastKeyPress !== 0 && invisibleTyped!="") {
-                            setLetterData(text.charAt(cursor), isCorrect, timeSinceLastKeyPress);
+                        if (timeSinceLastKeyPress !== 0) {
+                            setLetterData(
+                                text.charAt(cursor),
+                                isCorrect,
+                                timeSinceLastKeyPress
+                            );
                         }
                     }
                     break;
@@ -132,10 +129,6 @@ const useInput = (enabled: boolean, text: string) => {
 
     const setLetterData = useCallback(
         (letter: string, isCorrect = true, timeDiff: number) => {
-            letterDispatch({
-                type: LetterActionTypes.INCREMENT_TYPED_COUNTER,
-                payload: { letter },
-            });
             if (!isCorrect) {
                 letterDispatch({
                     type: LetterActionTypes.INCREMENT_ERROR_COUNTER,
@@ -144,19 +137,19 @@ const useInput = (enabled: boolean, text: string) => {
             }
             letterDispatch({
                 type: LetterActionTypes.ADD_TIME_ELAPSED,
-                payload: { letter, value: timeDiff }
+                payload: { letter, value: timeDiff },
             });
             letterDispatch({
                 type: LetterActionTypes.CALCULATE_ERROR_RATE,
-                payload: { letter }
+                payload: { letter },
             });
             letterDispatch({
                 type: LetterActionTypes.CALCULATE_WPM,
-                payload: { letter: letter }
+                payload: { letter: letter },
             });
             letterDispatch({
                 type: LetterActionTypes.CALCULATE_CONFIDENCE,
-                payload: { letter }
+                payload: { letter },
             });
         },
         []
@@ -170,13 +163,11 @@ const useInput = (enabled: boolean, text: string) => {
         };
     }, [keydownHandler]);
 
-
     return {
         typed,
         cursor,
         restartTyping,
         lastKeyPressTime,
-        invisibleTyped
     };
 };
 

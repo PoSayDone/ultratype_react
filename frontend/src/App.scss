@@ -344,30 +344,41 @@ nav {
                 &.active{
                     background-color: #fcc276;
                 }
+
+                background-color: #624b2e;
             }
 
             &.j,&.h,&.y,&.u,&.m,&.n{
                 &.active{
                     background-color: #fdef80 ;
                 }
+
+                background-color: #635d32;
             }
 
-            &.d,&.c,&.e,&.k,&.i{
+            &.d,&.c,&.e,&.k,&.i,&.comma{
                 &.active{
                     background-color: #faa5c8;
                 }
+                
+                background-color: #603f4c;
+
             }
 
-            &.s,&.w,&.x,&.l,&.o{
+            &.s,&.w,&.x,&.l,&.o,&.dot{
                 &.active{
                     background-color: #62e2fa;
                 }
+
+                background-color: #11282c;
             }
 
-            &.q,&.a,&.z,&.p{
+            &.q,&.a,&.z,&.p,&.semicolon,&.slash1,&.quote,&.left-bracket,&.right-bracket{
                 &.active{
                     background-color: #78e4a8;
                 }
+
+                background-color: #264a36;
             }
 
             &.active {

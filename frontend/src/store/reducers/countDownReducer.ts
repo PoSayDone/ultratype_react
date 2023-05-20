@@ -31,12 +31,12 @@ export interface setStartTime {
 }
 
 interface CountdownState {
-    timeLeft: number,
+    time: number,
     timerIsActive: boolean
 }
 
 const defaultState: CountdownState = {
-    timeLeft: 0,
+    time: 0,
     timerIsActive: false
 }
 
@@ -59,12 +59,12 @@ export function countDownReducer(state: CountdownState = defaultState, action: C
         case CountdownActionTypes.TICK_COUNTDOWN:
             return {
                 ...state,
-                timeLeft: state.timeLeft - 1
+                time: state.time - 1
             }
         case CountdownActionTypes.SET_START_TIME:
             return {
                 ...state,
-                timeLeft: action.payload
+                time: action.payload
             }
         default:
             return state;

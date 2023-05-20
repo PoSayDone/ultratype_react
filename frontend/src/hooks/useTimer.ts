@@ -6,7 +6,7 @@ import { TimerActionTypes } from '../store/reducers/timerReducer';
 
 const useTimer = () => {
     const dispatch = useDispatch();
-    const { timerIsActive, timeLeft } = useTypedSelector(state => state.timer);
+    const { timerIsActive, time} = useTypedSelector(state => state.timer);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -20,7 +20,7 @@ const useTimer = () => {
         return () => {
             clearInterval(interval)
         }
-    }, [timerIsActive, timeLeft]);
+    }, [timerIsActive, time]);
 
     const handleStart = () => {
         dispatch({ type: TimerActionTypes.START_TIMER });
@@ -34,7 +34,7 @@ const useTimer = () => {
         dispatch({ type: TimerActionTypes.RESET_TIMER });
     };
 
-    return { timeLeft, handleStart, handleStop, timerIsActive , handleReset};
+    return { time, handleStart, handleStop, timerIsActive , handleReset};
 };
 
 export default useTimer;

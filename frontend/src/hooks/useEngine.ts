@@ -10,7 +10,6 @@ import useAccuracy from "./useAccuracy";
 import useLettersData from "./useLettersData";
 import usePageVisibility from "./usePageVisibility";
 import { useParams } from "react-router-dom";
-import useTimerWpm from "./useTimerWpm";
 import useTimer from "./useTimer";
 
 const useEngine = () => {
@@ -21,14 +20,14 @@ const useEngine = () => {
     const isVisible = usePageVisibility()
     const { updateLetters, mask, mainLetter } = useLettersData();
     const { status } = useTypedSelector(state => state.status);
-    const { timerIsActive, timeLeft, handleStart, handleStop, handleReset } = mode == "learning" ?  useCountdown(timerConst) : useTimer();
+    const { timerIsActive, time, handleStart, handleStop, handleReset } = mode !== "timeAtack" ?  useTimer() : useCountdown(timerConst);
     const { words, isLoading, fetchWords } = useWords(mask, mainLetter, 25);
-    const { typed, cursor, restartTyping, lastKeyPressTime , invisibleTyped} = useInput(status !== "finish", words);
-    const wpm = mode == "learning" ? useWpm(typed, timerConst, timeLeft) : useTimerWpm(invisibleTyped,timeLeft)
+    const { typed, cursor, restartTyping, lastKeyPressTime} = useInput(status !== "finish", words);
+    const wpm = mode !== "timeAtack" ? useWpm(typed, time) : useWpm(typed, time, timerConst)
     const accuracy = useAccuracy(words, typed, cursor);
     const isStarting = status === "start" && cursor > 0 && isLoading === false;
     const currentCharacterRef = useRef<HTMLSpanElement>(null);
-
+    
     const addTest = async () => {
         try {
             await TestsService.addTest(mode, wpm, (accuracy / 100));
@@ -75,9 +74,7 @@ const useEngine = () => {
                 if (mode !== "learning")
                     dispatch({ type: "CHANGE_STATE", payload: "finish" })
                 else {
-                    if (mode !== "infinity"){
-                        restart()
-                    }
+                    restart()
                     // fetchWords()
                 }
             }
@@ -100,7 +97,7 @@ const useEngine = () => {
                 restart()
             }
         },
-        [timeLeft]
+        [time]
     );
 
     return {
@@ -110,8 +107,8 @@ const useEngine = () => {
         wpm,
         restart,
         cursor,
-        timeLeft,
-        timeConst: timerConst,
+        time,
+        timerConst,
         currentCharacterRef,
         accuracy,
         mask,

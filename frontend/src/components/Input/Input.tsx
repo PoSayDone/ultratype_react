@@ -9,7 +9,7 @@ import { useDispatch } from "react-redux";
 import { WordsActionTypes } from "../../store/reducers/wordsReducer";
 import { InputActionTypes } from "../../store/reducers/inputReducer";
 import WordsService from "../../services/WordsService";
-import {useTypedSelector} from "../../hooks/useTypedSelector";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 import useEngine from "../../hooks/useEngine";
 
 // Пропсы для инпута
@@ -31,23 +31,11 @@ const Input = ({
     currentCharacterRef,
     state,
 }: InputProps) => {
-    const userTextArray: string[] = userText.split(" ");
-    const textArray = text.split(/(?<=\s)/);
     const dispatch = useDispatch();
 
     const [leftMargin, setLeftMargin] = useState<any | null>(null);
     const [topMargin, setTopMargin] = useState<any | null>(null);
     let previousWordsLength = 0; // Переменная для преобразование индексов двумерного массива в одномерный
-
-
-    const typed = useTypedSelector(state=> state.input.invisibleTyped)
-
-    useEffect(() => {
-        console.log(typed)
-
-    },[typed])
-
-
 
     const calculateLeftMargin = useEffect(() => {
         currentCharacterRef.current !== undefined
@@ -57,32 +45,47 @@ const Input = ({
             ? setTopMargin(currentCharacterRef.current?.offsetTop)
             : 0;
     }, [cursorPosition]);
+
     const mode = useParams().mode || "learning";
     const inputWordRef = useRef();
 
+    const [cursorSplitPosition, setCursorSplitPosition] = useState(0);
+
+    const visibleText = text.substring(cursorSplitPosition);
+    const visibleUserText = userText.substring(cursorSplitPosition);
+
+    const textArray = visibleText.split(/(?<=\s)/);
+    const userTextArray: string[] = visibleUserText.split(" ");
+
     useEffect(() => {
-        if (mode == "infinity") {
-            if (topMargin > 0) {
-                let newWords = async () => {
-                    let res = await WordsService.fetchRandomWords(10)
-                    console.log(res.data.strings);
-                    dispatch({
-                        type: WordsActionTypes.SET_WORDS,
-                        payload: text.substring(cursorPosition)+" "+res.data.strings.join(" "), //не работает какого-то хуя
-                    })
-                }
-                newWords()
-                dispatch({ type: InputActionTypes.SET_TYPED, payload: "" });
-                dispatch({type: InputActionTypes.SET_CURSOR, payload: 0})
-            }
+        let newWords = async () => {
+            let res = await WordsService.fetchRandomWords(10);
+            console.log(res.data.strings);
+            dispatch({
+                type: WordsActionTypes.SET_WORDS,
+                payload: text + res.data.strings.join(" "),
+            });
+        };
+        if (topMargin > 0) {
+            setCursorSplitPosition(cursorPosition);
+        }
+        if (mode === "infinity") {
+            newWords();
         }
     }, [topMargin]);
+
+    useEffect(() => {
+        if (mode === "learning" && userText == "") {
+            // newWords();
+            setCursorSplitPosition(0);
+        }
+    }, [userText]);
 
     // Возвращаем div'ы слов, состоящие из Character'ов
     return (
         <>
             {state !== "finish" && (
-                <Caret leftMargin={leftMargin} topMargin={topMargin} />
+                <Caret leftMargin={leftMargin} topMargin={0} />
             )}
             {textArray.map((word, wordIndex) => {
                 return (

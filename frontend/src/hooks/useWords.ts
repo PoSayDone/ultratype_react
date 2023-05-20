@@ -18,7 +18,7 @@ const useWords = (mask: string, mainLetter: string, len: number) => {
     const dispatch = useDispatch();
     const { words } = useTypedSelector(state => state.words)
     const mode = useParams().mode || "learning"
-    const fetchWords = async () => {
+    const fetchWords = async ( ) => {
         setLoading(true);
         setError(false);
         try {

@@ -23,7 +23,8 @@ interface TypingProps {
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
     const { t, i18n } = useTranslation()
-    const { timeConst, accuracy, restart, status, words, typed, wpm, timeLeft, cursor, currentCharacterRef, mask, mainLetter } = useEngine();
+    const { timerConst, accuracy, restart, status, words, typed, wpm, time, cursor, currentCharacterRef, mask, mainLetter } = useEngine();
+
     const [currentChar, setCurrentChar] = useState(words[0])
     const mode = useParams().mode || "learning"
     useEffect(() => {
@@ -59,7 +60,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                         </div>
                     </AnimatePresence>
                     <div className="typing__metrics">
-                        {mode != "infinity" && <CountdownTimer timeLeft={timeLeft} />}
+                        {mode != "infinity" && <CountdownTimer timeLeft={time} />}
                         <SymbolsTypedMetric wpm={wpm} />
                         <AccuracyMetric accuracy={accuracy} />
                     </div>
@@ -68,7 +69,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             }
             <AnimatePresence initial={false}>
                 {status == 'finish' &&
-                    <Results accuracyPercentage={accuracy} wpm={wpm} time={timeConst - timeLeft}></Results>}
+                    <Results accuracyPercentage={accuracy} wpm={wpm} time={timerConst - time}></Results>}
             </AnimatePresence>
         </AnimatedContainer>
     )
