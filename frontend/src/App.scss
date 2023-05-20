@@ -14,6 +14,20 @@
     --input: #545062;
     --green: #7BB283;
     --red: #A86B6B;
+
+    //цвета для клавиатуры
+    --keyboard-button-background-green : #264a36;
+    --keyboard-button-accent-green: #78e4a8;
+    --keyboard-button-background-blue:#11282c;
+    --keyboard-button-accent-blue:  #62e2fa;
+    --keyboard-button-background-rose: #603f4c;
+    --keyboard-button-accent-rose: #faa5c8;
+    --keyboard-button-background-yellow: #635d32;
+    --keyboard-button-accent-yellow:  #fdef80;
+    --keyboard-button-background-orange: #624b2e;
+    --keyboard-button-accent-orange: #fcc276;
+    --active-keyboard-button-text-color:#381E72;
+
 }
 
 :root[data-theme='light'] {
@@ -27,6 +41,19 @@
     --on_accent: #381E72;
     --green: #259e37;
     --red: #9e2424;
+
+    //цвета для клавиатуры
+    --keyboard-button-background-green : #78e4a8;
+    --keyboard-button-accent-green: #3c7355;
+    --keyboard-button-background-blue:#62e2fa;
+    --keyboard-button-accent-blue:  #347986;
+    --keyboard-button-background-rose: #faa5c8;
+    --keyboard-button-accent-rose: #86586b;
+    --keyboard-button-background-yellow: #fdef80;
+    --keyboard-button-accent-yellow:  #888145;
+    --keyboard-button-background-orange: #fcc276;
+    --keyboard-button-accent-orange: #87683f;
+    --active-keyboard-button-text-color:#F3EDF7;
 }
 
 $heading_big: 28px;
@@ -342,48 +369,49 @@ nav {
 
             &.g,&.f,&.r,&.t,&.v,&.b{
                 &.active{
-                    background-color: #fcc276;
+                    background-color: var(--keyboard-button-accent-orange);
+
                 }
 
-                background-color: #624b2e;
+                background-color: var(--keyboard-button-background-orange);
             }
 
             &.j,&.h,&.y,&.u,&.m,&.n{
                 &.active{
-                    background-color: #fdef80 ;
+                    background-color: var(--keyboard-button-accent-yellow) ;
                 }
 
-                background-color: #635d32;
+                background-color: var(--keyboard-button-background-yellow);
             }
 
             &.d,&.c,&.e,&.k,&.i,&.comma{
                 &.active{
-                    background-color: #faa5c8;
+                    background-color: var(--keyboard-button-accent-rose);
                 }
                 
-                background-color: #603f4c;
+                background-color: var(--keyboard-button-background-rose);
 
             }
 
             &.s,&.w,&.x,&.l,&.o,&.dot{
                 &.active{
-                    background-color: #62e2fa;
+                    background-color: var(--keyboard-button-accent-blue);
                 }
 
-                background-color: #11282c;
+                background-color: var(--keyboard-button-background-blue);
             }
 
             &.q,&.a,&.z,&.p,&.semicolon,&.slash1,&.quote,&.left-bracket,&.right-bracket{
                 &.active{
-                    background-color: #78e4a8;
+                    background-color: var(--keyboard-button-accent-green);
                 }
 
-                background-color: #264a36;
+                background-color: var(--keyboard-button-background-green);
             }
 
             &.active {
                 background-color: var(--accent);
-                color: var(--on_accent);
+                color: var(--active-keyboard-button-text-color);
                 animation: smoothActiveButton 200ms;
             }
         }
