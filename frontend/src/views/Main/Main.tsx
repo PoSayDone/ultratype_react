@@ -25,10 +25,10 @@ const Main = () => {
                     url={"typing/infinity"}
                 />
                 <Card
-                    title={t("main.card1.title")}
-                    description={t("main.card1.description")}
+                    title={t("main.card3.title")}
+                    description={t("main.card3.description")}
                     img={"learning"}
-                    url={"learning"}
+                    url={"typing/timeattack"}
                 />
                 <Card
                     title={t("main.card1.title")}

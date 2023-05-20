@@ -69,7 +69,7 @@ const Input = ({
         if (topMargin > 0) {
             setCursorSplitPosition(cursorPosition);
         }
-        if (mode === "infinity") {
+        if (mode === "infinity" || mode === "timeattack") {
             newWords();
         }
     }, [topMargin]);

@@ -13,17 +13,17 @@ import { useParams } from "react-router-dom";
 import useTimer from "./useTimer";
 
 const useEngine = () => {
-    const timerConst = 140
+    const timerConst = 20
     const mode = useParams().mode || "learning"
     const dispatch = useDispatch();
     const [isMounted, setIsMounted] = useState(false);
     const isVisible = usePageVisibility()
     const { updateLetters, mask, mainLetter } = useLettersData();
     const { status } = useTypedSelector(state => state.status);
-    const { timerIsActive, time, handleStart, handleStop, handleReset } = mode !== "timeAtack" ?  useTimer() : useCountdown(timerConst);
+    const { timerIsActive, time, handleStart, handleStop, handleReset } = mode === "infinity" ?  useTimer() : useCountdown(timerConst);
     const { words, isLoading, fetchWords } = useWords(mask, mainLetter, 25);
     const { typed, cursor, restartTyping, lastKeyPressTime} = useInput(status !== "finish", words);
-    const wpm = mode !== "timeAtack" ? useWpm(typed, time) : useWpm(typed, time, timerConst)
+    const wpm = mode === "infinity" ? useWpm(typed, time) : useWpm(typed, time, timerConst)
     const accuracy = useAccuracy(words, typed, cursor);
     const isStarting = status === "start" && cursor > 0 && isLoading === false;
     const currentCharacterRef = useRef<HTMLSpanElement>(null);
@@ -75,12 +75,19 @@ const useEngine = () => {
                     dispatch({ type: "CHANGE_STATE", payload: "finish" })
                 else {
                     restart()
-                    // fetchWords()
                 }
             }
         },
         [timerIsActive, status, words, typed]
     );
+
+    useEffect(() => {
+        if (mode === "timeattack" && timerIsActive && status=== "run"){
+            if (time === 0){
+                dispatch({type : "CHANGE_STATE",payload: "finish"})
+            }
+        }
+    },[time,timerIsActive,timerConst])
 
     useEffect(
         () => {

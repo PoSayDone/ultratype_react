@@ -31,12 +31,18 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
         setCurrentChar(words[cursor])
     }, [words, cursor])
 
+    const dict = {
+        "infinity": "main.card2.title",
+        "timeattack" : "main.card3.title",
+        "learning" : "main.card3.title"
+    }
+
     return (
         <AnimatedContainer>
             <div className="title__section">
                 <div className="title__section--text">
                     <Heading headingLevel="h1" className="title">
-                        {title ? title : t("main.card2.title")}
+                        {title ? title : t(dict[mode])}
                     </Heading>
                     <Heading headingLevel="h3" className="subtitle">
                         {subtitle}
@@ -60,7 +66,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                         </div>
                     </AnimatePresence>
                     <div className="typing__metrics">
-                        {mode != "infinity" && <CountdownTimer timeLeft={time} />}
+                        <CountdownTimer timeLeft={time} />
                         <SymbolsTypedMetric wpm={wpm} />
                         <AccuracyMetric accuracy={accuracy} />
                     </div>

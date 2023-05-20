@@ -25,6 +25,7 @@ const useCountDown = (timerConst: number) => {
         }
     }, [timerIsActive, time]);
 
+
     const handleStart = () => {
         dispatch({ type: CountdownActionTypes.START_COUNTDOWN });
     };

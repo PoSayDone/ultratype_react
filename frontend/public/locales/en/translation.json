@@ -20,6 +20,10 @@
         "card2": {
             "title": "Infinity",
             "description": "Mode for advanced people to hone their typing skills"
+        },
+        "card3": {
+            "title" : "Time Attack",
+            "description": "Try yourself in speed typing, track your progress"
         }
     },
     "auth": {
