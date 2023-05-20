@@ -1,5 +1,6 @@
 import { TFunction } from "i18next"
 import { Link, NavLink } from "react-router-dom"
+import { useTypedSelector } from "../hooks/useTypedSelector"
 
 interface NavbarProps{
     language : TFunction<"translation" , undefined , "translation">
@@ -29,10 +30,14 @@ const NavItem = ({src,spanText,innerText} : NavItemProps) =>{
 }
 
 const Navbar = ({language} : NavbarProps) => {
+
+    const mode = useTypedSelector(state => state.status.lastMode)
+    console.log(mode)
+
     return (
         <nav>
             <NavItem src="/" spanText="home"  innerText={language("navbar.home")}/>
-            <NavItem src="/typing" spanText="notes"  innerText={language("navbar.typing")}/>
+            <NavItem src={mode == "infinity" || mode == "timeattack" ? `/typing/${mode}` : "/typing"} spanText="notes"  innerText={language("navbar.typing")}/>
             <NavItem src="/settings" spanText="settings"  innerText={language("navbar.settings")}/>
             <NavItem src="/profile" spanText="person"  innerText={language("navbar.profile")}/>
         </nav>

@@ -79,6 +79,7 @@ const useInput = (enabled: boolean, text: string) => {
                     }
                     break;
                 case " ":
+                    event.preventDefault();
                     if (
                         typed[typed.length - 1] === " " ||
                         text[cursor] !== " "
@@ -129,6 +130,10 @@ const useInput = (enabled: boolean, text: string) => {
 
     const setLetterData = useCallback(
         (letter: string, isCorrect = true, timeDiff: number) => {
+            letterDispatch({
+                type: LetterActionTypes.INCREMENT_TYPED_COUNTER,
+                payload: {letter}
+            });
             if (!isCorrect) {
                 letterDispatch({
                     type: LetterActionTypes.INCREMENT_ERROR_COUNTER,

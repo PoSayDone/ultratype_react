@@ -16,7 +16,7 @@ const Main = () => {
                     title={t("main.card1.title")}
                     description={t("main.card1.description")}
                     img={"learning"}
-                    url={"levels"}
+                    url={"typing"}
                 />
                 <Card
                     title={t("main.card2.title")}
@@ -27,7 +27,7 @@ const Main = () => {
                 <Card
                     title={t("main.card3.title")}
                     description={t("main.card3.description")}
-                    img={"learning"}
+                    img={"timeattack"}
                     url={"typing/timeattack"}
                 />
                 <Card

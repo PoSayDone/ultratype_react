@@ -15,6 +15,8 @@ import AnimatedContainer from '../../components/AnimatedContainer';
 import Skeleton from '../../components/Skeleton/Skeleton';
 import LearningIndicator from '../../components/LearningIndicator/LearningIndicator';
 import {useParams} from "react-router-dom";
+import { string } from 'yup';
+import { useDispatch } from 'react-redux';
 
 interface TypingProps {
     title?: string;
@@ -31,7 +33,17 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
         setCurrentChar(words[cursor])
     }, [words, cursor])
 
-    const dict = {
+    const dispatch = useDispatch()
+    useEffect(() => {
+        dispatch({type: "CHANGE_LAST_MODE", payload: mode})
+    }, [])
+    // 
+
+    interface IDict{
+        [key :string] : string
+    }
+
+    const dict : IDict = {
         "infinity": "main.card2.title",
         "timeattack" : "main.card3.title",
         "learning" : "main.card3.title"

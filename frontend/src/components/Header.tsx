@@ -10,7 +10,7 @@ import AnimatedDiv from "./AnimatedDiv";
 import { AnimatePresence } from "framer-motion";
 
 const Header = () => {
-    const theme: Theme = useTypedSelector(state => state.theme.theme)
+    const theme = useTypedSelector(state => state.settings.theme)
     const user = useTypedSelector(state => state.user);
     const signOut = useSignOut()
     const { t, i18n } = useTranslation()

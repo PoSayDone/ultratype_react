@@ -29,7 +29,7 @@ function App() {
         }
     }, [])
 
-    const theme = useTypedSelector(state => state.theme.theme)
+    const theme = useTypedSelector(state => state.settings.theme)
     const { t, i18n } = useTranslation();
     const changeLanguage = (language: string) => {
         i18n.changeLanguage(language);
@@ -40,7 +40,7 @@ function App() {
         localStorage.setItem('theme', theme)
     }, [theme])
 
-    const language = useTypedSelector(state => state.language.language)
+    const language = useTypedSelector(state => state.settings.language)
 
     useEffect(() => {
         switch (language) {
@@ -68,7 +68,7 @@ function App() {
                             }
                         />
                         <Route
-                            path="/typing/"
+                            path="/typing"
                             element={
                                 <Typing
                                     title="Обучение"

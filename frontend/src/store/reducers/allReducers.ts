@@ -9,18 +9,17 @@ import { statusReducer } from "./statusReducer";
 import { userReducer } from "./userReducer";
 import { letterReducer } from "./letterReducer";
 import timerReducer from "./timerReducer";
+import settingsReducer from "./settingsReducer";
 
 export const rootReducer = combineReducers({
     status: statusReducer,
-    theme: themeReducer,
-    language: languageReducer,
-    font: fontReducer,
     input: inputReducer,
     words: wordsReducer,
     countDown: countDownReducer,
     user: userReducer,
     letters: letterReducer,
     timer: timerReducer,
+    settings: settingsReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

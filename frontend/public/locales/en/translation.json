@@ -4,7 +4,9 @@
         "interface": "Interface",
         "language": "Language",
         "theme": "Theme",
-        "font": "Monospace font"
+        "font": "Monospace font",
+        "timeAttack": "Time Attack",
+        "timeAttackTime":"Time per level"
     },
     "navbar": {
         "home": "Home",
