@@ -10,6 +10,8 @@ import useAccuracy from "./useAccuracy";
 import useLettersData from "./useLettersData";
 import usePageVisibility from "./usePageVisibility";
 import { useParams } from "react-router-dom";
+import useTimerWpm from "./useTimerWpm";
+import useTimer from "./useTimer";
 
 const useEngine = () => {
     const timerConst = 140
@@ -19,10 +21,10 @@ const useEngine = () => {
     const isVisible = usePageVisibility()
     const { updateLetters, mask, mainLetter } = useLettersData();
     const { status } = useTypedSelector(state => state.status);
-    const { timerIsActive, timeLeft, handleStart, handleStop, handleReset } = useCountdown(timerConst);
+    const { timerIsActive, timeLeft, handleStart, handleStop, handleReset } = mode == "learning" ?  useCountdown(timerConst) : useTimer();
     const { words, isLoading, fetchWords } = useWords(mask, mainLetter, 25);
-    const { typed, cursor, restartTyping, lastKeyPressTime } = useInput(status !== "finish", words);
-    const wpm = useWpm(typed, timerConst, timeLeft);
+    const { typed, cursor, restartTyping, lastKeyPressTime , invisibleTyped} = useInput(status !== "finish", words);
+    const wpm = mode == "learning" ? useWpm(typed, timerConst, timeLeft) : useTimerWpm(invisibleTyped,timeLeft)
     const accuracy = useAccuracy(words, typed, cursor);
     const isStarting = status === "start" && cursor > 0 && isLoading === false;
     const currentCharacterRef = useRef<HTMLSpanElement>(null);
@@ -73,7 +75,9 @@ const useEngine = () => {
                 if (mode !== "learning")
                     dispatch({ type: "CHANGE_STATE", payload: "finish" })
                 else {
-                    restart()
+                    if (mode !== "infinity"){
+                        restart()
+                    }
                     // fetchWords()
                 }
             }

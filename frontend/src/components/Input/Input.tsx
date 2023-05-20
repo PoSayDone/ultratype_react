@@ -9,6 +9,8 @@ import { useDispatch } from "react-redux";
 import { WordsActionTypes } from "../../store/reducers/wordsReducer";
 import { InputActionTypes } from "../../store/reducers/inputReducer";
 import WordsService from "../../services/WordsService";
+import {useTypedSelector} from "../../hooks/useTypedSelector";
+import useEngine from "../../hooks/useEngine";
 
 // Пропсы для инпута
 type InputProps = {
@@ -37,6 +39,16 @@ const Input = ({
     const [topMargin, setTopMargin] = useState<any | null>(null);
     let previousWordsLength = 0; // Переменная для преобразование индексов двумерного массива в одномерный
 
+
+    const typed = useTypedSelector(state=> state.input.invisibleTyped)
+
+    useEffect(() => {
+        console.log(typed)
+
+    },[typed])
+
+
+
     const calculateLeftMargin = useEffect(() => {
         currentCharacterRef.current !== undefined
             ? setLeftMargin(currentCharacterRef.current?.offsetLeft)
@@ -62,7 +74,6 @@ const Input = ({
                 newWords()
                 dispatch({ type: InputActionTypes.SET_TYPED, payload: "" });
                 dispatch({type: InputActionTypes.SET_CURSOR, payload: 0})
-
             }
         }
     }, [topMargin]);

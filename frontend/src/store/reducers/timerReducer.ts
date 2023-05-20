@@ -24,18 +24,18 @@ export interface tickTimer {
 }
 
 interface TimerState {
-    time: number,
+    timeLeft: number,
     timerIsActive: boolean
 }
 
 const defaultState: TimerState = {
-    time: 0,
+    timeLeft: 0,
     timerIsActive: false
 }
 
 export type TimerActions = stopTimer | startTimer | resetTimer | tickTimer
 
-export function countDownReducer(state: TimerState = defaultState, action: TimerActions): TimerState {
+export default function timerReducer(state: TimerState = defaultState, action: TimerActions): TimerState {
     switch (action.type) {
         case TimerActionTypes.RESET_TIMER:
             return defaultState
@@ -52,7 +52,7 @@ export function countDownReducer(state: TimerState = defaultState, action: Timer
         case TimerActionTypes.TICK_TIMER:
             return {
                 ...state,
-                time: state.time + 1
+                timeLeft: state.timeLeft + 1
             }
         default:
             return state;

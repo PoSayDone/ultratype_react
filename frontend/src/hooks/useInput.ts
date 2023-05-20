@@ -19,7 +19,7 @@ const isSymbolAllowed = (code: string) => {
 const useInput = (enabled: boolean, text: string) => {
     const dispatch = useDispatch();
     const letterDispatch: Dispatch<LetterActions> = useDispatch()
-    const { cursor, typed } = useTypedSelector((state) => state.input);
+    const { cursor, typed,invisibleTyped } = useTypedSelector((state) => state.input);
     const currentIndex = typed.split(" ").length - 1;
     const [lastKeyPressTime, setLastKeyPressTime] = useState<number | null>(null);
     let timeSinceLastKeyPress = 0;
@@ -56,6 +56,10 @@ const useInput = (enabled: boolean, text: string) => {
                             payload: before,
                         });
                         dispatch({
+                            type: InputActionTypes.SET_INVISIBLE_TYPED,
+                            payload: before
+                        })
+                        dispatch({
                             type: InputActionTypes.SET_CURSOR,
                             payload: lastIndex,
                         });
@@ -65,6 +69,10 @@ const useInput = (enabled: boolean, text: string) => {
                         type: InputActionTypes.SET_TYPED,
                         payload: typed.slice(0, -1),
                     });
+                    dispatch({
+                        type: InputActionTypes.SET_INVISIBLE_TYPED,
+                        payload: typed.slice(0, -1)
+                    })
                     if (cursor > 0) {
                         dispatch({
                             type: InputActionTypes.SET_CURSOR,
@@ -80,6 +88,10 @@ const useInput = (enabled: boolean, text: string) => {
                             type: InputActionTypes.SET_TYPED,
                             payload: typed.concat(key),
                         });
+                        dispatch({
+                            type: InputActionTypes.SET_INVISIBLE_TYPED,
+                            payload: typed.concat(key)
+                        })
                         dispatch({
                             type: InputActionTypes.SET_CURSOR,
                             payload: cursor + 1,
@@ -99,12 +111,16 @@ const useInput = (enabled: boolean, text: string) => {
                             payload: typed.concat(key),
                         });
                         dispatch({
+                            type: InputActionTypes.SET_INVISIBLE_TYPED,
+                            payload: typed.concat(key),
+                        });
+                        dispatch({
                             type: InputActionTypes.SET_CURSOR,
                             payload: cursor + 1,
                         });
                         const isCorrect = text.charAt(cursor) === key;
                         // Костыль, для того, чтобы первая буква в тексте не портила WPM (у нее будет время набора 0 соответственно WPM бесконечный)
-                        if (timeSinceLastKeyPress !== 0) {
+                        if (timeSinceLastKeyPress !== 0 && invisibleTyped!="") {
                             setLetterData(text.charAt(cursor), isCorrect, timeSinceLastKeyPress);
                         }
                     }
@@ -159,7 +175,8 @@ const useInput = (enabled: boolean, text: string) => {
         typed,
         cursor,
         restartTyping,
-        lastKeyPressTime
+        lastKeyPressTime,
+        invisibleTyped
     };
 };
 

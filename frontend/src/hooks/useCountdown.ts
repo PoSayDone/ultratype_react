@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { startCountdown, stopCountdown, resetCountdown, tickCountdown, CountdownActionTypes } from '../store/reducers/countDownReducer';
 import { useTypedSelector } from './useTypedSelector';
 
-const useTimer = (timerConst: number) => {
+const useCountDown = (timerConst: number) => {
     const dispatch = useDispatch();
     const { timerIsActive, timeLeft } = useTypedSelector(state => state.countDown);
 
@@ -40,4 +40,4 @@ const useTimer = (timerConst: number) => {
     return { timeLeft, handleStart, handleStop, timerIsActive, handleReset };
 };
 
-export default useTimer;
+export default useCountDown;
