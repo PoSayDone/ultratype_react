@@ -11,12 +11,13 @@ import useCountdown from "./useCountdown";
 import { init } from "i18next";
 
 // Проверяет является ли вводимый символ цифрой, буквой, пробелом или бэкспейсом
-const isSymbolAllowed = (code: string) => {
+const isSymbolAllowed = (code: string,key:string) => {
     return (
         code.startsWith("Key") ||
         code.startsWith("Digit") ||
         code === "Backspace" ||
-        code === "Space"
+        code === "Space" ||
+        "йцукенгшщзхъэждлорпавыфячсмитьбю".includes(key)
     );
 };
 
@@ -39,7 +40,8 @@ const useInput = (enabled: boolean, text: string) => {
 
     const keydownHandler = useCallback(
         ({ key, code, ctrlKey }: KeyboardEvent) => {
-            if (!enabled || !isSymbolAllowed(code)) {
+            console.log(key);
+            if (!enabled || !isSymbolAllowed(code,key)) {
                 return;
             }
             if (lastKeyPressTime !== null) {

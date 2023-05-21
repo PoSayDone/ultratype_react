@@ -2,6 +2,7 @@ import "./Keyboard.module.scss";
 import data from "./Keyboard.module.json";
 import { useEffect, useState } from "react";
 import classNames from "classnames";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 
 interface KeyboardProps {
     currentChar: string
@@ -63,11 +64,14 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
         }
     }
 
+    const lang = useTypedSelector(state => state.settings.typingLanguage)
+    const keys = lang === "ru" ? data.russian.keys : data.qwerty.keys
+
     return (
         <div className="keyboard">
             <div className="keyboard__row r1">
                 {
-                    data.qwerty.keys.row1.map((key, index) =>{
+                    keys.row1.map((key, index) =>{
                         const letter = key.slice(0,-1)
                         return(
                             <KeyboardButton
@@ -91,7 +95,7 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
                     <span className="material-symbols-rounded">keyboard_tab</span>
                 </div>
                 {/* Проходится по всем элементам второго ряда из json файла */}
-                {data.qwerty.keys.row2.map((key: string) =>
+                {keys.row2.map((key: string) =>
                     <KeyboardButton
                         value={key}
                         isUpperCase={isUpperCase}
@@ -106,7 +110,7 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
                     <span className="material-symbols-rounded">keyboard_capslock</span>
                 </div>
                 {/* Проходится по всем элементам третьего ряда из json файла */}
-                {data.qwerty.keys.row3.map((key: string) =>
+                {keys.row3.map((key: string) =>
                     <KeyboardButton
                         value={key}
                         isUpperCase={isUpperCase}
@@ -126,7 +130,7 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
                     <span className="material-symbols-rounded">shift</span>
                 </div>
                 {/* Проходится по всем элементам четвертого ряда из json файла */}
-                {data.qwerty.keys.row4.map((key: string) =>
+                {keys.row4.map((key: string) =>
                     <KeyboardButton
                         value={key}
                         isUpperCase={isUpperCase}

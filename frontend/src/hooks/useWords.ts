@@ -14,6 +14,7 @@ import {IWords} from "../models/IWords";
 const useWords = (mask: string, mainLetter: string, len: number) => {
 
     const [isLoading, setLoading] = useState(true);
+    const typingLanguage = useTypedSelector(state => state.settings.typingLanguage)
     const [isError, setError] = useState(false);
     const dispatch = useDispatch();
     const { words } = useTypedSelector(state => state.words)
@@ -25,13 +26,13 @@ const useWords = (mask: string, mainLetter: string, len: number) => {
             let result
             switch (mode){
                 case "learning":
-                    result = await WordsService.fetchWords(mask, mainLetter, len)
+                    result = await WordsService.fetchWords(mask, mainLetter, len, typingLanguage)
                     break;
                 case "infinity":
-                    result = await WordsService.fetchRandomWords(len)
+                    result = await WordsService.fetchRandomWords(10, typingLanguage)
                     break;
                 default:
-                    result = await WordsService.fetchRandomWords(len)
+                    result = await WordsService.fetchRandomWords(len,typingLanguage)
                     break;
             }
             dispatch({ type: WordsActionTypes.SET_WORDS, payload: result.data.strings.join(" ") })

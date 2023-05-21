@@ -56,14 +56,15 @@ const Input = ({
 
     const textArray = visibleText.split(/(?<=\s)/);
     const userTextArray: string[] = visibleUserText.split(" ");
+    const typingLanguage = useTypedSelector(state => state.settings.typingLanguage)
 
     useEffect(() => {
         let newWords = async () => {
-            let res = await WordsService.fetchRandomWords(10);
+            let res = await WordsService.fetchRandomWords(10,typingLanguage);
             console.log(res.data.strings);
             dispatch({
                 type: WordsActionTypes.SET_WORDS,
-                payload: text + res.data.strings.join(" "),
+                payload: text + " " + res.data.strings.join(" "),
             });
         };
         if (topMargin > 0) {

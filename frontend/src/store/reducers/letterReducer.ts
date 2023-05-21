@@ -1,4 +1,5 @@
 import { ILetter } from "../../models/ILetter";
+import settingsReducer from "./settingsReducer";
 
 const calculateWpm = (typed: number, errors: number, time: number) => {
     const typedRight = typed - errors <= 0 ? 0 : typed - errors;
@@ -37,7 +38,13 @@ const calculateConfidence = (errorRate: number, wpm: number) => {
 };
 
 const storedLetters = localStorage.getItem("userLetters");
-const letters = storedLetters !== null ? JSON.parse(storedLetters) : null;
+let letters : ILetter | null;
+try{
+    letters = storedLetters !== null ? JSON.parse(storedLetters) : null;
+}catch (e) {
+    letters = null;
+}
+
 
 let defaultState: ILetter;
 defaultState = {

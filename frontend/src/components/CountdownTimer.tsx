@@ -4,14 +4,17 @@ type Props = {
     timeLeft: number;
 }
 
-const CountdownTimer = (props: Props) => {
+const CountdownTimer = ({timeLeft}: Props) => {
     const {t, i18n} = useTranslation()
+    const seconds = timeLeft % 60
+    const minutes = (timeLeft - seconds) / 60
+    const resultString = minutes === 0 ? `${seconds}` : `${minutes}:${seconds}`
     return (
         <div className='timer'>
             <span className="material-symbols-rounded">
                 timelapse
             </span>
-            {t("typing.time")}: {props.timeLeft}
+            {t("typing.time")}: {resultString}
         </div>
     )
 }

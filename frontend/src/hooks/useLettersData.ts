@@ -12,8 +12,9 @@ const useLettersData = () => {
 
     useEffect(() => {
         if (
-            storedLettersToAdd === null ||
-            JSON.parse(storedLettersToAdd) === ""
+            storedLettersToAdd === null
+            || storedLettersToAdd === ""
+            || JSON.parse(storedLettersToAdd) === ""
         ) {
             setLettersToAdd("sauodychgmpbkvwfzxqj");
         } else setLettersToAdd(JSON.parse(storedLettersToAdd));

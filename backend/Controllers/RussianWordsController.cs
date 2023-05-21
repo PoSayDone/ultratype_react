@@ -1,4 +1,4 @@
-using backend.Dtos;
+﻿using backend.Dtos;
 using backend.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 namespace backend.Controllers
 {
     [ApiController]
-    [Route("words/en")]
-    public class WordsController : ControllerBase
+    [Route("words/ru")]
+    public class RussianWordsController : ControllerBase
     {
-        private readonly IWordsRepository wordsRepo;
+        private readonly IRussianWordsRepository wordsRepo;
 
-        public WordsController(IWordsRepository repository)
+        public RussianWordsController(IRussianWordsRepository repository)
         {
             wordsRepo = repository;
         }

@@ -24,7 +24,7 @@ const useEngine = () => {
     const { status } = useTypedSelector((state) => state.status);
     const { timerIsActive, time, handleStart, handleStop, handleReset } =
         mode !== "timeattack" ? useTimer() : useCountdown(timerConst);
-    const { words, isLoading, fetchWords } = useWords(mask, mainLetter, 3);
+    const { words, isLoading, fetchWords } = useWords(mask, mainLetter, 20);
     const { typed, cursor, restartTyping, lastKeyPressTime } = useInput(
         status !== "finish",
         words
