@@ -32,7 +32,6 @@ const NavItem = ({src,spanText,innerText} : NavItemProps) =>{
 const Navbar = ({language} : NavbarProps) => {
 
     const mode = useTypedSelector(state => state.status.lastMode)
-    console.log(mode)
 
     return (
         <nav>

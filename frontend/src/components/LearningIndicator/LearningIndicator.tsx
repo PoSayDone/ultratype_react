@@ -28,7 +28,8 @@ const IndicatorItem = ({ letter, mainLetter, title, style }: IndicatorItemProps)
 }
 
 const LearningIndicator = ({ letterString, mainLetter }: IndicatorProps) => {
-    const letters = useTypedSelector(state => state.letters)
+    let typingLang = useTypedSelector(state => state.settings.typingLanguage)
+    const letters = useTypedSelector(state => state.letters[typingLang])
 
     return (
         <div className="learning-indicator__container">
@@ -54,8 +55,7 @@ const LearningIndicator = ({ letterString, mainLetter }: IndicatorProps) => {
                 Main char:
             </div>
             <div className="learning-indicator__main-char">
-                <IndicatorItem letter={mainLetter} mainLetter={""} title={""} style={{ background: "var(--accent)" }}>
-                </IndicatorItem>
+                <IndicatorItem letter={mainLetter} mainLetter={""} title={""} style={{ background: "var(--accent)" }}/>
             </div>
         </div>
     )

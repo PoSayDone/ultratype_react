@@ -51,16 +51,16 @@ const useEngine = () => {
         restartTyping();
     };
 
-    useEffect(() => {
-        if (isMounted) {
-            if (status === "finish") {
-                handleStop();
-                addTest();
-            }
-        } else {
-            setIsMounted(true);
-        }
-    }, [status]);
+    // useEffect(() => {
+    //     if (isMounted) {
+    //         if (status === "finish") {
+    //             handleStop();
+    //             addTest();
+    //         }
+    //     } else {
+    //         setIsMounted(true);
+    //     }
+    // }, [status]);
 
     useEffect(() => {
         if (isStarting) {
@@ -83,29 +83,29 @@ const useEngine = () => {
         }
     }, [timerIsActive, status, words, typed]);
 
-    useEffect(() => {
-        if (mode === "timeattack" && timerIsActive && status === "run") {
-            if (time === 0) {
-                dispatch({ type: "CHANGE_STATE", payload: "finish" });
-            }
-        }
-    }, [time, timerIsActive, timerConst]);
+    // useEffect(() => {
+    //     if (mode === "timeattack" && timerIsActive && status === "run") {
+    //         if (time === 0) {
+    //             dispatch({ type: "CHANGE_STATE", payload: "finish" });
+    //         }
+    //     }
+    // }, [time, timerIsActive, timerConst]);
 
-    useEffect(() => {
-        if (isVisible == false) {
-            restart();
-        }
-    }, [timerIsActive, status, isVisible]);
+    // useEffect(() => {
+    //     if (isVisible == false) {
+    //         restart();
+    //     }
+    // }, [timerIsActive, status, isVisible]);
 
-    useEffect(() => {
-        if (
-            timerIsActive &&
-            lastKeyPressTime != null &&
-            new Date().getTime() - lastKeyPressTime >= 15 * 1000
-        ) {
-            restart();
-        }
-    }, [time]);
+    // useEffect(() => {
+    //     if (
+    //         timerIsActive &&
+    //         lastKeyPressTime != null &&
+    //         new Date().getTime() - lastKeyPressTime >= 15 * 1000
+    //     ) {
+    //         restart();
+    //     }
+    // }, [time]);
 
     return {
         status,

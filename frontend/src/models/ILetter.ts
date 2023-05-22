@@ -6,5 +6,5 @@ export interface ILetter {
         typedCounter: number,
         errorCounter: number,
         timeElapsed: number,
-    };
+    }
 }

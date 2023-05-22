@@ -1,4 +1,5 @@
 import { ILetter } from "../../models/ILetter";
+import { ILettersDictionary } from "../../models/ILettersDictionary";
 import settingsReducer from "./settingsReducer";
 
 const calculateWpm = (typed: number, errors: number, time: number) => {
@@ -37,69 +38,119 @@ const calculateConfidence = (errorRate: number, wpm: number) => {
     return confidence;
 };
 
-const storedLetters = localStorage.getItem("userLetters");
-let letters : ILetter | null;
-try{
-    letters = storedLetters !== null ? JSON.parse(storedLetters) : null;
-}catch (e) {
-    letters = null;
-}
-
-
-let defaultState: ILetter;
+let defaultState: ILettersDictionary;
 defaultState = {
-    e: {
-        wpm: 0,
-        errorRate: 0,
-        confidence: 0,
-        typedCounter: 0,
-        errorCounter: 0,
-        timeElapsed: 0,
+    en: {
+        e: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        n: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        i: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        t: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        r: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        l: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
     },
-    n: {
-        wpm: 0,
-        errorRate: 0,
-        confidence: 0,
-        typedCounter: 0,
-        errorCounter: 0,
-        timeElapsed: 0,
-    },
-    i: {
-        wpm: 0,
-        errorRate: 0,
-        confidence: 0,
-        typedCounter: 0,
-        errorCounter: 0,
-        timeElapsed: 0,
-    },
-    t: {
-        wpm: 0,
-        errorRate: 0,
-        confidence: 0,
-        typedCounter: 0,
-        errorCounter: 0,
-        timeElapsed: 0,
-    },
-    r: {
-        wpm: 0,
-        errorRate: 0,
-        confidence: 0,
-        typedCounter: 0,
-        errorCounter: 0,
-        timeElapsed: 0,
-    },
-    l: {
-        wpm: 0,
-        errorRate: 0,
-        confidence: 0,
-        typedCounter: 0,
-        errorCounter: 0,
-        timeElapsed: 0,
-    },
+    ru: {
+        o: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        е: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        а: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        и: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        н: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        т: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+    }
 };
 
-if (letters !== null) {
-    defaultState = letters;
+
+const enLocalUserLetters = localStorage.getItem("enUserLetters")
+const ruLocalUserLetters = localStorage.getItem("ruUserLetters")
+
+if (enLocalUserLetters !== null) {
+    defaultState.en = JSON.parse(enLocalUserLetters)
+}
+if (ruLocalUserLetters !== null) {
+    defaultState.ru = JSON.parse(ruLocalUserLetters)
 }
 
 export enum LetterActionTypes {
@@ -119,6 +170,7 @@ export enum LetterActionTypes {
 interface SetWPMAction {
     type: LetterActionTypes.SET_WPM;
     payload: {
+        lang: string
         letter: string;
         value: number;
     };
@@ -127,6 +179,7 @@ interface SetWPMAction {
 interface SetErrorRateAction {
     type: LetterActionTypes.SET_ERROR_RATE;
     payload: {
+        lang: string
         letter: string;
         value: number;
     };
@@ -135,6 +188,7 @@ interface SetErrorRateAction {
 interface SetConfidence {
     type: LetterActionTypes.SET_CONFIDENCE;
     payload: {
+        lang: string
         letter: string;
         value: number;
     };
@@ -143,6 +197,7 @@ interface SetConfidence {
 interface AddLetter {
     type: LetterActionTypes.ADD_LETTER;
     payload: {
+        lang: string
         letter: string;
     };
 }
@@ -150,6 +205,7 @@ interface AddLetter {
 interface IncrementTypedCounter {
     type: LetterActionTypes.INCREMENT_TYPED_COUNTER;
     payload: {
+        lang: string
         letter: string;
     };
 }
@@ -157,6 +213,7 @@ interface IncrementTypedCounter {
 interface IncrementErrorCounter {
     type: LetterActionTypes.INCREMENT_ERROR_COUNTER;
     payload: {
+        lang: string
         letter: string;
     };
 }
@@ -164,12 +221,14 @@ interface IncrementErrorCounter {
 interface CalculateErrorRate {
     type: LetterActionTypes.CALCULATE_ERROR_RATE;
     payload: {
+        lang: string
         letter: string;
     };
 }
 interface CalculateConfidence {
     type: LetterActionTypes.CALCULATE_CONFIDENCE;
     payload: {
+        lang: string
         letter: string;
     };
 }
@@ -177,6 +236,7 @@ interface CalculateConfidence {
 interface CalculateWpm {
     type: LetterActionTypes.CALCULATE_WPM;
     payload: {
+        lang: string
         letter: string;
     };
 }
@@ -184,6 +244,7 @@ interface CalculateWpm {
 interface SetTimeElapsed {
     type: LetterActionTypes.SET_TIME_ELAPSED;
     payload: {
+        lang: string
         letter: string;
         value: number;
     };
@@ -192,6 +253,7 @@ interface SetTimeElapsed {
 interface AddTimeElapsed {
     type: LetterActionTypes.ADD_TIME_ELAPSED;
     payload: {
+        lang: string
         letter: string;
         value: number;
     };
@@ -213,23 +275,25 @@ export type LetterActions =
 export const letterReducer = (state = defaultState, action: LetterActions) => {
     switch (action.type) {
         case LetterActionTypes.SET_WPM:
-            state[action.payload.letter] = {
-                ...state[action.payload.letter],
+            state[action.payload.lang][action.payload.letter] = {
+                ...state[action.payload.lang][action.payload.letter],
                 wpm: action.payload.value,
             };
             return state;
         case LetterActionTypes.SET_ERROR_RATE:
-            state[action.payload.letter] = {
-                ...state[action.payload.letter],
+            state[action.payload.lang][action.payload.letter] = {
+                ...state[action.payload.lang][action.payload.letter],
                 errorRate: action.payload.value,
             };
+            return state;
         case LetterActionTypes.SET_CONFIDENCE:
-            state[action.payload.letter] = {
-                ...state[action.payload.letter],
+            state[action.payload.lang][action.payload.letter] = {
+                ...state[action.payload.lang][action.payload.letter],
                 confidence: action.payload.value,
             };
+            return state;
         case LetterActionTypes.ADD_LETTER:
-            state[action.payload.letter] = {
+            state[action.payload.lang][action.payload.letter] = {
                 wpm: 0,
                 errorRate: 0,
                 confidence: 0,
@@ -237,57 +301,57 @@ export const letterReducer = (state = defaultState, action: LetterActions) => {
                 errorCounter: 0,
                 timeElapsed: 0,
             };
+            return state;
         case LetterActionTypes.INCREMENT_TYPED_COUNTER:
-            state[action.payload.letter] = {
-                ...state[action.payload.letter],
-                typedCounter: state[action.payload.letter].typedCounter + 1,
+            state[action.payload.lang][action.payload.letter] = {
+                ...state[action.payload.lang][action.payload.letter],
+                typedCounter: state[action.payload.lang][action.payload.letter].typedCounter + 1,
             };
             return state;
         case LetterActionTypes.INCREMENT_ERROR_COUNTER:
-            state[action.payload.letter] = {
-                ...state[action.payload.letter],
-                errorCounter: state[action.payload.letter].errorCounter + 1,
+            state[action.payload.lang][action.payload.letter] = {
+                ...state[action.payload.lang][action.payload.letter],
+                errorCounter: state[action.payload.lang][action.payload.letter].errorCounter + 1,
             };
             return state;
         case LetterActionTypes.CALCULATE_ERROR_RATE:
-            state[action.payload.letter] = {
-                ...state[action.payload.letter],
+            state[action.payload.lang][action.payload.letter] = {
+                ...state[action.payload.lang][action.payload.letter],
                 errorRate:
-                    state[action.payload.letter].errorCounter /
-                    state[action.payload.letter].typedCounter,
+                    state[action.payload.lang][action.payload.letter].errorCounter /
+                    state[action.payload.lang][action.payload.letter].typedCounter,
             };
             return state;
         case LetterActionTypes.CALCULATE_WPM:
-            state[action.payload.letter] = {
-                ...state[action.payload.letter],
+            state[action.payload.lang][action.payload.letter] = {
+                ...state[action.payload.lang][action.payload.letter],
                 wpm: calculateWpm(
-                    state[action.payload.letter].typedCounter,
-                    state[action.payload.letter].errorCounter,
-                    state[action.payload.letter].timeElapsed
+                    state[action.payload.lang][action.payload.letter].typedCounter,
+                    state[action.payload.lang][action.payload.letter].errorCounter,
+                    state[action.payload.lang][action.payload.letter].timeElapsed
                 ),
             };
             return state;
         case LetterActionTypes.CALCULATE_CONFIDENCE:
-            state[action.payload.letter] = {
-                ...state[action.payload.letter],
+            state[action.payload.lang][action.payload.letter] = {
+                ...state[action.payload.lang][action.payload.letter],
                 confidence: calculateConfidence(
-                    state[action.payload.letter].errorRate,
-                    state[action.payload.letter].wpm
+                    state[action.payload.lang][action.payload.letter].errorRate,
+                    state[action.payload.lang][action.payload.letter].wpm
                 ),
             };
             return state;
         case LetterActionTypes.SET_TIME_ELAPSED:
-            state[action.payload.letter] = {
-                ...state[action.payload.letter],
+            state[action.payload.lang][action.payload.letter] = {
+                ...state[action.payload.lang][action.payload.letter],
                 timeElapsed: action.payload.value,
             };
             return state;
         case LetterActionTypes.ADD_TIME_ELAPSED:
-            state[action.payload.letter] = {
-                ...state[action.payload.letter],
+            state[action.payload.lang][action.payload.letter] = {
+                ...state[action.payload.lang][action.payload.letter],
                 timeElapsed:
-                    state[action.payload.letter].timeElapsed +
-                    action.payload.value,
+                    state[action.payload.lang][action.payload.letter].timeElapsed + action.payload.value,
             };
             return state;
         default:

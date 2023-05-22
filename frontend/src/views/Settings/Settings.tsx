@@ -19,12 +19,11 @@ const Settings = ({ text }: SettingsProps) => {
         const theme_value = event.target.value //проверка языка
         dispatch({ type: SettingsActionsTypes.CHANGE_THEME, payload: theme_value })
     };
-    console.log(typingLanguage)
-
 
     function changeLanguage(event: React.ChangeEvent<HTMLSelectElement>) {
         const lang = event.target.value === 'ru' //проверка языка
         dispatch({ type: SettingsActionsTypes.CHANGE_LANGUAGE, payload: lang })
+        localStorage.setItem("language",event.target.value)
     }
 
     const ChangeTimeAttackTimeValue = (event: React.ChangeEvent<HTMLInputElement>) =>{
@@ -38,12 +37,12 @@ const Settings = ({ text }: SettingsProps) => {
 
     const ChangeTimeAttackTime = (event: React.FocusEvent<HTMLInputElement>) => {
         dispatch({type: SettingsActionsTypes.SET_TIMEATTACK_TIME, payload: +event.target.value <1 ? 1 : +event.target.value})
+        localStorage.setItem("timerAttackTime", `${+event.target.value <1 ? 1 : +event.target.value}`)
     }
 
     function changeTypingLanguage(event: React.ChangeEvent<HTMLSelectElement>){
-        localStorage.setItem("userLetters","")
-        localStorage.setItem("userLettersToAdd","")
         dispatch({type:SettingsActionsTypes.SET_TYPING_LANGUAGE,payload:event.target.value})
+        localStorage.setItem("typingLang",event.target.value)
     }
 
     return (
@@ -91,7 +90,11 @@ const Settings = ({ text }: SettingsProps) => {
                         <fieldset name='font'>
                             <p>{text("settings.font")}</p>
                             <div className={isMonospace ? 'slider right' : 'slider left'}
-                                onClick={() => dispatch({ type: SettingsActionsTypes.CHANGE_FONT })}></div>
+                                onClick={() => {
+                                    dispatch({ type: SettingsActionsTypes.CHANGE_FONT })
+                                    localStorage.setItem("isMonospace",`${isMonospace}`)
+                                    console.log(`${isMonospace}`);
+                                    }}></div>
                         </fieldset>
                         <Heading headingLevel={"h2"}>Язык печати</Heading>
                         <fieldset name='typingLanguage'>

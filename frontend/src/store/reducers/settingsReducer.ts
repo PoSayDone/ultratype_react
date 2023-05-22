@@ -8,6 +8,24 @@ const getTheme = () => {
 	return 'dark'
 }
 
+function getLanguage(){
+	const language = localStorage.getItem("language") || "ru"
+	return language == "ru"
+}
+
+const getTimerAttackTime = () => {
+	const time = localStorage.getItem("timerAttackTime")
+	if (time == null ){
+		return 125
+	}else{
+		return +time
+	}
+}
+
+const getMonospace = () => (localStorage.getItem("isMonospace") == "true" && localStorage.getItem("isMonospace") != null) || false
+
+const getTypingLanguage = () => localStorage.getItem("typingLang") || "en"
+
 export enum SettingsActionsTypes {
 	CHANGE_LANGUAGE = "CHANGE_LANGUAGE",
 	CHANGE_THEME = "CHANGE_THEME",
@@ -48,11 +66,11 @@ interface IDefaultState{
 }
 
 const defaultState : IDefaultState = {
-	isMonospace : false,
+	isMonospace : getMonospace(),
 	theme : getTheme(),
-	language : true,
-	timeAttackTime : 120,
-	typingLanguage: "en"
+	language : getLanguage(),
+	timeAttackTime : getTimerAttackTime(),
+	typingLanguage: getTypingLanguage()
 }
 
 export type SettingsActions = LanguageActionType | FontActionType | ChangeThemeAction | SetTimeAttackTime | SetTypingLanguage

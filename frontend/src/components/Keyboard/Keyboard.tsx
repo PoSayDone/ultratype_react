@@ -39,6 +39,7 @@ const KeyboardButton = ({ currentChar, value, isUpperCase, setIsUpperCase, lette
 const Keyboard = ({ currentChar }: KeyboardProps) => {
 
     const [isUpperCase, setIsUpperCase] = useState(false);
+    const typingLang = useTypedSelector(state=> state.settings.typingLanguage)
 
     // Обработка нажатия и отпускания клавиш
     useEffect(() => {
@@ -136,7 +137,7 @@ const Keyboard = ({ currentChar }: KeyboardProps) => {
                         isUpperCase={isUpperCase}
                         setIsUpperCase={setIsUpperCase}
                         currentChar={currentChar}
-                        letterClassName={key.slice(0,-1)  == "," ? "comma" : key.slice(0,-1) == '.' ? "dot" : key.slice(0,-1) == "/" ? "slash1" : key.slice(0,-1)}
+                        letterClassName={key.slice(0,-1)  == "," ? "comma" : key.slice(0,-1) == '.' ? typingLang == "en" ? "dot" : "точка" : key.slice(0,-1) == "/" ? "slash1" : key.slice(0,-1)}
                     />
                 )}
                 <div className="keyboard__button shift">

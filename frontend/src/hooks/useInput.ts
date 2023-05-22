@@ -11,7 +11,7 @@ import useCountdown from "./useCountdown";
 import { init } from "i18next";
 
 // Проверяет является ли вводимый символ цифрой, буквой, пробелом или бэкспейсом
-const isSymbolAllowed = (code: string,key:string) => {
+const isSymbolAllowed = (code: string, key: string) => {
     return (
         code.startsWith("Key") ||
         code.startsWith("Digit") ||
@@ -25,6 +25,7 @@ const useInput = (enabled: boolean, text: string) => {
     const dispatch = useDispatch();
     const letterDispatch: Dispatch<LetterActions> = useDispatch();
     const { cursor, typed } = useTypedSelector((state) => state.input);
+    const typedLang = useTypedSelector(state => state.settings.typingLanguage);
     const currentIndex = typed.split(" ").length - 1;
     const [lastKeyPressTime, setLastKeyPressTime] = useState<number | null>(
         null
@@ -39,9 +40,9 @@ const useInput = (enabled: boolean, text: string) => {
     };
 
     const keydownHandler = useCallback(
-        ({ key, code, ctrlKey }: KeyboardEvent) => {
-            console.log(key);
-            if (!enabled || !isSymbolAllowed(code,key)) {
+        (event: KeyboardEvent) => {
+            const { key, code, ctrlKey } = event
+            if (!enabled || !isSymbolAllowed(code, key)) {
                 return;
             }
             if (lastKeyPressTime !== null) {
@@ -101,7 +102,7 @@ const useInput = (enabled: boolean, text: string) => {
                 default:
                     if (
                         text.split(" ")[currentIndex].length <=
-                            typed.split(" ")[currentIndex].length &&
+                        typed.split(" ")[currentIndex].length &&
                         typed[typed.length - 1]
                     ) {
                         return;
@@ -134,29 +135,29 @@ const useInput = (enabled: boolean, text: string) => {
         (letter: string, isCorrect = true, timeDiff: number) => {
             letterDispatch({
                 type: LetterActionTypes.INCREMENT_TYPED_COUNTER,
-                payload: {letter}
+                payload: { lang: typedLang, letter }
             });
             if (!isCorrect) {
                 letterDispatch({
                     type: LetterActionTypes.INCREMENT_ERROR_COUNTER,
-                    payload: { letter },
+                    payload: { lang: typedLang, letter }
                 });
             }
             letterDispatch({
                 type: LetterActionTypes.ADD_TIME_ELAPSED,
-                payload: { letter, value: timeDiff },
+                payload: { lang: typedLang, letter: letter, value: timeDiff }
             });
             letterDispatch({
                 type: LetterActionTypes.CALCULATE_ERROR_RATE,
-                payload: { letter },
+                payload: { lang: typedLang, letter }
             });
             letterDispatch({
                 type: LetterActionTypes.CALCULATE_WPM,
-                payload: { letter: letter },
+                payload: { lang: typedLang, letter }
             });
             letterDispatch({
                 type: LetterActionTypes.CALCULATE_CONFIDENCE,
-                payload: { letter },
+                payload: { lang: typedLang, letter }
             });
         },
         []

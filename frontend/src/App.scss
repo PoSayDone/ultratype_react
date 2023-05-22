@@ -80,7 +80,6 @@ main {
     // transition: 100ms;
 }
 
-.container {}
 
 body {
     color: var(--on_background);
@@ -371,7 +370,7 @@ nav {
             background: var(--background_secondary);
             transition: all 1ms linear;
 
-            &.g,&.f,&.r,&.t,&.v,&.b{
+            &.g,&.f,&.r,&.t,&.v,&.b,&.и,&.м,&.е,&.к,&.а,&.п{
                 &.active{
                     background-color: var(--keyboard-button-accent-orange);
 
@@ -380,7 +379,7 @@ nav {
                 background-color: var(--keyboard-button-background-orange);
             }
 
-            &.j,&.h,&.y,&.u,&.m,&.n{
+            &.j,&.h,&.y,&.u,&.m,&.n,&.о,&.р,&.н,&.г,&.т,&.ь{
                 &.active{
                     background-color: var(--keyboard-button-accent-yellow) ;
                 }
@@ -388,7 +387,7 @@ nav {
                 background-color: var(--keyboard-button-background-yellow);
             }
 
-            &.d,&.c,&.e,&.k,&.i,&.comma{
+            &.d,&.c,&.e,&.k,&.i,&.comma,&.в,&.e,&.с,&.л,&.ш,&.б,&.у{
                 &.active{
                     background-color: var(--keyboard-button-accent-rose);
                 }
@@ -397,7 +396,7 @@ nav {
 
             }
 
-            &.s,&.w,&.x,&.l,&.o,&.dot{
+            &.s,&.w,&.x,&.l,&.o,&.dot,&.ы,&.ч,&.ц,&.д,&.щ,&.ю{
                 &.active{
                     background-color: var(--keyboard-button-accent-blue);
                 }
@@ -405,7 +404,7 @@ nav {
                 background-color: var(--keyboard-button-background-blue);
             }
 
-            &.q,&.a,&.z,&.p,&.semicolon,&.slash1,&.quote,&.left-bracket,&.right-bracket{
+            &.q,&.a,&.z,&.p,&.semicolon,&.slash1,&.quote,&.left-bracket,&.right-bracket,&.й,&.ф,&.я,&.ж,&.точка,&.з,&.х,&.ъ,&.э{
                 &.active{
                     background-color: var(--keyboard-button-accent-green);
                 }
