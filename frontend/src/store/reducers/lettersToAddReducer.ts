@@ -1,7 +1,6 @@
 import { lettersToAddConst } from "../../constants/lettersToAddConst";
-import { ILettersToAdd } from "../../models/ILettersToAdd";
 
-let defaultState = lettersToAddConst
+let defaultState = lettersToAddConst;
 
 const localUserLettersToAdd = localStorage.getItem("userLettersToAdd")
 
@@ -40,14 +39,14 @@ export const lettersToAddReducer = (state = defaultState, action: LettersToAddAc
                 ...state[action.payload.lang],
                 letters: action.payload.letters,
             };
-            localStorage.setItem(`UserLettersToAdd`, JSON.stringify(state));
+            localStorage.setItem(`userLettersToAdd`, JSON.stringify(state));
             return state;
         case LettersToAddActionTypes.REMOVE_LETTER:
             state[action.payload.lang] = {
                 ...state[action.payload.lang],
                 letters: state[action.payload.lang].letters.substring(1),
             };
-            localStorage.setItem(`UserLettersToAdd`, JSON.stringify(state));
+            localStorage.setItem(`userLettersToAdd`, JSON.stringify(state));
             return state;
         default:
             return state;

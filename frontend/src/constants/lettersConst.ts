@@ -52,23 +52,7 @@ export const lettersConst : ILetters  = {
         },
     },
     ru: {
-        o: {
-            wpm: 0,
-            errorRate: 0,
-            confidence: 0,
-            typedCounter: 0,
-            errorCounter: 0,
-            timeElapsed: 0,
-        },
         е: {
-            wpm: 0,
-            errorRate: 0,
-            confidence: 0,
-            typedCounter: 0,
-            errorCounter: 0,
-            timeElapsed: 0,
-        },
-        а: {
             wpm: 0,
             errorRate: 0,
             confidence: 0,
@@ -84,7 +68,15 @@ export const lettersConst : ILetters  = {
             errorCounter: 0,
             timeElapsed: 0,
         },
-        н: {
+        а: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        о: {
             wpm: 0,
             errorRate: 0,
             confidence: 0,
@@ -93,6 +85,14 @@ export const lettersConst : ILetters  = {
             timeElapsed: 0,
         },
         т: {
+            wpm: 0,
+            errorRate: 0,
+            confidence: 0,
+            typedCounter: 0,
+            errorCounter: 0,
+            timeElapsed: 0,
+        },
+        н: {
             wpm: 0,
             errorRate: 0,
             confidence: 0,

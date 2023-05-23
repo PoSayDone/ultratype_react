@@ -5,6 +5,6 @@ export const lettersToAddConst : ILettersToAdd = {
         letters: "sauodychgmpbkvwfzxqj"
     },
     ru: {
-        letters: "йцукгшщзхъфывпрлджэячсмьбю"
+        letters: "лркумвсяьыдйюгчшхзбпжщцфъэё"
     }
 }
