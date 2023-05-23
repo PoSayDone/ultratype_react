@@ -24,8 +24,10 @@ const useEngine = () => {
     const { status } = useTypedSelector((state) => state.status);
     const { timerIsActive, time, handleStart, handleStop, handleReset } =
         mode !== "timeattack" ? useTimer() : useCountdown(timerConst);
+    const [leftMargin, setLeftMargin] = useState<any | null>(null);
+    const [topMargin, setTopMargin] = useState<any | null>(null);
     const { words, isLoading, fetchWords } = useWords(mask, mainLetter, 20);
-    const { typed, cursor, restartTyping, lastKeyPressTime } = useInput(
+    const { typed, cursor, restartTyping, lastKeyPressTime} = useInput(
         status !== "finish",
         words
     );
@@ -120,6 +122,10 @@ const useEngine = () => {
         accuracy,
         mask,
         mainLetter,
+        leftMargin,
+        setLeftMargin,
+        topMargin,
+        setTopMargin
     };
 };
 

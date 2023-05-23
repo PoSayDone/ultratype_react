@@ -14,7 +14,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import AnimatedContainer from '../../components/AnimatedContainer';
 import Skeleton from '../../components/Skeleton/Skeleton';
 import LearningIndicator from '../../components/LearningIndicator/LearningIndicator';
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { string } from 'yup';
 import { useDispatch } from 'react-redux';
 
@@ -25,7 +25,7 @@ interface TypingProps {
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
     const { t, i18n } = useTranslation()
-    const { timerConst, accuracy, restart, status, words, typed, wpm, time, cursor, currentCharacterRef, mask, mainLetter } = useEngine();
+    const { timerConst, accuracy, restart, status, words, typed, wpm, time, cursor, currentCharacterRef, mask, mainLetter, leftMargin, setLeftMargin, topMargin, setTopMargin } = useEngine();
 
     const [currentChar, setCurrentChar] = useState(words[0])
     const mode = useParams().mode || "learning"
@@ -35,18 +35,18 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
 
     const dispatch = useDispatch()
     useEffect(() => {
-        dispatch({type: "CHANGE_LAST_MODE", payload: mode})
+        dispatch({ type: "CHANGE_LAST_MODE", payload: mode })
     }, [])
     // 
 
-    interface IDict{
-        [key :string] : string
+    interface IDict {
+        [key: string]: string
     }
 
-    const dict : IDict = {
+    const dict: IDict = {
         "infinity": "main.card2.title",
-        "timeattack" : "main.card3.title",
-        "learning" : "main.card3.title"
+        "timeattack": "main.card3.title",
+        "learning": "main.card3.title"
     }
 
     return (
@@ -67,7 +67,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             {
                 status != "finish" &&
                 <div className="typing__container">
-                    {mode == "learning" && <LearningIndicator letterString={mask} mainLetter={mainLetter}/>}
+                    {mode == "learning" && <LearningIndicator letterString={mask} mainLetter={mainLetter} />}
                     <AnimatePresence>
                         <div className="input__section">
                             {

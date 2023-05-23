@@ -1,5 +1,6 @@
 @import "https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200";
 @import "https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap";
+@import "../src/globalStyles/Variables.scss";
 @import "./NullStyles.scss";
 
 :root[data-theme='dark'] {
@@ -16,17 +17,17 @@
     --red: #A86B6B;
 
     //цвета для клавиатуры
-    --keyboard-button-background-green : #264a36;
+    --keyboard-button-background-green: #264a36;
     --keyboard-button-accent-green: #78e4a8;
-    --keyboard-button-background-blue:#11282c;
-    --keyboard-button-accent-blue:  #62e2fa;
+    --keyboard-button-background-blue: #11282c;
+    --keyboard-button-accent-blue: #62e2fa;
     --keyboard-button-background-rose: #603f4c;
     --keyboard-button-accent-rose: #faa5c8;
     --keyboard-button-background-yellow: #635d32;
-    --keyboard-button-accent-yellow:  #fdef80;
+    --keyboard-button-accent-yellow: #fdef80;
     --keyboard-button-background-orange: #624b2e;
     --keyboard-button-accent-orange: #fcc276;
-    --active-keyboard-button-text-color:#381E72;
+    --active-keyboard-button-text-color: #381E72;
 
 }
 
@@ -43,31 +44,18 @@
     --red: #9e2424;
 
     //цвета для клавиатуры
-    --keyboard-button-background-green : #78e4a8;
+    --keyboard-button-background-green: #78e4a8;
     --keyboard-button-accent-green: #3c7355;
-    --keyboard-button-background-blue:#62e2fa;
-    --keyboard-button-accent-blue:  #347986;
+    --keyboard-button-background-blue: #62e2fa;
+    --keyboard-button-accent-blue: #347986;
     --keyboard-button-background-rose: #faa5c8;
     --keyboard-button-accent-rose: #86586b;
     --keyboard-button-background-yellow: #fdef80;
-    --keyboard-button-accent-yellow:  #888145;
+    --keyboard-button-accent-yellow: #888145;
     --keyboard-button-background-orange: #fcc276;
     --keyboard-button-accent-orange: #87683f;
-    --active-keyboard-button-text-color:#F3EDF7;
+    --active-keyboard-button-text-color: #F3EDF7;
 }
-
-$heading_big: 28px;
-$heading_medium: 24px;
-$heading_small: 20px;
-
-// Font variables
-$text_small: 16px;
-$text_mini: 14px;
-
-// Blocks variables
-$border_radius: 24px;
-$gap: 24px;
-$content_spacing: 40px;
 
 main {
     margin-left: auto;
@@ -75,11 +63,6 @@ main {
     width: 936px;
     margin-bottom: $content_spacing;
 }
-
-* {
-    // transition: 100ms;
-}
-
 
 body {
     color: var(--on_background);
@@ -127,6 +110,10 @@ header {
     }
 }
 
+.container {
+    margin-top: $content_spacing;
+}
+
 .button {
     border: none;
     display: flex;
@@ -153,7 +140,6 @@ header {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: $gap;
-    margin-top: $content_spacing;
 
     * {
         transition: cubic-bezier(0.075, 0.82, 0.165, 1);
@@ -266,85 +252,12 @@ nav {
     justify-content: space-between;
     align-items: center;
     gap: 4px;
-    margin-top: $content_spacing;
 
     .continue__button {
         padding: 10px 20px 10px 24px;
     }
 }
 
-.settings {
-    display: flex;
-    flex-direction: column;
-    gap: $content_spacing;
-    font-family: 'Roboto', sans-serif;
-    color: var(--on_background);
-
-    // .settings__section {
-    //     display: flex;
-    //     flex-direction: column;
-    //     gap: 12px;
-    // }
-
-    form {
-        display: flex;
-        flex-direction: column;
-
-        fieldset {
-            padding: 0;
-            border: 0;
-            display: flex;
-            flex-direction: row;
-            gap: 13px;
-            align-items: center;
-
-            p {
-                font-size: 18px;
-                line-height: 21px;
-                font-weight: 400;
-            }
-
-            select {
-                box-sizing: border-box;
-                font-size: 14px;
-                line-height: 20px;
-                font-weight: 500;
-                padding: 0px 12px;
-                height: 32px;
-                background-color: var(--background_secondary);
-                border-radius: 12px;
-                border: 0;
-                color: inherit;
-
-                &:focus {
-                    outline: none;
-                }
-
-            }
-
-            .slider {
-                width: 32px;
-                height: 16px;
-                background-image: url('./views/Settings/img/slider-circle.svg'), url('./views/Settings/img/slider-back.svg');
-                background-repeat: no-repeat;
-                cursor: pointer;
-                transition: background-position 0.3s;
-            }
-
-            .slider.right {
-                background-position: left center, center;
-            }
-
-            .slider.left {
-                background-position: right center, center;
-            }
-
-            input{
-                width: 120px;
-            }
-        }
-    }
-}
 
 
 .keyboard {
@@ -369,8 +282,19 @@ nav {
             background: var(--background_secondary);
             transition: all 1ms linear;
 
-            &.g,&.f,&.r,&.t,&.v,&.b,&.и,&.м,&.е,&.к,&.а,&.п{
-                &.active{
+            &.g,
+            &.f,
+            &.r,
+            &.t,
+            &.v,
+            &.b,
+            &.и,
+            &.м,
+            &.е,
+            &.к,
+            &.а,
+            &.п {
+                &.active {
                     background-color: var(--keyboard-button-accent-orange);
 
                 }
@@ -378,33 +302,84 @@ nav {
                 background-color: var(--keyboard-button-background-orange);
             }
 
-            &.j,&.h,&.y,&.u,&.m,&.n,&.о,&.р,&.н,&.г,&.т,&.ь{
-                &.active{
-                    background-color: var(--keyboard-button-accent-yellow) ;
+            &.j,
+            &.h,
+            &.y,
+            &.u,
+            &.m,
+            &.n,
+            &.о,
+            &.р,
+            &.н,
+            &.г,
+            &.т,
+            &.ь {
+                &.active {
+                    background-color: var(--keyboard-button-accent-yellow);
                 }
 
                 background-color: var(--keyboard-button-background-yellow);
             }
 
-            &.d,&.c,&.e,&.k,&.i,&.comma,&.в,&.e,&.с,&.л,&.ш,&.б,&.у{
-                &.active{
+            &.d,
+            &.c,
+            &.e,
+            &.k,
+            &.i,
+            &.comma,
+            &.в,
+            &.e,
+            &.с,
+            &.л,
+            &.ш,
+            &.б,
+            &.у {
+                &.active {
                     background-color: var(--keyboard-button-accent-rose);
                 }
-                
+
                 background-color: var(--keyboard-button-background-rose);
 
             }
 
-            &.s,&.w,&.x,&.l,&.o,&.dot,&.ы,&.ч,&.ц,&.д,&.щ,&.ю{
-                &.active{
+            &.s,
+            &.w,
+            &.x,
+            &.l,
+            &.o,
+            &.dot,
+            &.ы,
+            &.ч,
+            &.ц,
+            &.д,
+            &.щ,
+            &.ю {
+                &.active {
                     background-color: var(--keyboard-button-accent-blue);
                 }
 
                 background-color: var(--keyboard-button-background-blue);
             }
 
-            &.q,&.a,&.z,&.p,&.semicolon,&.slash1,&.quote,&.left-bracket,&.right-bracket,&.й,&.ф,&.я,&.ж,&.точка,&.з,&.х,&.ъ,&.э{
-                &.active{
+            &.q,
+            &.a,
+            &.z,
+            &.p,
+            &.semicolon,
+            &.slash1,
+            &.quote,
+            &.left-bracket,
+            &.right-bracket,
+            &.й,
+            &.ф,
+            &.я,
+            &.ж,
+            &.точка,
+            &.з,
+            &.х,
+            &.ъ,
+            &.э {
+                &.active {
                     background-color: var(--keyboard-button-accent-green);
                 }
 
@@ -480,7 +455,7 @@ nav {
         flex-wrap: wrap;
         overflow: hidden;
         height: 68px;
-            
+
         .input__word {
             display: flex;
 

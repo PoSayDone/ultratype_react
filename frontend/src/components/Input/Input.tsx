@@ -33,60 +33,30 @@ const Input = ({
 }: InputProps) => {
     const dispatch = useDispatch();
 
-    const [leftMargin, setLeftMargin] = useState<any | null>(null);
-    const [topMargin, setTopMargin] = useState<any | null>(null);
-    let previousWordsLength = 0; // Переменная для преобразование индексов двумерного массива в одномерный
+    const { cursorMarginLeft, cursorSplitPosition } = useTypedSelector(state => state.input)
 
-    const calculateLeftMargin = useEffect(() => {
+    useEffect(() => {
         currentCharacterRef.current !== undefined
-            ? setLeftMargin(currentCharacterRef.current?.offsetLeft)
+            ? dispatch({ type: InputActionTypes.SET_CURSOR_MARGIN_LEFT, payload: currentCharacterRef.current?.offsetLeft })
             : 0;
         currentCharacterRef.current !== undefined
-            ? setTopMargin(currentCharacterRef.current?.offsetTop)
+            ? dispatch({ type: InputActionTypes.SET_CURSOR_MARGIN_TOP, payload: currentCharacterRef.current?.offsetTop })
             : 0;
     }, [cursorPosition]);
 
-    const mode = useParams().mode || "learning";
     const inputWordRef = useRef();
-
-    const [cursorSplitPosition, setCursorSplitPosition] = useState(0);
 
     const visibleText = text.substring(cursorSplitPosition);
     const visibleUserText = userText.substring(cursorSplitPosition);
 
     const textArray = visibleText.split(/(?<=\s)/);
     const userTextArray: string[] = visibleUserText.split(" ");
-    const typingLanguage = useTypedSelector(state => state.settings.typingLanguage)
-
-    useEffect(() => {
-        let newWords = async () => {
-            let res = await WordsService.fetchRandomWords(10,typingLanguage);
-            console.log(res.data.strings);
-            dispatch({
-                type: WordsActionTypes.SET_WORDS,
-                payload: text + " " + res.data.strings.join(" "),
-            });
-        };
-        if (topMargin > 0) {
-            setCursorSplitPosition(cursorPosition);
-        }
-        if (mode === "infinity" || mode === "timeattack") {
-            newWords();
-        }
-    }, [topMargin]);
-
-    useEffect(() => {
-        if (mode === "learning" && userText == "") {
-            // newWords();
-            setCursorSplitPosition(0);
-        }
-    }, [userText]);
 
     // Возвращаем div'ы слов, состоящие из Character'ов
     return (
         <>
             {state !== "finish" && (
-                <Caret leftMargin={leftMargin} topMargin={0} />
+                <Caret leftMargin={cursorMarginLeft} topMargin={0} />
             )}
             {textArray.map((word, wordIndex) => {
                 return (
@@ -95,8 +65,8 @@ const Input = ({
                             {word.split("").map((character, characterIndex) => {
                                 const isActive =
                                     characterIndex ===
-                                        userTextArray[userTextArray.length - 1]
-                                            ?.length &&
+                                    userTextArray[userTextArray.length - 1]
+                                        ?.length &&
                                     wordIndex === userTextArray.length - 1;
                                 return (
                                     <Character
@@ -109,7 +79,7 @@ const Input = ({
                                         expected={character}
                                         actual={
                                             userTextArray[wordIndex]?.[
-                                                characterIndex
+                                            characterIndex
                                             ]
                                         }
                                     />

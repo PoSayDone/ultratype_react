@@ -5,6 +5,7 @@ import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useDispatch } from "react-redux";
 import AnimatedContainer from '../../components/AnimatedContainer';
 import { Dispatch } from 'redux';
+import "./Settings.scss";
 import { SettingsActions, SettingsActionsTypes } from '../../store/reducers/settingsReducer';
 
 interface SettingsProps {
@@ -47,83 +48,83 @@ const Settings = ({ text }: SettingsProps) => {
 
     return (
         <AnimatedContainer>
-            <div className="settings">
+            <div className='title__section'>
                 <Heading headingLevel="h1">{text("settings.title")}</Heading>
-                <form name='settings'>
-                    <div className="settings__section">
-                        <Heading headingLevel="h2">{text("settings.interface")}</Heading>
-                        <fieldset name='language'>
-                            <span>{text("settings.language")}</span>
-                            <select onChange={changeLanguage}>
-                                {
-                                    language
-                                        ? <option value="ru" selected>Русский</option>
-                                        : <option value="ru">Русский</option>
-
-                                }
-                                {
-                                    language
-                                        ? <option value="eng">English</option>
-                                        : <option value="eng" selected>English</option>
-                                }
-
-                            </select>
-                        </fieldset>
-                        <fieldset name='theme'>
-                            <span>{text("settings.theme")}</span>
-                            <select onChange={changeTheme}>
-                                {
-                                    theme === 'dark'
-                                        ? <option value="dark" selected>{language ? 'Темная' : 'Dark'}</option>
-                                        : <option value="dark">{language ? 'Темная' : 'Dark'}</option>
-                                }
-                                {
-                                    theme === 'light'
-                                        ? <option value="light" selected>{language ? 'Светлая' : 'Light'}</option>
-                                        : <option value="light">{language ? 'Светлая' : 'Light'}</option>
-                                }
-
-                            </select>
-                        </fieldset>
-                        <fieldset name='font'>
-                            <span>{text("settings.font")}</span>
-                            <div className={isMonospace ? 'slider right' : 'slider left'}
-                                onClick={() => {
-                                    dispatch({ type: SettingsActionsTypes.CHANGE_FONT })
-                                    localStorage.setItem("isMonospace", `${isMonospace}`)
-                                    console.log(`${isMonospace}`);
-                                }}></div>
-                        </fieldset>
-                    </div>
-                    <div className='settings__section'>
-                        <Heading headingLevel={"h2"}>Язык печати</Heading>
-                        <fieldset name='typingLanguage'>
-                            <span>{text("settings.language")}</span>
-                            <select onChange={changeTypingLanguage}>
-                                {
-                                    typingLanguage == "ru"
-                                        ? <option value="ru" selected>Русский</option>
-                                        : <option value="ru">Русский</option>
-
-                                }
-                                {
-                                    typingLanguage == "ru"
-                                        ? <option value="en">English</option>
-                                        : <option value="en" selected>English</option>
-                                }
-
-                            </select>
-                        </fieldset>
-                    </div>
-                    <div className='settings__section'>
-                        <Heading headingLevel={"h2"}>{text("settings.timeAttack")}</Heading>
-                        <fieldset name='timeAttack'>
-                            <span>{text("settings.timeAttackTime")}</span>
-                            <input type="number" name="timeAttacktime" value={timeAttackValue} onChange={ChangeTimeAttackTimeValue} onBlur={ChangeTimeAttackTime} />
-                        </fieldset>
-                    </div>
-                </form>
             </div>
+            <form className='settings__form' name='settings'>
+                <div className="settings__section">
+                    <Heading headingLevel="h2">{text("settings.interface")}</Heading>
+                    <fieldset className='settings__fieldset' name='language'>
+                        <span>{text("settings.language")}</span>
+                        <select onChange={changeLanguage}>
+                            {
+                                language
+                                    ? <option value="ru" selected>Русский</option>
+                                    : <option value="ru">Русский</option>
+
+                            }
+                            {
+                                language
+                                    ? <option value="eng">English</option>
+                                    : <option value="eng" selected>English</option>
+                            }
+
+                        </select>
+                    </fieldset>
+                    <fieldset className='settings__fieldset' name='theme'>
+                        <span>{text("settings.theme")}</span>
+                        <select onChange={changeTheme}>
+                            {
+                                theme === 'dark'
+                                    ? <option value="dark" selected>{language ? 'Темная' : 'Dark'}</option>
+                                    : <option value="dark">{language ? 'Темная' : 'Dark'}</option>
+                            }
+                            {
+                                theme === 'light'
+                                    ? <option value="light" selected>{language ? 'Светлая' : 'Light'}</option>
+                                    : <option value="light">{language ? 'Светлая' : 'Light'}</option>
+                            }
+
+                        </select>
+                    </fieldset>
+                    <fieldset className='settings__fieldset' name='font'>
+                        <span>{text("settings.font")}</span>
+                        <div className={isMonospace ? 'slider right' : 'slider left'}
+                            onClick={() => {
+                                dispatch({ type: SettingsActionsTypes.CHANGE_FONT })
+                                localStorage.setItem("isMonospace", `${isMonospace}`)
+                                console.log(`${isMonospace}`);
+                            }}></div>
+                    </fieldset>
+                </div>
+                <div className='settings__section'>
+                    <Heading headingLevel={"h2"}>Язык печати</Heading>
+                    <fieldset className='settings__fieldset' name='typingLanguage'>
+                        <span>{text("settings.language")}</span>
+                        <select onChange={changeTypingLanguage}>
+                            {
+                                typingLanguage == "ru"
+                                    ? <option value="ru" selected>Русский</option>
+                                    : <option value="ru">Русский</option>
+
+                            }
+                            {
+                                typingLanguage == "ru"
+                                    ? <option value="en">English</option>
+                                    : <option value="en" selected>English</option>
+                            }
+
+                        </select>
+                    </fieldset>
+                </div>
+                <div className='settings__section'>
+                    <Heading headingLevel={"h2"}>{text("settings.timeAttack")}</Heading>
+                    <fieldset className='settings__fieldset' name='timeAttack'>
+                        <span>{text("settings.timeAttackTime")}</span>
+                        <input className='settings__fieldset_input' type="number" name="timeAttacktime" value={timeAttackValue} onChange={ChangeTimeAttackTimeValue} onBlur={ChangeTimeAttackTime} />
+                    </fieldset>
+                </div>
+            </form>
         </AnimatedContainer >
     );
 }

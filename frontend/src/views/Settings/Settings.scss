@@ -1,0 +1,62 @@
+@import "../src/globalStyles/Variables.scss";
+
+.settings__form {
+    margin-top: $content_spacing;
+    gap: $gap;
+    display: flex;
+    flex-direction: column;
+}
+
+.settings__section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.settings__fieldset {
+    padding: 0;
+    border: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 13px;
+    align-items: center;
+}
+
+.settings__fieldset_input {
+    width: 120px;
+}
+
+select {
+    box-sizing: border-box;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 500;
+    padding: 0px 12px;
+    height: 32px;
+    background-color: var(--background_secondary);
+    border-radius: 12px;
+    border: 0;
+    color: inherit;
+
+    &:focus {
+        outline: none;
+    }
+
+}
+
+.slider {
+    width: 32px;
+    height: 16px;
+    background-image: url('./img/slider-circle.svg'), url('./img/slider-back.svg');
+    background-repeat: no-repeat;
+    cursor: pointer;
+    transition: background-position 0.3s;
+}
+
+.slider.right {
+    background-position: left center, center;
+}
+
+.slider.left {
+    background-position: right center, center;
+}

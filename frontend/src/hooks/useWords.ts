@@ -1,41 +1,53 @@
-import { Dispatch, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import WordsService from "../services/WordsService";
-import { IWordsQuery } from "../models/IWordsQuery";
-import { ILetter } from "../models/ILetter";
 import { useTypedSelector } from "./useTypedSelector";
 import { useDispatch } from "react-redux";
-import { LettersActionTypes, LettersActions } from "../store/reducers/lettersReducer";
 import { WordsActionTypes } from "../store/reducers/wordsReducer";
-import useLettersData from "./useLettersData";
-import {useParams} from "react-router-dom";
-import axios, {Axios, AxiosResponse} from "axios";
-import {IWords} from "../models/IWords";
+import { useParams } from "react-router-dom";
+import { InputActionTypes } from "../store/reducers/inputReducer";
 
 const useWords = (mask: string, mainLetter: string, len: number) => {
 
+    const { cursorMarginTop, cursor } = useTypedSelector(state => state.input)
     const [isLoading, setLoading] = useState(true);
+    const letters = localStorage.getItem('userLetters')
     const typingLanguage = useTypedSelector(state => state.settings.typingLanguage)
     const [isError, setError] = useState(false);
     const dispatch = useDispatch();
     const { words } = useTypedSelector(state => state.words)
     const mode = useParams().mode || "learning"
-    const fetchWords = async ( ) => {
+
+    const fetchWords = async () => {
         setLoading(true);
         setError(false);
         try {
             let result
-            switch (mode){
+            switch (mode) {
                 case "learning":
                     result = await WordsService.fetchWords(mask, mainLetter, len, typingLanguage)
+                    dispatch({ type: WordsActionTypes.SET_WORDS, payload: result.data.strings.join(" ") })
                     break;
                 case "infinity":
                     result = await WordsService.fetchRandomWords(10, typingLanguage)
+                    if (words == "") {
+                        dispatch({
+                            type: WordsActionTypes.SET_WORDS,
+                            payload: result.data.strings.join(" "),
+                        });
+                    }
+                    else {
+
+                        dispatch({
+                            type: WordsActionTypes.SET_WORDS,
+                            payload: words + " " + result.data.strings.join(" "),
+                        });
+                    }
                     break;
                 default:
-                    result = await WordsService.fetchRandomWords(len,typingLanguage)
+                    result = await WordsService.fetchRandomWords(len, typingLanguage)
+                    dispatch({ type: WordsActionTypes.SET_WORDS, payload: result.data.strings.join(" ") })
                     break;
             }
-            dispatch({ type: WordsActionTypes.SET_WORDS, payload: result.data.strings.join(" ") })
             setLoading(false);
         } catch (error) {
             console.error(error);
@@ -45,13 +57,24 @@ const useWords = (mask: string, mainLetter: string, len: number) => {
     }
 
     useEffect(() => {
-        if (mask === '' || mainLetter === '' || len === 0) {
-            dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
-            return;
-        } else {
+        if (mode === "learning") {
+            if (mask === '' || mainLetter === '' || len === 0) {
+                dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
+                return;
+            } else {
+                fetchWords();
+            }
+        }
+    }, [mainLetter, mask, letters]);
+
+    useEffect(() => {
+        if (cursorMarginTop > 0) {
+            dispatch({ type: InputActionTypes.SET_CURSOR_SPLIT, payload: cursor })
+        }
+        if (mode === "infinity" || mode === "timeattack") {
             fetchWords();
         }
-    }, [mainLetter, mask]);
+    }, [cursorMarginTop])
 
     return { words, isLoading, isError, fetchWords }
 }
