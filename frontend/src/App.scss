@@ -280,16 +280,15 @@ nav {
     font-family: 'Roboto', sans-serif;
     color: var(--on_background);
 
-    .interface__section {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
+    // .settings__section {
+    //     display: flex;
+    //     flex-direction: column;
+    //     gap: 12px;
+    // }
 
     form {
         display: flex;
         flex-direction: column;
-        gap: 12px;
 
         fieldset {
             padding: 0;
