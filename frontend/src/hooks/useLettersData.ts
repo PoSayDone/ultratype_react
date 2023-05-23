@@ -13,9 +13,7 @@ interface LettersData {
 const useLettersData = (): LettersData => {
     const typedLang = useTypedSelector((state) => state.settings.typingLanguage);
     const letters = useTypedSelector((state) => state.letters[typedLang]);
-    const currentLangLetters = letters[typedLang];
     const lettersToAdd = useTypedSelector((state) => state.lettersToAdd);
-    const currentLangLettersToAdd = lettersToAdd[typedLang];
     const dispatch = useDispatch();
 
     const [mask, setMask] = useState<string>(() => Object.keys(letters).join(""));
@@ -24,7 +22,7 @@ const useLettersData = (): LettersData => {
     const addLetter = useCallback(() => {
         dispatch({
             type: LettersActionTypes.ADD_LETTER,
-            payload: { lang: typedLang, letter: currentLangLettersToAdd.letters[0] },
+            payload: { lang: typedLang, letter: lettersToAdd[typedLang].letters.charAt(0) },
         });
         dispatch({
             type: LettersToAddActionTypes.REMOVE_LETTER,
