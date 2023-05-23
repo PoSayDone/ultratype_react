@@ -4,7 +4,7 @@ import { IWordsQuery } from "../models/IWordsQuery";
 import { ILetter } from "../models/ILetter";
 import { useTypedSelector } from "./useTypedSelector";
 import { useDispatch } from "react-redux";
-import { LetterActionTypes, LetterActions } from "../store/reducers/letterReducer";
+import { LettersActionTypes, LettersActions } from "../store/reducers/lettersReducer";
 import { WordsActionTypes } from "../store/reducers/wordsReducer";
 import useLettersData from "./useLettersData";
 import {useParams} from "react-router-dom";

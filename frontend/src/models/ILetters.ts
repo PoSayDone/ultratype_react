@@ -1,4 +1,4 @@
-export interface ILettersDictionary {
+export interface ILetters {
     [key: string]: {
         [key: string]: {
             wpm: number,

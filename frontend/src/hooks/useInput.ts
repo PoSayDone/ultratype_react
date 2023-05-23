@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import { useTypedSelector } from "./useTypedSelector";
 import { InputActionTypes } from "../store/reducers/inputReducer";
 import {
-    LetterActions,
-    LetterActionTypes,
-} from "../store/reducers/letterReducer";
+    LettersActions,
+    LettersActionTypes,
+} from "../store/reducers/lettersReducer";
 import { Dispatch } from "redux";
 import useCountdown from "./useCountdown";
 import { init } from "i18next";
@@ -23,7 +23,7 @@ const isSymbolAllowed = (code: string, key: string) => {
 
 const useInput = (enabled: boolean, text: string) => {
     const dispatch = useDispatch();
-    const letterDispatch: Dispatch<LetterActions> = useDispatch();
+    const letterDispatch: Dispatch<LettersActions> = useDispatch();
     const { cursor, typed } = useTypedSelector((state) => state.input);
     const typedLang = useTypedSelector(state => state.settings.typingLanguage);
     const currentIndex = typed.split(" ").length - 1;
@@ -134,29 +134,29 @@ const useInput = (enabled: boolean, text: string) => {
     const setLetterData = useCallback(
         (letter: string, isCorrect = true, timeDiff: number) => {
             letterDispatch({
-                type: LetterActionTypes.INCREMENT_TYPED_COUNTER,
+                type: LettersActionTypes.INCREMENT_TYPED_COUNTER,
                 payload: { lang: typedLang, letter }
             });
             if (!isCorrect) {
                 letterDispatch({
-                    type: LetterActionTypes.INCREMENT_ERROR_COUNTER,
+                    type: LettersActionTypes.INCREMENT_ERROR_COUNTER,
                     payload: { lang: typedLang, letter }
                 });
             }
             letterDispatch({
-                type: LetterActionTypes.ADD_TIME_ELAPSED,
+                type: LettersActionTypes.ADD_TIME_ELAPSED,
                 payload: { lang: typedLang, letter: letter, value: timeDiff }
             });
             letterDispatch({
-                type: LetterActionTypes.CALCULATE_ERROR_RATE,
+                type: LettersActionTypes.CALCULATE_ERROR_RATE,
                 payload: { lang: typedLang, letter }
             });
             letterDispatch({
-                type: LetterActionTypes.CALCULATE_WPM,
+                type: LettersActionTypes.CALCULATE_WPM,
                 payload: { lang: typedLang, letter }
             });
             letterDispatch({
-                type: LetterActionTypes.CALCULATE_CONFIDENCE,
+                type: LettersActionTypes.CALCULATE_CONFIDENCE,
                 payload: { lang: typedLang, letter }
             });
         },

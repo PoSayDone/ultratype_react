@@ -1,15 +1,13 @@
 import { combineReducers } from "redux";
-import { languageReducer } from "./languageReducer";
-import { fontReducer } from "./fontReducer";
-import { themeReducer } from "./themeReducer";
 import { inputReducer } from "./inputReducer";
 import { wordsReducer } from "./wordsReducer";
 import { countDownReducer } from "./countDownReducer";
 import { statusReducer } from "./statusReducer";
 import { userReducer } from "./userReducer";
-import { letterReducer } from "./letterReducer";
+import { lettersReducer } from "./lettersReducer";
 import timerReducer from "./timerReducer";
 import settingsReducer from "./settingsReducer";
+import { lettersToAddReducer } from "./lettersToAddReducer";
 
 export const rootReducer = combineReducers({
     status: statusReducer,
@@ -17,7 +15,8 @@ export const rootReducer = combineReducers({
     words: wordsReducer,
     countDown: countDownReducer,
     user: userReducer,
-    letters: letterReducer,
+    letters: lettersReducer,
+    lettersToAdd: lettersToAddReducer,
     timer: timerReducer,
     settings: settingsReducer
 });
