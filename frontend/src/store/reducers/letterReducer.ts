@@ -1,5 +1,5 @@
 import { ILetter } from "../../models/ILetter";
-import { ILettersDictionary } from "../../models/ILetters";
+import { ILetters } from "../../models/ILetters";
 import settingsReducer from "./settingsReducer";
 
 const calculateWpm = (typed: number, errors: number, time: number) => {
@@ -38,7 +38,7 @@ const calculateConfidence = (errorRate: number, wpm: number) => {
     return confidence;
 };
 
-let defaultState: ILettersDictionary;
+let defaultState: ILetters;
 defaultState = {
     en: {
         e: {
