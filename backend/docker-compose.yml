@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+
+    links:
+      - db
+    container_name: ${APP_BACKEND_NAME}-app
+    working_dir: /app
+    volumes:
+      - ./app:/var/www/
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8081
+    networks:
+      - proxy
+      - app-network
+  db:
+    image: mongo
+    container_name: ${APP_BACKEND_NAME}-db
+    volumes:
+      - /var/www/ultratype/backend/src/dbdata:/data/db
+    ports:
+      - "27017:27017"
+    networks:
+      - proxy
+      - app-network
+
+
+#Docker Networks
+networks:
+  app-network:
+    name: ${APP_BACKEND_NAME}-network
+    driver: bridge
+  proxy:
+    name: nginx-proxy
+    external: true
