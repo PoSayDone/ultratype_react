@@ -1,10 +1,10 @@
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Location, Route, Routes, useLocation } from "react-router-dom";
 import "./App.scss";
 import Main from "./views/Main/Main";
 import Header from "./components/Header";
 import Navbar from "./components/Navbar";
 import Settings from "./views/Settings/Settings";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Typing from "./views/Typing/Typing";
 import "./i18n";
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,7 @@ import Registration from "./views/Registration/Registration";
 import { RequireAuth, useIsAuthenticated } from "react-auth-kit";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
+import checkReference from "./checkReference";
 
 
 function App() {
@@ -52,6 +53,10 @@ function App() {
         }
     }, [language]);
 
+    const lastKeyPressed = useState("")
+
+    window.addEventListener("keydown", e => checkReference(e, location))
+
     return (
         <>
             <main>
@@ -79,8 +84,8 @@ function App() {
                         <Route
                             path="/typing/:mode"
                             element={
-                            <Typing/>
-                        }>
+                                <Typing />
+                            }>
                         </Route>
                         <Route
                             path="/levels"
