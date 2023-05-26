@@ -7,8 +7,8 @@ const F1Redirect: React.FC = () => {
 
     useEffect(() => {
         const handleKeyDown = (event: KeyboardEvent) => {
-            event.preventDefault();
             if (event.key === 'F1') {
+                event.preventDefault();
                 switch (location.pathname) {
                     case '/':
                         window.open('/docs/');
