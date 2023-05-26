@@ -13,8 +13,20 @@ const F1Redirect: React.FC = () => {
                     case '/':
                         window.open('/docs/');
                         break;
+                    case '/typing':
+                    case '/typing/':
+                    case '/typing/typing':
+                    case '/typing/timeatack':
+                    case '/typing/infinity':
+                        window.open('/docs/pechat.htm');
+                        break;
                     case '/settings':
-                        window.open('/docs/settings');
+                    case '/settings/':
+                        window.open('/docs/settings.htm');
+                        break;
+                    case '/profile':
+                    case '/profile/':
+                        window.open('/docs/profil.htm');
                         break;
                     default:
                         break;
