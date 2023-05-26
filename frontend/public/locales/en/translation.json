@@ -12,7 +12,8 @@
         "home": "Home",
         "typing": "Typing",
         "settings": "Settings",
-        "profile": "Profile"
+        "profile": "Profile",
+        "docs": "Help"
     },
     "main": {
         "card1": {
