@@ -1,4 +1,4 @@
-import { BrowserRouter, Location, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Location, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.scss";
 import Main from "./views/Main/Main";
 import Header from "./components/Header";
@@ -18,6 +18,7 @@ import { RequireAuth, useIsAuthenticated } from "react-auth-kit";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import F1Redirect from "./components/F1Redirect";
+import Docs from "./views/Docs";
 
 
 function App() {
@@ -115,8 +116,12 @@ function App() {
                                 />
                             }
                         />
+                        <Route path="/docs/"
+                            element={
+                                <Docs/>
+                            } />
                     </Routes>
-                        <F1Redirect/>
+                    <F1Redirect />
                 </AnimatePresence>
             </main>
             <Navbar language={t} />

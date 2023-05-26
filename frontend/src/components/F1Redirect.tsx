@@ -24,6 +24,13 @@ const F1Redirect: React.FC = () => {
                     case '/settings/':
                         window.open('/docs/settings.htm');
                         break;
+
+                    case '/login':
+                    case '/login/':
+                    case '/registration':
+                    case '/registration/':
+                        window.open('/docs/setup.htm');
+                        break;
                     case '/profile':
                     case '/profile/':
                         window.open('/docs/profil.htm');

@@ -39,6 +39,7 @@ const Navbar = ({language} : NavbarProps) => {
             <NavItem src={mode == "infinity" || mode == "timeattack" ? `/typing/${mode}` : "/typing"} spanText="notes"  innerText={language("navbar.typing")}/>
             <NavItem src="/settings" spanText="settings"  innerText={language("navbar.settings")}/>
             <NavItem src="/profile" spanText="person"  innerText={language("navbar.profile")}/>
+            <NavItem src="/docs/" spanText="help" innerText={language("navbar.docs")}/>
         </nav>
     )
 }
