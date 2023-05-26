@@ -17,11 +17,10 @@ import Registration from "./views/Registration/Registration";
 import { RequireAuth, useIsAuthenticated } from "react-auth-kit";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
-import checkReference from "./checkReference";
+import F1Redirect from "./components/F1Redirect";
 
 
 function App() {
-    const location = useLocation();
     const IsAuthenticated = useIsAuthenticated()
     const dispatch = useDispatch();
     useEffect(() => {
@@ -54,8 +53,6 @@ function App() {
     }, [language]);
 
     const lastKeyPressed = useState("")
-
-    window.addEventListener("keydown", e => checkReference(e, location))
 
     return (
         <>
@@ -119,6 +116,7 @@ function App() {
                             }
                         />
                     </Routes>
+                        <F1Redirect/>
                 </AnimatePresence>
             </main>
             <Navbar language={t} />
