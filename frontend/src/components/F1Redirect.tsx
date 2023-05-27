@@ -16,7 +16,7 @@ const F1Redirect: React.FC = () => {
                     case '/typing':
                     case '/typing/':
                     case '/typing/typing':
-                    case '/typing/timeatack':
+                    case '/typing/timeattack':
                     case '/typing/infinity':
                         window.open('/docs/pechat.htm');
                         break;

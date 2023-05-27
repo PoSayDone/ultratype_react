@@ -2,16 +2,13 @@ using System.Text;
 using backend.Repositories;
 using backend.Setting;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
-
-//скрипт для запуска докер контейнера
-string dockerMongoString = "docker run -d --rm --name mongo -p 27017:27017 -v mongodbdata:/data/db mongo";
-// Add services to the container.
 
 BsonSerializer.RegisterSerializer(new GuidSerializer(MongoDB.Bson.BsonType.String));
 
@@ -69,6 +66,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseCors(MyAllowSpecificOrigins);
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

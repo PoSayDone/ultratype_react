@@ -9,13 +9,9 @@ services:
       - "8081:8081"
     depends_on:
       - db
-
     links:
       - db
-    container_name: ${APP_BACKEND_NAME}-app
-    working_dir: /app
-    volumes:
-      - ./app:/var/www/
+    container_name: ${APP_NAME}-app
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8081
@@ -24,7 +20,7 @@ services:
       - app-network
   db:
     image: mongo
-    container_name: ${APP_BACKEND_NAME}-db
+    container_name: ${APP_NAME}-db
     volumes:
       - /var/www/ultratype/backend/src/dbdata:/data/db
     ports:
@@ -37,7 +33,7 @@ services:
 #Docker Networks
 networks:
   app-network:
-    name: ${APP_BACKEND_NAME}-network
+    name: ${APP_NAME}-network
     driver: bridge
   proxy:
     name: nginx-proxy
