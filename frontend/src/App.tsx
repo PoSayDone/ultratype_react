@@ -20,6 +20,7 @@ import Cookies from "js-cookie";
 import F1Redirect from "./components/F1Redirect";
 
 function App() {
+    const location = useLocation();
     const IsAuthenticated = useIsAuthenticated()
     const dispatch = useDispatch();
     useEffect(() => {
