@@ -18,8 +18,6 @@ import { RequireAuth, useIsAuthenticated } from "react-auth-kit";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import F1Redirect from "./components/F1Redirect";
-import Docs from "./views/Docs";
-
 
 function App() {
     const IsAuthenticated = useIsAuthenticated()
@@ -116,10 +114,6 @@ function App() {
                                 />
                             }
                         />
-                        <Route path="/docs/"
-                            element={
-                                <Docs/>
-                            } />
                     </Routes>
                     <F1Redirect />
                 </AnimatePresence>

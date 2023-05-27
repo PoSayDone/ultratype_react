@@ -1,4 +1,6 @@
 .DS_STORE
+dist
+vite.config.ts.*
 node_modules
 scripts/flow/*/.flowconfig
 .flowconfig

@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --port 5000",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview --port 5000"
   },
   "dependencies": {
     "@use-it/interval": "^1.0.0",
