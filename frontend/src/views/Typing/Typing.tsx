@@ -24,7 +24,7 @@ interface TypingProps {
 
 const Typing: FC<TypingProps> = ({ title, subtitle }) => {
     const { t, i18n } = useTranslation()
-    const { timerConst, accuracy, restart, status, words, typed, wpm, time, cursor, currentCharacterRef, mask, mainLetter, leftMargin, setLeftMargin, topMargin, setTopMargin } = useEngine();
+    const { timerConst, accuracy, restart, status, words, typed, wpm, time, cursor, currentCharacterRef, lettersData } = useEngine();
 
     const [currentChar, setCurrentChar] = useState(words[0])
     const mode = useParams().mode || "learning"
@@ -66,7 +66,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
             {
                 status != "finish" &&
                 <div className="typing__container">
-                    {mode == "learning" && <LearningIndicator letterString={mask} mainLetter={mainLetter} />}
+                    {mode == "learning" && <LearningIndicator letterString={lettersData.mask} mainLetter={lettersData.mainLetter} />}
                     <AnimatePresence>
                         <div className="typing__input">
                             {

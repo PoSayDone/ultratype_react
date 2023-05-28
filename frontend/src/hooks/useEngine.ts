@@ -27,7 +27,7 @@ const useEngine = () => {
         mode !== "timeattack" ? useTimer() : useCountdown(timerConst);
     const [leftMargin, setLeftMargin] = useState<any | null>(null);
     const [topMargin, setTopMargin] = useState<any | null>(null);
-    const { words, isLoading, fetchWords, mask, mainLetter } = useWords(20);
+    const { words, isLoading, fetchWords, lettersData } = useWords(20);
     const { typed, cursorMarginTop, cursor, restartTyping, lastKeyPressTime } = useInput(
         status !== "finish",
         words,
@@ -147,8 +147,7 @@ const useEngine = () => {
         timerConst,
         currentCharacterRef,
         accuracy,
-        mask,
-        mainLetter,
+        lettersData,
         leftMargin,
         setLeftMargin,
         topMargin,

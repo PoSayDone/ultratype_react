@@ -10,7 +10,7 @@ import useLettersData from "./useLettersData";
 const useWords = (len: number) => {
 
     const [isLoading, setLoading] = useState(true);
-    const { updateLetters, mask, mainLetter } = useLettersData();
+    const { updateLetters, lettersData } = useLettersData();
     const letters = localStorage.getItem('userLetters')
     const typingLanguage = useTypedSelector(state => state.settings.typingLanguage)
     const [isError, setError] = useState(false);
@@ -55,12 +55,12 @@ const useWords = (len: number) => {
             setLoading(false);
             setError(true);
         }
-    
+
     }
     useEffect(() => {
         const getWords = async () => {
             try {
-                const result = await WordsService.fetchWords(mask, mainLetter, len, typingLanguage);
+                const result = await WordsService.fetchWords(lettersData.mask, lettersData.mainLetter, len, typingLanguage);
                 dispatch({ type: WordsActionTypes.SET_WORDS, payload: result.data.strings.join(" ") });
             } catch (error) {
                 console.error(error);
@@ -70,12 +70,12 @@ const useWords = (len: number) => {
             }
         };
 
-        if (mainLetter) {
+        if (lettersData.mainLetter) {
             getWords();
         }
-    }, [mainLetter]);
+    }, [lettersData]);
 
-    return { mask, mainLetter, words, isLoading, isError, fetchWords }
+    return { lettersData, words, isLoading, isError, fetchWords }
 }
 
 export default useWords
