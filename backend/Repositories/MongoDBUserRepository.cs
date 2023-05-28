@@ -44,11 +44,6 @@ namespace backend.Repositories{
             await userCollection.ReplaceOneAsync(filter, user);
         }
 
-        public async Task<User> GetUserByNameAndPass(string name, string password)
-        {
-            var filter = filterBuilder.Eq(user => user.Username, name) & filterBuilder.Eq(user => user.PasswordHash, password) ;
-            return await userCollection.Find(filter).SingleOrDefaultAsync();
-        }
         public async Task<User> GetUserByUsername(string name)
         {
             var filter = filterBuilder.Eq(user => user.Username, name);
