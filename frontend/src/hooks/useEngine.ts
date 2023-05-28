@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import useTimer from "./useTimer";
 import { WordsActionTypes } from "../store/reducers/wordsReducer";
 import { InputActionTypes } from "../store/reducers/inputReducer";
+import { LettersActionTypes } from "../store/reducers/lettersReducer";
 
 const useEngine = () => {
     const timerConst = useTypedSelector(
@@ -111,6 +112,9 @@ const useEngine = () => {
     // Если вкладка с печатью не в поле зрения пользователя (переключился на другое окно/вкладку), тест сбрасывается к началу.
     useEffect(() => {
         if (isVisible == false) {
+            dispatch({
+                type: LettersActionTypes.RESET
+            })
             restartTest();
         }
     }, [isVisible]);
@@ -122,6 +126,9 @@ const useEngine = () => {
             lastKeyPressTime != null &&
             new Date().getTime() - lastKeyPressTime >= 15 * 1000
         ) {
+            dispatch({
+                type: LettersActionTypes.RESET
+            })
             restartTest();
         }
     }, [time]);

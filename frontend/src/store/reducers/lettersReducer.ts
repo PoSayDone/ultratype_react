@@ -1,4 +1,5 @@
 import { lettersConst } from "../../constants/lettersConst";
+import { ILetters } from "../../models/ILetters";
 
 const calculateWpm = (typed: number, errors: number, time: number) => {
     const typedRight = typed - errors <= 0 ? 0 : typed - errors;
@@ -36,13 +37,10 @@ const calculateConfidence = (errorRate: number, wpm: number) => {
     return confidence;
 };
 
-let defaultState = lettersConst;
 
 const localUserLetters = localStorage.getItem("userLetters")
-
-if (localUserLetters !== null) {
-    defaultState = JSON.parse(localUserLetters)
-}
+const initialState : ILetters = localUserLetters !== null ? JSON.parse(localUserLetters) : lettersConst;
+const defaultState : ILetters = JSON.parse(JSON.stringify(initialState));
 
 export enum LettersActionTypes {
     SET_WPM = "SET_WPM",
@@ -56,6 +54,7 @@ export enum LettersActionTypes {
     CALCULATE_ERROR_RATE = "CALCULATE_ERROR_RATE",
     SET_TIME_ELAPSED = "SET_TIME_ELAPSED",
     ADD_TIME_ELAPSED = "ADD_TIME_ELAPSED",
+    RESET = "RESET",
 }
 
 interface SetWPMAction {
@@ -150,6 +149,10 @@ interface AddTimeElapsed {
     };
 }
 
+interface ResetAction {
+    type: LettersActionTypes.RESET;
+}
+
 export type LettersActions =
     | SetWPMAction
     | SetErrorRateAction
@@ -161,7 +164,8 @@ export type LettersActions =
     | CalculateConfidence
     | SetTimeElapsed
     | AddTimeElapsed
-    | CalculateWpm;
+    | CalculateWpm
+    | ResetAction
 
 export const lettersReducer = (state = defaultState, action: LettersActions) => {
     switch (action.type) {
@@ -245,6 +249,9 @@ export const lettersReducer = (state = defaultState, action: LettersActions) => 
                     state[action.payload.lang][action.payload.letter].timeElapsed + action.payload.value,
             };
             return state;
+        case LettersActionTypes.RESET:
+            console.log(initialState)
+            return initialState;
         default:
             return state;
     }
