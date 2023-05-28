@@ -1,18 +1,17 @@
-using System.Net;
 using backend.Entities;
 using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace backend.Repositories
 {
-    public class MongoDBWordsRepository : IWordsRepository
+    public class MongoDBEnglishWordsRepository : IEnglishWordsRepository
     {
 
         private const string databaseName = "catalog";
-        private const string collectionName = "words";
+        private const string collectionName = "englishWords";
         private readonly IMongoCollection<BsonDocument> wordsCollection;
 
-        public MongoDBWordsRepository(IMongoClient mongoClient)
+        public MongoDBEnglishWordsRepository(IMongoClient mongoClient)
         {
             IMongoDatabase database = mongoClient.GetDatabase(databaseName);
             wordsCollection = database.GetCollection<BsonDocument>(collectionName);

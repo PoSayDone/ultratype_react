@@ -7,11 +7,11 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("words/en")]
-    public class WordsController : ControllerBase
+    public class EnglishWordsController : ControllerBase
     {
-        private readonly IWordsRepository wordsRepo;
+        private readonly IEnglishWordsRepository wordsRepo;
 
-        public WordsController(IWordsRepository repository)
+        public EnglishWordsController(IEnglishWordsRepository repository)
         {
             wordsRepo = repository;
         }

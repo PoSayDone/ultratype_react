@@ -23,8 +23,8 @@ builder.Services.AddSingleton<IMongoClient>(settingsProvider =>
 });
 builder.Services.AddSingleton<IUserRepository, MongoDBUserRepository>();
 builder.Services.AddSingleton<ITestsRepository, MongoDBTestsRepository>();
-builder.Services.AddSingleton<IWordsRepository, MongoDBWordsRepository>();
 builder.Services.AddSingleton<IRussianWordsRepository, MongoDBRussianWordsRepository>();
+builder.Services.AddSingleton<IEnglishWordsRepository, MongoDBEnglishWordsRepository>();
 builder.Services.AddControllers(options =>
 {
     options.SuppressAsyncSuffixInActionNames = false;

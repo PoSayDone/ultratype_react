@@ -7,7 +7,7 @@ namespace backend.Repositories;
 public class MongoDBRussianWordsRepository : IRussianWordsRepository
 {
     private const string databaseName = "catalog";
-    private const string collectionName = "RussianWords";
+    private const string collectionName = "russianWords";
     private readonly IMongoCollection<BsonDocument> wordsCollection;
 
     public MongoDBRussianWordsRepository(IMongoClient mongoClient)
