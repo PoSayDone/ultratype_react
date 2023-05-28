@@ -3,6 +3,7 @@ import "./LearningIndicator.scss"
 import AnimatedDiv from "../AnimatedDiv"
 import { useTypedSelector } from "../../hooks/useTypedSelector"
 import { CSSProperties, StyleHTMLAttributes } from "react"
+import { motion } from "framer-motion"
 
 interface IndicatorProps {
     letterString: string
@@ -17,13 +18,18 @@ interface IndicatorItemProps {
 
 const IndicatorItem = ({ letter, mainLetter, title, style }: IndicatorItemProps) => {
     return (
-        <AnimatedDiv
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: "100%" }}
+            transition={{
+                duration: 0.6
+            }}
             title={title}
             style={style}
             className={'learning-indicator__item'}
         >
             {letter}
-        </AnimatedDiv>
+        </motion.div>
     )
 }
 

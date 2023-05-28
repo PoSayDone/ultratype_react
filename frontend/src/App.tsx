@@ -108,8 +108,8 @@ function App() {
                             }
                         />
                     </Routes>
-                    <F1Redirect />
                 </AnimatePresence>
+                <F1Redirect />
             </main>
             <Navbar language={t} />
         </>

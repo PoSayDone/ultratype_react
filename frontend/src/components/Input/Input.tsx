@@ -2,15 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import Character from "../Character";
 import Caret from "../Caret";
 import React from "react";
-import AnimatedDiv from "../AnimatedDiv";
-import { AnimatePresence } from "framer-motion";
-import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { WordsActionTypes } from "../../store/reducers/wordsReducer";
 import { InputActionTypes } from "../../store/reducers/inputReducer";
-import WordsService from "../../services/WordsService";
 import { useTypedSelector } from "../../hooks/useTypedSelector";
-import useEngine from "../../hooks/useEngine";
+import AnimatedDiv from "../AnimatedDiv";
 
 // Пропсы для инпута
 type InputProps = {
@@ -60,7 +55,7 @@ const Input = ({
             )}
             {textArray.map((word, wordIndex) => {
                 return (
-                    <AnimatedDiv className="input__word" ref={inputWordRef}>
+                    <AnimatedDiv className="input__word">
                         <React.Fragment key={wordIndex}>
                             {word.split("").map((character, characterIndex) => {
                                 const isActive =
