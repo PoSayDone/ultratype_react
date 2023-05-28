@@ -9,7 +9,6 @@ import Typing from "./views/Typing/Typing";
 import "./i18n";
 import { useTranslation } from "react-i18next";
 import { useTypedSelector } from "./hooks/useTypedSelector";
-import Levels from "./views/Levels/Levels";
 import Profile from "./views/Profile/Profile";
 import { AnimatePresence } from 'framer-motion';
 import Login from "./views/Login/Login";
@@ -84,13 +83,6 @@ function App() {
                                 <Typing />
                             }>
                         </Route>
-                        <Route
-                            path="/levels"
-                            element={
-                                <Levels
-                                />
-                            }
-                        />
                         <Route
                             path="/profile"
                             element={

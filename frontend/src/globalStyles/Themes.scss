@@ -1,0 +1,53 @@
+:root[data-theme='dark'] {
+    --background: #1C1B1F;
+    --background_secondary: #2A2831;
+    --on_background: #E8DEF8;
+    --on_secondary: #CCC2DC;
+    --on_secondary_hover: #e4d9f5;
+    --secondary_active: #4A4458;
+    --on_accent: #381E72;
+    --accent: #D0BCFF;
+    --input: #545062;
+    --green: #7BB283;
+    --red: #A86B6B;
+
+    //цвета для клавиатуры
+    --keyboard-button-background-green: #264a36;
+    --keyboard-button-accent-green: #78e4a8;
+    --keyboard-button-background-blue: #11282c;
+    --keyboard-button-accent-blue: #62e2fa;
+    --keyboard-button-background-rose: #603f4c;
+    --keyboard-button-accent-rose: #faa5c8;
+    --keyboard-button-background-yellow: #635d32;
+    --keyboard-button-accent-yellow: #fdef80;
+    --keyboard-button-background-orange: #624b2e;
+    --keyboard-button-accent-orange: #fcc276;
+    --active-keyboard-button-text-color: #381E72;
+
+}
+
+:root[data-theme='light'] {
+    --background: #FFFBFE;
+    --background_secondary: #F3EDF7;
+    --on_background: #1C1B1F;
+    --on_secondary: #1D192B;
+    --on_secondary_hover: #201d2c;
+    --secondary_active: #E8DEF8;
+    --accent: #D0BCFF;
+    --on_accent: #381E72;
+    --green: #259e37;
+    --red: #9e2424;
+
+    //цвета для клавиатуры
+    --keyboard-button-background-green: #78e4a8;
+    --keyboard-button-accent-green: #3c7355;
+    --keyboard-button-background-blue: #62e2fa;
+    --keyboard-button-accent-blue: #347986;
+    --keyboard-button-background-rose: #faa5c8;
+    --keyboard-button-accent-rose: #86586b;
+    --keyboard-button-background-yellow: #fdef80;
+    --keyboard-button-accent-yellow: #888145;
+    --keyboard-button-background-orange: #fcc276;
+    --keyboard-button-accent-orange: #87683f;
+    --active-keyboard-button-text-color: #F3EDF7;
+}

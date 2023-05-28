@@ -1,0 +1,95 @@
+@import "../src/globalStyles/Variables.scss";
+
+.typing__container {
+    margin-top: $content_spacing;
+    display: flex;
+    flex-direction: column;
+    gap: $content_spacing;
+}
+
+.typing__input {
+    position: relative;
+    display: flex;
+    line-height: 140%;
+    font-weight: 400;
+    font-size: $heading_medium;
+    color: var(--input);
+    flex-wrap: wrap;
+    overflow: hidden;
+    height: 68px;
+
+    .input__word {
+        display: flex;
+
+        .letter {
+            color: var(--on_secondary)
+        }
+    }
+
+    .whitespace {
+        min-width: 10px;
+    }
+
+    .user__typings {
+        width: 936px;
+        position: absolute;
+    }
+
+    .letter__correct {
+        color: var(--green);
+    }
+
+    .letter__incorrect {
+        color: var(--red);
+    }
+
+    .whitespace__incorrect {
+        background: var(--red);
+    }
+
+    .caret {
+        display: inline-block;
+        position: absolute;
+        border-radius: 3px;
+        margin-left: -3px;
+        margin-top: -2px;
+        height: 24px;
+        transition: 0.1s;
+        transform-origin: top left;
+        animation: caretFlashSmooth 1s infinite;
+        font-size: $heading_medium;
+        color: var(--on_background);
+    }
+}
+
+.typing__metrics {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    div {
+        display: flex;
+        align-items: center;
+        background: var(--accent);
+        color: var(--on_accent);
+        font-size: $text_mini;
+        font-weight: 500;
+        line-height: 20px;
+        padding: 10px 24px 10px 16px;
+        max-width: fit-content;
+        border-radius: 15px;
+
+        span {
+            margin-right: 6px;
+            font-size: 16px;
+        }
+
+
+    }
+
+    .accuracy {
+        span {
+            font-size: 20px;
+        }
+    }
+}

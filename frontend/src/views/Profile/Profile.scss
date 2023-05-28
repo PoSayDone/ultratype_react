@@ -1,7 +1,9 @@
+@import "../src/globalStyles/Variables.scss";
+
 .profile__wrapper {
     display: flex;
     flex-direction: column;
-    gap: 40px;
+    gap: $content_spacing;
 }
 
 .main-stats {
@@ -19,7 +21,7 @@
     }
 
     .value {
-        font-size: 96px;
+        font-size: $heading_huge;
         font-weight: 500;
     }
 }
@@ -32,26 +34,25 @@
 .secondary-stat {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: $gap/2;
     background: var(--background_secondary);
     color: var(--on_background);
     width: fit-content;
-    padding: 20px;
-    border-radius: 20px;
+    padding: $gap;
+    border-radius: $border_radius;
 
     .title {
-        font-size: 16px;
+        font-size: $text_small;
     }
 
     .value {
-        font-size: 20px;
+        font-size: $text_big;
         font-weight: 500;
     }
 }
 
 .tests-list {
     border-spacing: 0;
-    /* Removes the cell spacing via CSS */
     border-collapse: collapse;
 
     .mode {
@@ -63,17 +64,17 @@
     .accuracy {
         width: 20%;
     }
-    /* Optional - if you don't want to have double border where cells touch */
+
     thead {
         font-weight: 500;
-        font-size: 18px;
+        font-size: $text_regular;
 
         td {
-            padding: 20px;
+            padding: $gap;
         }
 
         td:first-child {
-            padding-left: 30px;
+            padding-left: $content_spacing;
         }
     }
 
@@ -83,11 +84,11 @@
         }
 
         td {
-            padding: 20px;
+            padding: $gap;
         }
 
         td:first-child {
-            padding-left: 30px;
+            padding-left: $content_spacing;
             border-top-left-radius: 1000px;
             border-bottom-left-radius: 1000px;
         }
@@ -97,6 +98,6 @@
             border-bottom-right-radius: 1000px;
         }
 
-        font-size: 16px;
+        font-size: $text_small;
     }
 }

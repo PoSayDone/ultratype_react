@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import './Typing.module.scss';
+import './Typing.scss';
 import Heading from '../../components/Heading/Heading';
 import Keyboard from '../../components/Keyboard/Keyboard';
 import Input from '../../components/Input/Input';
@@ -9,13 +9,12 @@ import useEngine from '../../hooks/useEngine';
 import SymbolsTypedMetric from '../../components/SymbolsTypedMetric';
 import AccuracyMetric from '../../components/AccuracyMetric';
 import { useTranslation } from 'react-i18next';
-import Results from '../../components/Results';
+import Results from '../../components/Results/Results';
 import { AnimatePresence, motion } from 'framer-motion';
 import AnimatedContainer from '../../components/AnimatedContainer';
 import Skeleton from '../../components/Skeleton/Skeleton';
 import LearningIndicator from '../../components/LearningIndicator/LearningIndicator';
 import { useParams } from "react-router-dom";
-import { string } from 'yup';
 import { useDispatch } from 'react-redux';
 
 interface TypingProps {
@@ -69,7 +68,7 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                 <div className="typing__container">
                     {mode == "learning" && <LearningIndicator letterString={mask} mainLetter={mainLetter} />}
                     <AnimatePresence>
-                        <div className="input__section">
+                        <div className="typing__input">
                             {
                                 words === ""
                                     ? <><Skeleton height={24} style={{ marginTop: "5px" }}></Skeleton><Skeleton height={24} style={{ marginTop: "6px" }}></Skeleton></>

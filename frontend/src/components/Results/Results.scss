@@ -1,0 +1,22 @@
+@import "../src/globalStyles/Variables.scss";
+
+.results__container {
+    margin-top: $content_spacing;
+}
+
+.results {
+    margin-top: $content_spacing;
+    display: flex;
+    gap: $content_spacing;
+}
+
+.results__item {
+    display: flex;
+    flex-direction: column;
+    font-weight: 500;
+    gap: $gap/2;
+}
+
+.results__item_title {
+    font-size: $heading_huge;
+}

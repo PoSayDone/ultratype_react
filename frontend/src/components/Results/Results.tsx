@@ -1,5 +1,5 @@
-import React from 'react'
-import Heading from './Heading/Heading';
+import "./Results.scss";
+import Heading from '../Heading/Heading';
 import { motion } from 'framer-motion';
 
 type Props = {
@@ -12,6 +12,7 @@ const Results = (props: Props) => {
     const { accuracyPercentage, wpm, time } = props
     return (
         <motion.div
+            className='results__container'
             initial={{ translateY: "100%" }}
             animate={{ translateY: 0 }}
             exit={{ translateY: "100%" }}

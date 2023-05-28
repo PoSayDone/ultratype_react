@@ -1,8 +1,6 @@
-import { Link } from "react-router-dom"
 import Card from "../../components/Card"
-import Settings from "../Settings/Settings"
 import { useTranslation } from "react-i18next";
-import { motion } from 'framer-motion'
+import "./Main.scss";
 import AnimatedContainer from "../../components/AnimatedContainer";
 
 const Main = () => {
