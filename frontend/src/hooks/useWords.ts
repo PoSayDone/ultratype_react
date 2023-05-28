@@ -26,9 +26,8 @@ const useWords = (len: number) => {
             switch (mode) {
                 case "learning":
                     await updateLetters();
-                    result = await WordsService.fetchWords(mask, mainLetter, len, typingLanguage)
-                    dispatch({ type: WordsActionTypes.SET_WORDS, payload: result.data.strings.join(" ") })
                     break;
+                case "timeattack":
                 case "infinity":
                     result = await WordsService.fetchRandomWords(20, typingLanguage)
                     if (words == "") {
@@ -56,7 +55,25 @@ const useWords = (len: number) => {
             setLoading(false);
             setError(true);
         }
+    
     }
+    useEffect(() => {
+        const getWords = async () => {
+            try {
+                const result = await WordsService.fetchWords(mask, mainLetter, len, typingLanguage);
+                dispatch({ type: WordsActionTypes.SET_WORDS, payload: result.data.strings.join(" ") });
+            } catch (error) {
+                console.error(error);
+                setError(true);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (mainLetter) {
+            getWords();
+        }
+    }, [mainLetter]);
 
     return { mask, mainLetter, words, isLoading, isError, fetchWords }
 }

@@ -9,8 +9,7 @@ const useLettersData = () => {
     const letters = useTypedSelector((state) => state.letters);
     const lettersToAdd = useTypedSelector((state) => state.lettersToAdd);
     const dispatch = useDispatch();
-    const mainLetterRef = useRef<string>("");
-    let mainLetter : string = "";
+    const [mainLetter, setMainLetter] = useState("");
     const [mask, setMask] = useState<string>(() => Object.keys(letters[typedLang]).join(""));
 
     const addLetter = () => {
@@ -50,7 +49,7 @@ const useLettersData = () => {
     };
 
     const updateLetters = async () => {
-        mainLetter = await findMainLetter();
+        setMainLetter(await findMainLetter())
         setMask(Object.keys(letters[typedLang]).join(""));
         localStorage.setItem(`userLetters`, JSON.stringify(letters));
     };

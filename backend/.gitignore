@@ -479,3 +479,5 @@ $RECYCLE.BIN/
 src
 
 .idea
+.env
+appsettings.json

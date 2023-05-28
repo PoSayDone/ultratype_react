@@ -1,0 +1,18 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: "./backend"
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081"
+
+    container_name: ${APP_BACKEND_NAME}-app
+    working_dir: /app
+    # volumes: 
+    #   - "./backend"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8081
+      # - ConnectionStrings:MongoDB=mongodb://localhost:27017

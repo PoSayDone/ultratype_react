@@ -94,7 +94,7 @@ const useEngine = () => {
 
     // Проверки для завершения тестов
     useEffect(() => {
-        if (status === "run" && timerIsActive === true) {
+        if (status === "run" && timerIsActive) {
             if (mode === "learning" && words.length === cursor) {
                 restartTest()
                 fetchWords()
