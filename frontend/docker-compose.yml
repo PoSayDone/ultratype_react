@@ -25,7 +25,7 @@ services:
 #Docker Networks
 networks:
   app-network:
-    name: ${APP_FRONTEND_NAME}-network
+    name: ${APP_NAME}-network
     driver: bridge
   proxy:
     name: nginx-proxy
