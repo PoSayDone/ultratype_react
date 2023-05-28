@@ -11,12 +11,11 @@ interface IndicatorProps {
 }
 interface IndicatorItemProps {
     letter: string
-    mainLetter: string
     title: string
     style: CSSProperties
 }
 
-const IndicatorItem = ({ letter, mainLetter, title, style }: IndicatorItemProps) => {
+const IndicatorItem = ({ letter, title, style }: IndicatorItemProps) => {
     return (
         <motion.div
             initial={{ opacity: 0 }}
@@ -51,7 +50,6 @@ const LearningIndicator = ({ letterString, mainLetter }: IndicatorProps) => {
                                 `\nConfidence: ${Math.round(letters[letter].confidence * 100).toString()}%`}
                             letter={letter}
                             style={{ background: `hsl(${color},61%,64%)` }}
-                            mainLetter={mainLetter}
                         />
                     )
                 })}
@@ -60,7 +58,7 @@ const LearningIndicator = ({ letterString, mainLetter }: IndicatorProps) => {
                 Main char:
             </div>
             <div className="learning-indicator__main-char">
-                <IndicatorItem letter={mainLetter} mainLetter={""} title={""} style={{ background: "var(--accent)" }}/>
+                <IndicatorItem letter={mainLetter} title={""} style={{ background: "var(--accent)" }}/>
             </div>
         </div>
     )
