@@ -7,8 +7,6 @@ import {
     LettersActionTypes,
 } from "../store/reducers/lettersReducer";
 import { Dispatch } from "redux";
-import useCountdown from "./useCountdown";
-import { init } from "i18next";
 
 // Проверяет является ли вводимый символ цифрой, буквой, пробелом или бэкспейсом
 const isSymbolAllowed = (code: string, key: string) => {
@@ -24,7 +22,7 @@ const isSymbolAllowed = (code: string, key: string) => {
 const useInput = (enabled: boolean, text: string) => {
     const dispatch = useDispatch();
     const letterDispatch: Dispatch<LettersActions> = useDispatch();
-    const { cursor, typed } = useTypedSelector((state) => state.input);
+    const { cursor, cursorMarginTop, typed } = useTypedSelector((state) => state.input);
     const typedLang = useTypedSelector(state => state.settings.typingLanguage);
     const currentIndex = typed.split(" ").length - 1;
     const [lastKeyPressTime, setLastKeyPressTime] = useState<number | null>(
@@ -174,6 +172,7 @@ const useInput = (enabled: boolean, text: string) => {
     return {
         typed,
         cursor,
+        cursorMarginTop,
         restartTyping,
         lastKeyPressTime,
     };

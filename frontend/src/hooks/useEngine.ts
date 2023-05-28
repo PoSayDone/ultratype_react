@@ -11,6 +11,8 @@ import useLettersData from "./useLettersData";
 import usePageVisibility from "./usePageVisibility";
 import { useParams } from "react-router-dom";
 import useTimer from "./useTimer";
+import { WordsActionTypes } from "../store/reducers/wordsReducer";
+import { InputActionTypes } from "../store/reducers/inputReducer";
 
 const useEngine = () => {
     const timerConst = useTypedSelector(
@@ -18,16 +20,14 @@ const useEngine = () => {
     );
     const mode = useParams().mode || "learning";
     const dispatch = useDispatch();
-    const [isMounted, setIsMounted] = useState(false);
     const isVisible = usePageVisibility();
-    const { updateLetters, mask, mainLetter } = useLettersData();
     const { status } = useTypedSelector((state) => state.status);
     const { timerIsActive, time, handleStart, handleStop, handleReset } =
         mode !== "timeattack" ? useTimer() : useCountdown(timerConst);
     const [leftMargin, setLeftMargin] = useState<any | null>(null);
     const [topMargin, setTopMargin] = useState<any | null>(null);
-    const { words, isLoading, fetchWords } = useWords(mask, mainLetter, 20);
-    const { typed, cursor, restartTyping, lastKeyPressTime} = useInput(
+    const { words, isLoading, fetchWords, mask, mainLetter } = useWords(20);
+    const { typed, cursorMarginTop, cursor, restartTyping, lastKeyPressTime } = useInput(
         status !== "finish",
         words
     );
@@ -38,6 +38,19 @@ const useEngine = () => {
     const accuracy = useAccuracy(words, typed, cursor);
     const isStarting = status === "start" && cursor > 0 && isLoading === false;
     const currentCharacterRef = useRef<HTMLSpanElement>(null);
+
+    const restartTest = () => {
+        dispatch({ type: "CHANGE_STATE", payload: "start" });
+        handleStop();
+        handleReset();
+        restartTyping();
+    };
+
+    const stopTest = () => {
+        dispatch({ type: "CHANGE_STATE", payload: "finish" });
+        handleStop();
+    }
+
     const addTest = async () => {
         try {
             await TestsService.addTest(mode, wpm, accuracy / 100);
@@ -46,24 +59,32 @@ const useEngine = () => {
         }
     };
 
-    const restart = () => {
-        dispatch({ type: "CHANGE_STATE", payload: "start" });
-        handleStop();
-        handleReset();
-        restartTyping();
-    };
-
+    // Фетчим слова и сбрасываем всё при загрузке странички
     useEffect(() => {
-        if (isMounted) {
-            if (status === "finish") {
-                handleStop();
-                addTest();
-            }
-        } else {
-            setIsMounted(true);
+        dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
+        restartTest();
+        fetchWords();
+    }, [])
+
+    // Перенос слов и фетчинг новых слов
+    useEffect(() => {
+        if (cursorMarginTop > 0) {
+            dispatch({ type: InputActionTypes.SET_CURSOR_SPLIT, payload: cursor })
+        }
+        if (cursorMarginTop == 34 && (mode === "infinity" || mode === "timeattack")) {
+            fetchWords();
+        }
+    }, [cursorMarginTop])
+
+    // Останавливаем таймер при завершении и отправляем результаты в базу
+    useEffect(() => {
+        if (status === "finish") {
+            handleStop();
+            addTest();
         }
     }, [status]);
 
+    // Отслеживаем старт для того, чтобы запустить таймер
     useEffect(() => {
         if (isStarting) {
             dispatch({ type: "CHANGE_STATE", payload: "run" });
@@ -71,41 +92,37 @@ const useEngine = () => {
         }
     }, [isStarting]);
 
+    // Проверки для завершения тестов
     useEffect(() => {
-        if (
-            (!timerIsActive && status === "run") ||
-            (words.length === cursor && status === "run")
-        ) {
-            updateLetters();
-            if (mode !== "learning")
-                dispatch({ type: "CHANGE_STATE", payload: "finish" });
-            else {
-                restart();
+        if (status === "run" && timerIsActive === true) {
+            if (mode === "learning" && words.length === cursor) {
+                restartTest()
+                fetchWords()
+            }
+            else if (words.length === cursor) {
+                stopTest()
+            }
+            else if (mode === "timeattack" && time == 0) {
+                stopTest()
             }
         }
-    }, [timerIsActive, status, words, typed]);
+    }, [timerIsActive, status, cursor, time]);
 
-    useEffect(() => {
-        if (mode === "timeattack" && timerIsActive && status === "run") {
-            if (time === 0) {
-                dispatch({ type: "CHANGE_STATE", payload: "finish" });
-            }
-        }
-    }, [time, timerIsActive, timerConst]);
-
+    // Если вкладка с печатью не в поле зрения пользователя (переключился на другое окно/вкладку), тест сбрасывается к началу.
     useEffect(() => {
         if (isVisible == false) {
-            restart();
+            restartTest();
         }
-    }, [timerIsActive, status, isVisible]);
+    }, [isVisible]);
 
+    // Проверка активен ли пользователь. Если он не активен в течении заданого времени, тест сбрасывается к началу.
     useEffect(() => {
         if (
             timerIsActive &&
             lastKeyPressTime != null &&
             new Date().getTime() - lastKeyPressTime >= 15 * 1000
         ) {
-            restart();
+            restartTest();
         }
     }, [time]);
 
@@ -114,7 +131,7 @@ const useEngine = () => {
         words,
         typed,
         wpm,
-        restart,
+        restart: restartTest,
         cursor,
         time,
         timerConst,

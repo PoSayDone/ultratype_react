@@ -5,11 +5,12 @@ import { useDispatch } from "react-redux";
 import { WordsActionTypes } from "../store/reducers/wordsReducer";
 import { useParams } from "react-router-dom";
 import { InputActionTypes } from "../store/reducers/inputReducer";
+import useLettersData from "./useLettersData";
 
-const useWords = (mask: string, mainLetter: string, len: number) => {
+const useWords = (len: number) => {
 
-    const { cursorMarginTop, cursor } = useTypedSelector(state => state.input)
     const [isLoading, setLoading] = useState(true);
+    const { updateLetters, mask, mainLetter } = useLettersData();
     const letters = localStorage.getItem('userLetters')
     const typingLanguage = useTypedSelector(state => state.settings.typingLanguage)
     const [isError, setError] = useState(false);
@@ -24,11 +25,12 @@ const useWords = (mask: string, mainLetter: string, len: number) => {
             let result
             switch (mode) {
                 case "learning":
+                    await updateLetters();
                     result = await WordsService.fetchWords(mask, mainLetter, len, typingLanguage)
                     dispatch({ type: WordsActionTypes.SET_WORDS, payload: result.data.strings.join(" ") })
                     break;
                 case "infinity":
-                    result = await WordsService.fetchRandomWords(10, typingLanguage)
+                    result = await WordsService.fetchRandomWords(20, typingLanguage)
                     if (words == "") {
                         dispatch({
                             type: WordsActionTypes.SET_WORDS,
@@ -56,27 +58,7 @@ const useWords = (mask: string, mainLetter: string, len: number) => {
         }
     }
 
-    useEffect(() => {
-        if (mode === "learning") {
-            if (mask === '' || mainLetter === '' || len === 0) {
-                dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
-                return;
-            } else {
-                fetchWords();
-            }
-        }
-    }, [mainLetter, mask, letters]);
-
-    useEffect(() => {
-        if (cursorMarginTop > 0) {
-            dispatch({ type: InputActionTypes.SET_CURSOR_SPLIT, payload: cursor })
-        }
-        if (mode === "infinity" || mode === "timeattack") {
-            fetchWords();
-        }
-    }, [cursorMarginTop])
-
-    return { words, isLoading, isError, fetchWords }
+    return { mask, mainLetter, words, isLoading, isError, fetchWords }
 }
 
 export default useWords

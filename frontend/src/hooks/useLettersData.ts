@@ -1,23 +1,17 @@
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "./useTypedSelector";
 import { LettersActionTypes, LettersActions } from "../store/reducers/lettersReducer";
-import { Dispatch, useCallback, useEffect, useState } from "react";
+import { Dispatch, useCallback, useEffect, useRef, useState } from "react";
 import { LettersToAddActionTypes } from "../store/reducers/lettersToAddReducer";
 
-interface LettersData {
-    updateLetters: () => void;
-    mask: string;
-    mainLetter: string;
-}
-
-const useLettersData = (): LettersData => {
+const useLettersData = () => {
     const typedLang = useTypedSelector((state) => state.settings.typingLanguage);
     const letters = useTypedSelector((state) => state.letters);
     const lettersToAdd = useTypedSelector((state) => state.lettersToAdd);
     const dispatch = useDispatch();
-
+    const mainLetterRef = useRef<string>("");
+    let mainLetter : string = "";
     const [mask, setMask] = useState<string>(() => Object.keys(letters[typedLang]).join(""));
-    const [mainLetter, setMainLetter] = useState<string>("");
 
     const addLetter = () => {
         dispatch({
@@ -55,15 +49,11 @@ const useLettersData = (): LettersData => {
         return minLetter;
     };
 
-    const updateLetters = () => {
-        setMainLetter(findMainLetter());
+    const updateLetters = async () => {
+        mainLetter = await findMainLetter();
         setMask(Object.keys(letters[typedLang]).join(""));
         localStorage.setItem(`userLetters`, JSON.stringify(letters));
     };
-
-    useEffect(() => {
-        updateLetters();
-    }, []);
 
     return { updateLetters, mask, mainLetter };
 };
