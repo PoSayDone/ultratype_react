@@ -54,10 +54,12 @@ const useEngine = () => {
     }
 
     const addTest = async () => {
-        try {
-            await TestsService.addTest(mode, wpm, accuracy / 100);
-        } catch (e: any) {
-            console.log(e.response?.data?.message);
+        if (accuracy >= 50) {
+            try {
+                await TestsService.addTest(mode, wpm, accuracy / 100);
+            } catch (e: any) {
+                console.log(e.response?.data?.message);
+            }
         }
     };
 
