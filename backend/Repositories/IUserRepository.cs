@@ -11,5 +11,4 @@ public interface IUserRepository
     Task DeleteUserAsync(Guid id);
     Task<User> GetUserByUsername(string name);
     Task<User> GetUserByEmail(string email);
-    Task<User> GetUserByNameAndPass(string name, string password);
 }
