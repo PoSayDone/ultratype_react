@@ -9,8 +9,6 @@ const useLettersData = () => {
     const letters = useTypedSelector((state) => state.letters);
     const lettersToAdd = useTypedSelector((state) => state.lettersToAdd);
     const dispatch = useDispatch();
-    // const [mainLetter, setMainLetter] = useState({letter: ""});
-    // const [mask, setMask] = useState<string>(() => Object.keys(letters[typedLang]).join(""));
     const [lettersData, setLettersData] = useState({
         mask: Object.keys(letters[typedLang]).join(""),
         mainLetter: ""
