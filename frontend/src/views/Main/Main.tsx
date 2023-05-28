@@ -16,7 +16,7 @@ const Main = () => {
                     title={t("main.card1.title")}
                     description={t("main.card1.description")}
                     img={"learning"}
-                    url={"typing/typing"}
+                    url={"typing/learning"}
                 />
                 <Card
                     title={t("main.card2.title")}
@@ -31,10 +31,10 @@ const Main = () => {
                     url={"typing/timeattack"}
                 />
                 <Card
-                    title={t("main.card1.title")}
-                    description={t("main.card1.description")}
-                    img={"learning"}
-                    url={"typing/learning"}
+                    title={t("None")}
+                    description={t("None")}
+                    img={"none"}
+                    url={"typing/"}
                 />
             </div>
         </AnimatedContainer>
