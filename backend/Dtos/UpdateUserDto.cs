@@ -9,5 +9,5 @@ public record UpdateUserDto {
     public string Username { get; init; }
     
     [Required]
-    public string Password { get; init; }
+    public string PasswordHash { get; init; }
 } 

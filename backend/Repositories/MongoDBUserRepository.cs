@@ -46,7 +46,7 @@ namespace backend.Repositories{
 
         public async Task<User> GetUserByNameAndPass(string name, string password)
         {
-            var filter = filterBuilder.Eq(user => user.Username, name) & filterBuilder.Eq(user => user.Password, password) ;
+            var filter = filterBuilder.Eq(user => user.Username, name) & filterBuilder.Eq(user => user.PasswordHash, password) ;
             return await userCollection.Find(filter).SingleOrDefaultAsync();
         }
         public async Task<User> GetUserByUsername(string name)

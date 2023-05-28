@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata;
-using System.Security.Principal;
+﻿using System.Security.Cryptography;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -9,6 +8,7 @@ using backend.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Identity;
 
 namespace backend.Controllers;
 
@@ -16,13 +16,15 @@ namespace backend.Controllers;
 [Route("auth")]
 public class AuthController : ControllerBase
 {
-    private IConfiguration _config;
-    private readonly IUserRepository userRepo;
+    private readonly IConfiguration _config;
+    private readonly IUserRepository _userRepo;
+    private readonly IPasswordHasher<User> _passwordHasher;
 
-    public AuthController(IConfiguration configuration, IUserRepository repository)
+    public AuthController(IConfiguration configuration, IUserRepository userRepository, IPasswordHasher<User> passwordHasher)
     {
-        this._config = configuration;
-        this.userRepo = repository;
+        _config = configuration;
+        _userRepo = userRepository;
+        _passwordHasher = passwordHasher;
     }
 
     [AllowAnonymous]
@@ -49,7 +51,7 @@ public class AuthController : ControllerBase
             return Ok(data);
         }
 
-        var existedUser = await userRepo.GetUserByUsername(userLogin.Username);
+        var existedUser = await _userRepo.GetUserByUsername(userLogin.Username);
         if (existedUser != null)
         {
             return BadRequest("Wrong password");
@@ -62,25 +64,25 @@ public class AuthController : ControllerBase
     public async Task<ActionResult> AddUserAsync(AddUserDto userDto)
     {
 
-        if (await userRepo.GetUserByUsername(userDto.Username) != null)
+        if (await _userRepo.GetUserByUsername(userDto.Username) != null)
         {
             return Conflict("User with this username already exist");
         }
 
-        if (await userRepo.GetUserByEmail(userDto.Email) != null)
+        if (await _userRepo.GetUserByEmail(userDto.Email) != null)
         {
             return Conflict("User with this email already exists");
         }
-        
+
         User user = new()
         {
             Id = Guid.NewGuid(),
             Email = userDto.Email,
             Username = userDto.Username,
-            Password = userDto.Password
+            PasswordHash = _passwordHasher.HashPassword(new User(), userDto.Password)
         };
 
-        await userRepo.AddUserAsync(user);
+        await _userRepo.AddUserAsync(user);
 
         var token = Generate(user);
         var handler = new JwtSecurityTokenHandler();
@@ -121,8 +123,8 @@ public class AuthController : ControllerBase
 
     private async Task<User?> Authenticate(LoginUserDto userLogin)
     {
-        var currentUser = await userRepo.GetUserByNameAndPass(userLogin.Username, userLogin.Password);
-        if (currentUser != null)
+        var currentUser = await _userRepo.GetUserByUsername(userLogin.Username);
+        if (currentUser != null && _passwordHasher.VerifyHashedPassword(currentUser, currentUser.PasswordHash, userLogin.Password) == PasswordVerificationResult.Success)
         {
             return currentUser;
         }

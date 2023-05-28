@@ -46,7 +46,7 @@ namespace backend.Controllers
             User updatedUser = existingUser with
             {
                 Username = userDto.Username,
-                Password = userDto.Password
+                PasswordHash = userDto.PasswordHash
             };
 
             await userRepo.UpdateUserAsync(updatedUser);
