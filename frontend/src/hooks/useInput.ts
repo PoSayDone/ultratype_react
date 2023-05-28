@@ -19,7 +19,7 @@ const isSymbolAllowed = (code: string, key: string) => {
     );
 };
 
-const useInput = (enabled: boolean, text: string) => {
+const useInput = (enabled: boolean, text: string, mode: string) => {
     const dispatch = useDispatch();
     const letterDispatch: Dispatch<LettersActions> = useDispatch();
     const { cursor, cursorMarginTop, typed } = useTypedSelector((state) => state.input);
@@ -43,11 +43,13 @@ const useInput = (enabled: boolean, text: string) => {
             if (!enabled || !isSymbolAllowed(code, key)) {
                 return;
             }
-            if (lastKeyPressTime !== null) {
-                timeSinceLastKeyPress = new Date().getTime() - lastKeyPressTime;
+            if (mode === "learning") {
+                if (lastKeyPressTime !== null) {
+                    timeSinceLastKeyPress = new Date().getTime() - lastKeyPressTime;
+                    setLastKeyPressTime(new Date().getTime());
+                }
                 setLastKeyPressTime(new Date().getTime());
             }
-            setLastKeyPressTime(new Date().getTime());
             switch (key) {
                 case "Backspace":
                     if (ctrlKey && typed[typed.length - 1] === " ") {
@@ -114,13 +116,15 @@ const useInput = (enabled: boolean, text: string) => {
                             payload: cursor + 1,
                         });
                         const isCorrect = text.charAt(cursor) === key;
-                        // Костыль, для того, чтобы первая буква в тексте не портила WPM (у нее будет время набора 0 соответственно WPM бесконечный)
-                        if (timeSinceLastKeyPress !== 0) {
-                            setLetterData(
-                                text.charAt(cursor),
-                                isCorrect,
-                                timeSinceLastKeyPress
-                            );
+                        if (mode === "learning") {
+                            // Костыль, для того, чтобы первая буква в тексте не портила WPM (у нее будет время набора 0 соответственно WPM бесконечный)
+                            if (timeSinceLastKeyPress !== 0) {
+                                setLetterData(
+                                    text.charAt(cursor),
+                                    isCorrect,
+                                    timeSinceLastKeyPress
+                                );
+                            }
                         }
                     }
                     break;

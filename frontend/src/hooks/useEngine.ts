@@ -30,7 +30,8 @@ const useEngine = () => {
     const { words, isLoading, fetchWords, mask, mainLetter } = useWords(20);
     const { typed, cursorMarginTop, cursor, restartTyping, lastKeyPressTime } = useInput(
         status !== "finish",
-        words
+        words,
+        mode
     );
     const wpm =
         mode !== "timeattack"
