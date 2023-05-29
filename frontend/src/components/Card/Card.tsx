@@ -1,5 +1,6 @@
 import { FC } from "react"
 import { Link } from "react-router-dom"
+import "./Card.scss";
 
 // Описывает типы, которые может принимать функция
 interface CardProps {

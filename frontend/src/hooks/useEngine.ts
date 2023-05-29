@@ -7,7 +7,6 @@ import TestsService from "../services/TestsService";
 import useWords from "./useWords";
 import useWpm from "./useWpm";
 import useAccuracy from "./useAccuracy";
-import useLettersData from "./useLettersData";
 import usePageVisibility from "./usePageVisibility";
 import { useParams } from "react-router-dom";
 import useTimer from "./useTimer";

@@ -1,4 +1,4 @@
-import Card from "../../components/Card"
+import Card from "../../components/Card/Card"
 import { useTranslation } from "react-i18next";
 import "./Main.scss";
 import AnimatedContainer from "../../components/AnimatedContainer";
@@ -31,7 +31,7 @@ const Main = () => {
                 <Card
                     title={t("None")}
                     description={t("None")}
-                    img={"none"}
+                    img={"words"}
                     url={"typing/"}
                 />
             </div>

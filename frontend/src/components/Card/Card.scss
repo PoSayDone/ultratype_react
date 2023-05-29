@@ -1,0 +1,41 @@
+@import "../src/globalStyles/Variables.scss";
+
+.card {
+    background-color: var(--background_secondary);
+    border-radius: $border_radius;
+    text-decoration: none;
+    color: var(--on_secondary);
+
+    &:hover {
+        color: var(--on_secondary_hover);
+        border-radius: 50px;
+
+        .card__img {
+            border-radius: 50px;
+        }
+    }
+
+    .card__img {
+        object-fit: cover;
+        height: 200px;
+        border-radius: 24px;
+    }
+
+    .card__text {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        padding: 24px;
+
+        .card__title {
+            font-size: $heading_medium;
+            font-weight: 500;
+        }
+
+        .card__description {
+            font-size: $text_small;
+            line-height: 24px;
+            font-weight: 400;
+        }
+    }
+}
