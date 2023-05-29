@@ -29,10 +29,10 @@ const Main = () => {
                     url={"typing/timeattack"}
                 />
                 <Card
-                    title={t("None")}
-                    description={t("None")}
+                    title={t("main.card4.title")}
+                    description={t("main.card4.description")}
                     img={"words"}
-                    url={"typing/"}
+                    url={"typing/ammountofwords"}
                 />
             </div>
         </AnimatedContainer>
