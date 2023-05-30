@@ -1,4 +1,4 @@
-import "./Keyboard.module.scss";
+import "./Keyboard.scss";
 import data from "./Keyboard.module.json";
 import { useEffect, useState } from "react";
 import classNames from "classnames";

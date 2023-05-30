@@ -1,0 +1,36 @@
+@import "../../globalStyles/Variables.scss";
+
+header {
+    color: var(--on_background);
+    margin-top: $content_spacing;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header__user {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .logout__button {
+        background: var(--secondary_active);
+        display: flex;
+        border: none;
+        border-radius: 9px;
+        margin: 0;
+        padding: 7px;
+        color: var(--on_secondary);
+        cursor: pointer;
+
+        span {
+            font-size: 18px;
+            font-variation-settings:
+                'FILL' 1,
+                'wght' 700,
+                'GRAD' 0,
+                'opsz' 48,
+        }
+    }
+}

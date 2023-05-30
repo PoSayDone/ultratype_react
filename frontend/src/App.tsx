@@ -1,8 +1,8 @@
 import { BrowserRouter, Location, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.scss";
 import Main from "./views/Main/Main";
-import Header from "./components/Header";
-import Navbar from "./components/Navbar";
+import Header from "./components/Header/Header";
+import Navbar from "./components/Navbar/Navbar";
 import Settings from "./views/Settings/Settings";
 import { useCallback, useEffect, useState } from "react";
 import Typing from "./views/Typing/Typing";

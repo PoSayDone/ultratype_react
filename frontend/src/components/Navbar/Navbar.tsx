@@ -1,6 +1,7 @@
 import { TFunction } from "i18next"
 import { Link, NavLink } from "react-router-dom"
-import { useTypedSelector } from "../hooks/useTypedSelector"
+import { useTypedSelector } from "../../hooks/useTypedSelector"
+import "./Navbar.scss"
 
 interface NavbarProps {
     language: TFunction<"translation", undefined, "translation">

@@ -1,13 +1,14 @@
 import { Link, useNavigate } from "react-router-dom"
-import { useTypedSelector } from "../hooks/useTypedSelector";
+import { useTypedSelector } from "../../hooks/useTypedSelector";
 import { useSignOut } from "react-auth-kit";
 import { Dispatch } from "react";
-import { UserAction, UserActions } from "../store/reducers/userReducer";
+import { UserAction, UserActions } from "../../store/reducers/userReducer";
 import { useDispatch } from "react-redux";
-import LoginButton from "./LoginButton";
+import LoginButton from "../LoginButton";
 import { useTranslation } from "react-i18next";
-import AnimatedDiv from "./AnimatedDiv";
+import AnimatedDiv from "../AnimatedDiv";
 import { AnimatePresence } from "framer-motion";
+import "./Header.scss"
 
 const Header = () => {
     const theme = useTypedSelector(state => state.settings.theme)

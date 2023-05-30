@@ -1,0 +1,151 @@
+@import "../../globalStyles/Variables.scss";
+
+.keyboard {
+    width: 936px;
+    display: grid;
+    gap: 8px;
+
+    .r5 {
+        .keyboard__button {
+            min-width: 69px;
+        }
+    }
+
+    .space,
+    .enter,
+    .tab,
+    .shift,
+    .caps,
+    .backspace {
+        width: 100%;
+    }
+}
+
+.keyboard__row {
+    width: 936px;
+    display: flex;
+    gap: 8px;
+}
+
+.keyboard__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 56px;
+    height: 56px;
+    border-radius: 14px;
+    font-size: $heading_small;
+    font-weight: 400;
+    background: var(--background_secondary);
+    transition: all 1ms linear;
+
+    &.g,
+    &.f,
+    &.r,
+    &.t,
+    &.v,
+    &.b,
+    &.и,
+    &.м,
+    &.е,
+    &.к,
+    &.а,
+    &.п {
+        &.active {
+            background-color: var(--keyboard-button-accent-orange);
+
+        }
+
+        background-color: var(--keyboard-button-background-orange);
+    }
+
+    &.j,
+    &.h,
+    &.y,
+    &.u,
+    &.m,
+    &.n,
+    &.о,
+    &.р,
+    &.н,
+    &.г,
+    &.т,
+    &.ь {
+        &.active {
+            background-color: var(--keyboard-button-accent-yellow);
+        }
+
+        background-color: var(--keyboard-button-background-yellow);
+    }
+
+    &.d,
+    &.c,
+    &.e,
+    &.k,
+    &.i,
+    &.comma,
+    &.в,
+    &.e,
+    &.с,
+    &.л,
+    &.ш,
+    &.б,
+    &.у {
+        &.active {
+            background-color: var(--keyboard-button-accent-rose);
+        }
+
+        background-color: var(--keyboard-button-background-rose);
+
+    }
+
+    &.s,
+    &.w,
+    &.x,
+    &.l,
+    &.o,
+    &.dot,
+    &.ы,
+    &.ч,
+    &.ц,
+    &.д,
+    &.щ,
+    &.ю {
+        &.active {
+            background-color: var(--keyboard-button-accent-blue);
+        }
+
+        background-color: var(--keyboard-button-background-blue);
+    }
+
+    &.q,
+    &.a,
+    &.z,
+    &.p,
+    &.semicolon,
+    &.slash1,
+    &.quote,
+    &.left-bracket,
+    &.right-bracket,
+    &.й,
+    &.ф,
+    &.я,
+    &.ж,
+    &.точка,
+    &.з,
+    &.х,
+    &.ъ,
+    &.э {
+        &.active {
+            background-color: var(--keyboard-button-accent-green);
+        }
+
+        background-color: var(--keyboard-button-background-green);
+    }
+
+    &.active {
+        background-color: var(--accent);
+        color: var(--active-keyboard-button-text-color);
+        animation: smoothActiveButton 200ms;
+    }
+}
