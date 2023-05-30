@@ -58,10 +58,13 @@
         "register": "Зарегистрироваться"
     },
     "typing": {
+        "all_keys": "Все клавиши",
+        "main_key": "Главная клавиша",
         "title": "Обучение",
-        "levelName": "Клавиши f и j",
         "time": "Время",
         "wpm": "СВМ",
+        "error_rate": "Процент ошибок",
+        "confidence": "Процент владения",
         "accuracy": "Точность",
         "restartButton": "Перезапустить"
     },

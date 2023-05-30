@@ -22,7 +22,7 @@ interface TypingProps {
     subtitle?: string;
 }
 
-const Typing: FC<TypingProps> = ({ title, subtitle }) => {
+const Typing: FC<TypingProps> = ({ title }) => {
     const { t, i18n } = useTranslation()
     const { timerConst, accuracy, restart, status, words, typed, wpm, time, cursor, currentCharacterRef, lettersData } = useEngine();
 
@@ -54,9 +54,6 @@ const Typing: FC<TypingProps> = ({ title, subtitle }) => {
                 <div className="title__section--text">
                     <Heading headingLevel="h1" className="title">
                         {title ? title : t(dict[mode])}
-                    </Heading>
-                    <Heading headingLevel="h3" className="subtitle">
-                        {subtitle}
                     </Heading>
                 </div>
                 <RestartButton

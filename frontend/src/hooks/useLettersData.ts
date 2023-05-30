@@ -26,7 +26,7 @@ const useLettersData = () => {
         });
     }
 
-    const findMainLetter = () => {
+    const findMainLetter = async () => {
         const goodConfidence = 1;
         let minConfidence = goodConfidence;
         let minLetter = "";
@@ -51,7 +51,7 @@ const useLettersData = () => {
     };
 
     const updateLetters = async () => {
-        setLettersData({ mask: Object.keys(letters[typedLang]).join(""), mainLetter: await findMainLetter() })
+        setLettersData({ mainLetter: await findMainLetter(), mask: Object.keys(letters[typedLang]).join("") })
         localStorage.setItem(`userLetters`, JSON.stringify(letters));
     };
 

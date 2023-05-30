@@ -54,10 +54,13 @@
         "total_words": "Words total"
     },
     "typing": {
+        "all_keys": "All keys",
+        "main_key": "Main key",
         "title": "Learning",
-        "levelName": "f and j characters",
         "time": "Time",
         "wpm": "WPM",
+        "error_rate": "Error rate",
+        "confidence": "Confidence",
         "accuracy": "Accuracy",
         "restartButton": "Restart"
     },

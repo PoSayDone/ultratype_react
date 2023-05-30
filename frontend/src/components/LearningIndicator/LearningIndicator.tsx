@@ -1,9 +1,8 @@
-import classNames from "classnames"
 import "./LearningIndicator.scss"
-import AnimatedDiv from "../AnimatedDiv"
 import { useTypedSelector } from "../../hooks/useTypedSelector"
-import { CSSProperties, StyleHTMLAttributes } from "react"
+import { CSSProperties } from "react"
 import { motion } from "framer-motion"
+import { useTranslation } from "react-i18next"
 
 interface IndicatorProps {
     letterString: string
@@ -35,19 +34,20 @@ const IndicatorItem = ({ letter, title, style }: IndicatorItemProps) => {
 const LearningIndicator = ({ letterString, mainLetter }: IndicatorProps) => {
     let typingLang = useTypedSelector(state => state.settings.typingLanguage)
     const letters = useTypedSelector(state => state.letters[typingLang])
+    const { t, i18n } = useTranslation()
     return (
         <div className="learning-indicator__container">
             <div className="learning-indicator__text">
-                All keys:
+                {t("typing.all_keys")}:
             </div>
             <div className="learning-indicator__chars">
                 {letterString.split("").map((letter) => {
                     const color = Math.round(letters[letter].confidence * 100)
                     return (
                         <IndicatorItem
-                            title={`WPM: ${Math.round(letters[letter].wpm).toString()}` +
-                                `\nErrorRate: ${Math.round(letters[letter].errorRate * 100).toString()}%` +
-                                `\nConfidence: ${Math.round(letters[letter].confidence * 100).toString()}%`}
+                            title={`${t("typing.wpm")} ${Math.round(letters[letter].wpm).toString()}` +
+                                `\n${t("typing.error_rate")}: ${Math.round(letters[letter].errorRate * 100).toString()}%` +
+                                `\n${t("typing.confidence")}: ${Math.round(letters[letter].confidence * 100).toString()}%`}
                             letter={letter}
                             style={{ background: `hsl(${color},61%,64%)` }}
                         />
@@ -55,10 +55,10 @@ const LearningIndicator = ({ letterString, mainLetter }: IndicatorProps) => {
                 })}
             </div >
             <div className="learning-indicator__text">
-                Main char:
+                {t("typing.main_key")}:
             </div>
             <div className="learning-indicator__main-char">
-                <IndicatorItem letter={mainLetter} title={""} style={{ background: "var(--accent)" }}/>
+                <IndicatorItem letter={mainLetter} title={""} style={{ background: "var(--accent)" }} />
             </div>
         </div>
     )
