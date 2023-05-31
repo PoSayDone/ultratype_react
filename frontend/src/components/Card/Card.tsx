@@ -10,11 +10,16 @@ interface CardProps {
     url: string,
 }
 
+function getIllustartionUrl(img: string) {
+    return new URL(`../../assets/cards_illustrations/${img}.png`, import.meta.url).href
+}
+
 const Card: FC<CardProps> = ({ title, description, img, url }) => {
     return (
         <>
             <Link to={`/${url}`} className="card">
-                <img src={`../src/assets/cards_illustrations/` + img + `.png`} className="card__img" />
+                <img src={getIllustartionUrl(img)} className="card__img" />
+
                 <div className="card__text">
                     <div className="card__title">
                         {title}

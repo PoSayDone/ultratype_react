@@ -22,12 +22,16 @@ const Header = () => {
         navigate("/login");
     }
 
+    function getLogoUrl(theme: string) {
+        return new URL(`../../assets/logo_${theme}.svg`, import.meta.url).href
+    }
+
     return (
         <>
             <AnimatePresence mode="wait">
                 <header>
                     <Link to="/" className="header__logo">
-                        <img src={`../src/assets/logo_${theme}.svg`} alt="" />
+                        <img src={getLogoUrl(theme)} alt="" />
                     </Link>
                     {
                         user.username
