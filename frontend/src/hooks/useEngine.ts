@@ -62,12 +62,19 @@ const useEngine = () => {
         }
     };
 
-    // Фетчим слова и сбрасываем всё при загрузке странички
+    // Сбрасываем слова при загрузке странички
     useEffect(() => {
-        dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
-        restartTest();
-        fetchWords();
-    }, [])
+        dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" });
+    }, []);
+
+    // Ждем пока слова сбросятся ВЕДЬ ДИСПАТЧИ И USESTATE У НАС НЕ РАБОТАЮТ ПО ЧЕЛОВЕЧЕСКИ ОНИ ЖЕ У НАС АСИНХРОННЫЕ ЕПТА, НО AWAIT НА НИХ НЕ РАБОТАЕТ ЭТО ВЕДЬ ТАК УДОБНО НА КАЖДОЕ ИЗМЕНЕИЕ В КОДЕ ВЕШАТЬ USEEFFECT, ДА РЕАКТ????????
+    useEffect(() => {
+        if (words === "") {
+            restartTest();
+            fetchWords();
+        }
+    }, [words])
+
 
     // Перенос слов и фетчинг новых слов
     useEffect(() => {

@@ -37,7 +37,6 @@ const useWords = (len: number) => {
                         });
                     }
                     else {
-
                         dispatch({
                             type: WordsActionTypes.SET_WORDS,
                             payload: words + " " + result.data.strings.join(" "),
