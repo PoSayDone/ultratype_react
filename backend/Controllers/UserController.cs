@@ -1,6 +1,3 @@
-using System.Security.Claims;
-using System.Runtime.Serialization;
-using System.Net;
 using backend.Dtos;
 using backend.Entities;
 using backend.Repositories;
@@ -19,11 +16,11 @@ namespace backend.Controllers
             this.userRepo = repository;
         }
 
-        [HttpGet("getUsers")]
-        public async Task<IEnumerable<UserDto>> GetUsersAsync()
-        {
-            return (await userRepo.GetUsersAsync()).Select(user => user.AsDto());
-        }
+        // [HttpGet("getUsers")]
+        // public async Task<IEnumerable<UserDto>> GetUsersAsync()
+        // {
+        //     return (await userRepo.GetUsersAsync()).Select(user => user.AsDto());
+        // }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDto>> GetUser(Guid id)
@@ -53,16 +50,16 @@ namespace backend.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteUserAsync(Guid id)
-        {
-            var existingUser = await userRepo.GetUserAsync(id);
-            if (existingUser == null)
-            {
-                return NotFound();
-            }
-            await userRepo.DeleteUserAsync(id);
-            return NoContent();
-        }
+        // [HttpDelete("{id}")]
+        // public async Task<ActionResult> DeleteUserAsync(Guid id)
+        // {
+        //     var existingUser = await userRepo.GetUserAsync(id);
+        //     if (existingUser == null)
+        //     {
+        //         return NotFound();
+        //     }
+        //     await userRepo.DeleteUserAsync(id);
+        //     return NoContent();
+        // }
     }
 }

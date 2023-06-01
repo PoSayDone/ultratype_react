@@ -1,6 +1,5 @@
 import { TFunction } from "i18next"
 import { Link, NavLink } from "react-router-dom"
-import { useTypedSelector } from "../../hooks/useTypedSelector"
 import "./Navbar.scss"
 
 interface NavbarProps {
@@ -31,9 +30,6 @@ const NavItem = ({ src, spanText, innerText }: NavItemProps) => {
 }
 
 const Navbar = ({ language }: NavbarProps) => {
-
-    const mode = useTypedSelector(state => state.status.lastMode)
-
     return (
         <nav>
             <NavItem src="/" spanText="home" innerText={language("navbar.home")} />

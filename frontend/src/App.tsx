@@ -1,10 +1,10 @@
-import { BrowserRouter, Location, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { BrowserRouter, Location, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import "./App.scss";
 import Main from "./views/Main/Main";
 import Header from "./components/Header/Header";
 import Navbar from "./components/Navbar/Navbar";
 import Settings from "./views/Settings/Settings";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Typing from "./views/Typing/Typing";
 import "./i18n";
 import { useTranslation } from "react-i18next";
@@ -17,14 +17,13 @@ import { RequireAuth, useIsAuthenticated } from "react-auth-kit";
 import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import F1Redirect from "./components/F1Redirect";
+import LettersService from "./services/LettersService";
 
 function App() {
     const location = useLocation();
-    const navigate = useNavigate();
     const [lastVisitedTypingRoute, setLastVisitedTypingRoute] = useState<string>("/typing/learning");
 
     useEffect(() => {
-        // проверяем, является ли текущий путь одним из роутов типинга
         if (location.pathname.startsWith('/typing/')) {
             setLastVisitedTypingRoute(location.pathname);
         }
@@ -32,9 +31,17 @@ function App() {
 
     const IsAuthenticated = useIsAuthenticated()
     const dispatch = useDispatch();
+
     useEffect(() => {
         if (IsAuthenticated()) {
+            let response;
+            const fetchLetters = async () => {
+                response = await LettersService.getLetters();
+                localStorage.setItem("userLetters", JSON.stringify(response.data))
+            }
+
             dispatch({ type: "SET_USER", payload: JSON.parse(Cookies.get("_auth_state")!) })
+            fetchLetters()
         }
     }, [])
 

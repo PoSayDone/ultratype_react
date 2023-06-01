@@ -6,6 +6,14 @@ namespace backend;
 
 public static class Extensions
 {
+    public static LettersDto AsDto( this Letters letters)
+    {
+        return new LettersDto()
+        {
+            Data = letters.Data,
+        };
+    }
+
     public static UserDto AsDto( this User user)
     {
         return new UserDto()
@@ -13,7 +21,6 @@ public static class Extensions
             Id = user.Id,
             Email = user.Email,
             Username = user.Username,
-            // Password = user.Password
         };
     }
 
@@ -24,6 +31,7 @@ public static class Extensions
         string minutes = test.Date.Minute / 10 == 0 ? $"0{test.Date.Minute}" : test.Date.Minute.ToString();
         string days = test.Date.Day / 10 == 0 ? $"0{test.Date.Day}" : test.Date.Day.ToString();
         string month = test.Date.Month / 10 == 0 ? $"0{test.Date.Month}" : test.Date.Month.ToString();
+
         return new TestDto()
         {
             Id = test.Id,

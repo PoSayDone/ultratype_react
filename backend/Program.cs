@@ -21,20 +21,25 @@ builder.Services.AddSingleton<IMongoClient>(settingsProvider =>
     var setting = builder.Configuration.GetSection(nameof(MongoDbSetting)).Get<MongoDbSetting>();
     return new MongoClient(setting.ConnectionString);
 });
+
 builder.Services.AddSingleton<IUserRepository, MongoDBUserRepository>();
 builder.Services.AddSingleton<ITestsRepository, MongoDBTestsRepository>();
 builder.Services.AddSingleton<IRussianWordsRepository, MongoDBRussianWordsRepository>();
 builder.Services.AddSingleton<IEnglishWordsRepository, MongoDBEnglishWordsRepository>();
+builder.Services.AddSingleton<ILettersRepository, MongoDBLettersRepository>();
+
 builder.Services.AddControllers(options =>
 {
     options.SuppressAsyncSuffixInActionNames = false;
 });
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => {
+    .AddJwtBearer(options =>
+    {
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,

@@ -7,7 +7,6 @@ import { userReducer } from "./userReducer";
 import { lettersReducer } from "./lettersReducer";
 import timerReducer from "./timerReducer";
 import settingsReducer from "./settingsReducer";
-import { lettersToAddReducer } from "./lettersToAddReducer";
 
 export const rootReducer = combineReducers({
     status: statusReducer,
@@ -16,7 +15,6 @@ export const rootReducer = combineReducers({
     countDown: countDownReducer,
     user: userReducer,
     letters: lettersReducer,
-    lettersToAdd: lettersToAddReducer,
     timer: timerReducer,
     settings: settingsReducer
 });

@@ -1,13 +1,13 @@
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "./useTypedSelector";
-import { LettersActionTypes, LettersActions } from "../store/reducers/lettersReducer";
-import { Dispatch, useCallback, useEffect, useRef, useState } from "react";
-import { LettersToAddActionTypes } from "../store/reducers/lettersToAddReducer";
+import { LettersActionTypes } from "../store/reducers/lettersReducer";
+import {useState } from "react";
+import LettersService from "../services/LettersService";
+import { lettersToAddConst } from "../constants/lettersToAddConst";
 
 const useLettersData = () => {
     const typedLang = useTypedSelector((state) => state.settings.typingLanguage);
     const letters = useTypedSelector((state) => state.letters);
-    const lettersToAdd = useTypedSelector((state) => state.lettersToAdd);
     const dispatch = useDispatch();
     const [lettersData, setLettersData] = useState({
         mask: Object.keys(letters[typedLang]).join(""),
@@ -15,14 +15,13 @@ const useLettersData = () => {
     })
 
     const addLetter = () => {
+        const letterToAdd = lettersToAddConst[typedLang].letters.replace(lettersData.mask, "").charAt(0)
         dispatch({
             type: LettersActionTypes.ADD_LETTER,
-            payload: { lang: typedLang, letter: lettersToAdd[typedLang].letters.charAt(0) },
-        });
-        dispatch({
-            type: LettersToAddActionTypes.REMOVE_LETTER,
-            payload: { lang: typedLang },
-
+            payload: {
+                lang: typedLang,
+                letter: letterToAdd
+            },
         });
     }
 
@@ -53,6 +52,7 @@ const useLettersData = () => {
     const updateLetters = async () => {
         setLettersData({ mainLetter: await findMainLetter(), mask: Object.keys(letters[typedLang]).join("") })
         localStorage.setItem(`userLetters`, JSON.stringify(letters));
+        LettersService.setLetters(letters);
     };
 
     return { updateLetters, lettersData };

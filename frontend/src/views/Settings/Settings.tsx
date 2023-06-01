@@ -44,7 +44,6 @@ const Settings = ({ text }: SettingsProps) => {
         localStorage.setItem("number_of_words", `${+event.target.value < 1 ? 1 : +event.target.value}`)
     }
 
-
     const ChangeTimeAttackTimeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.value == "") {
             setTimeAttackValue("0")
@@ -139,7 +138,11 @@ const Settings = ({ text }: SettingsProps) => {
                     <Heading headingLevel={"h2"}>{text("settings.timeAttack")}</Heading>
                     <fieldset className='settings__fieldset' name='timeAttack'>
                         <span>{text("settings.timeAttackTime")}</span>
-                        <input className='settings__fieldset_input' type="number" name="timeAttacktime" value={timeAttackValue} onChange={ChangeTimeAttackTimeValue} onBlur={ChangeTimeAttackTime} />
+                        <input className='settings__fieldset_input' type="number" name="timeAttacktime"
+                            value={timeAttackValue}
+                            onChange={ChangeTimeAttackTimeValue}
+                            onBlur={ChangeTimeAttackTime}
+                        />
                     </fieldset>
                 </div>
                 <div className='settings__section'>

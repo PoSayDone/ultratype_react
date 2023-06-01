@@ -2,9 +2,9 @@ import { ILettersToAdd } from "../models/ILettersToAdd";
 
 export const lettersToAddConst : ILettersToAdd = {
     en: {
-        letters: "sauodychgmpbkvwfzxqj"
+        letters: "enitrlsauodychgmpbkvwfzxqj"
     },
     ru: {
-        letters: "лркумвсяьыдйюгчшхзбпжщцфъэё"
+        letters: "еиаотнлркумвсяьыдйюгчшхзбпжщцфъэё"
     }
 }
