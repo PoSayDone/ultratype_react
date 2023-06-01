@@ -18,6 +18,8 @@ const Settings = ({ text }: SettingsProps) => {
     const [timeAttackValue, setTimeAttackValue] = useState(`${timeAttackTime}`)
     const [numberOfWordsValue, setNumberOfWordsValue] = useState(`${numberOfWords}`)
 
+    //TODO Переделать эту срань!
+
     const changeTheme = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const theme_value = event.target.value //проверка языка
         dispatch({ type: SettingsActionsTypes.CHANGE_THEME, payload: theme_value })

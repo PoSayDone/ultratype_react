@@ -37,7 +37,7 @@ const Navbar = ({ language }: NavbarProps) => {
     return (
         <nav>
             <NavItem src="/" spanText="home" innerText={language("navbar.home")} />
-            <NavItem src={mode == "infinity" || mode == "timeattack" ? `/typing/${mode}` : "/typing"} spanText="notes" innerText={language("navbar.typing")} />
+            <NavItem src={"/typing"} spanText="notes" innerText={language("navbar.typing")} />
             <NavItem src="/settings" spanText="settings" innerText={language("navbar.settings")} />
             <NavItem src="/profile" spanText="person" innerText={language("navbar.profile")} />
             <Link target="_blank" rel="noopener noreferrer" className="navbar__item" to={"https://ultratype.cc/docs/"}>

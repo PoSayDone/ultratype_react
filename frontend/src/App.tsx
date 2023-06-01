@@ -1,4 +1,4 @@
-import { BrowserRouter, Location, Navigate, Route, Routes, useLocation } from "react-router-dom";
+import { BrowserRouter, Location, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import "./App.scss";
 import Main from "./views/Main/Main";
 import Header from "./components/Header/Header";
@@ -20,6 +20,16 @@ import F1Redirect from "./components/F1Redirect";
 
 function App() {
     const location = useLocation();
+    const navigate = useNavigate();
+    const [lastVisitedTypingRoute, setLastVisitedTypingRoute] = useState<string>("/typing/learning");
+
+    useEffect(() => {
+        // проверяем, является ли текущий путь одним из роутов типинга
+        if (location.pathname.startsWith('/typing/')) {
+            setLastVisitedTypingRoute(location.pathname);
+        }
+    }, [location]);
+
     const IsAuthenticated = useIsAuthenticated()
     const dispatch = useDispatch();
     useEffect(() => {
@@ -51,8 +61,6 @@ function App() {
         }
     }, [language]);
 
-    const lastKeyPressed = useState("")
-
     return (
         <>
             <main>
@@ -70,13 +78,9 @@ function App() {
                         />
                         <Route
                             path="/typing"
-                            element={
-                                <Typing
-                                    title="Обучение"
-                                    subtitle="Клавиши f и j"
-                                />
-                            }
-                        />
+                            element={<Navigate to={lastVisitedTypingRoute} replace />}
+                        >
+                        </Route>
                         <Route
                             path="/typing/:mode"
                             element={
