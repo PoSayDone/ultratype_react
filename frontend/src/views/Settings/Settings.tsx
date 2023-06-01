@@ -13,9 +13,11 @@ interface SettingsProps {
 }
 
 const Settings = ({ text }: SettingsProps) => {
-    const { language, isMonospace, theme, timeAttackTime, typingLanguage } = useTypedSelector(state => state.settings)
+    const { language, isMonospace, theme, timeAttackTime, typingLanguage, numberOfWords } = useTypedSelector(state => state.settings)
     const dispatch: Dispatch<SettingsActions> = useDispatch()
     const [timeAttackValue, setTimeAttackValue] = useState(`${timeAttackTime}`)
+    const [numberOfWordsValue, setNumberOfWordsValue] = useState(`${numberOfWords}`)
+
     const changeTheme = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const theme_value = event.target.value //проверка языка
         dispatch({ type: SettingsActionsTypes.CHANGE_THEME, payload: theme_value })
@@ -26,6 +28,20 @@ const Settings = ({ text }: SettingsProps) => {
         dispatch({ type: SettingsActionsTypes.CHANGE_LANGUAGE, payload: lang })
         localStorage.setItem("language", event.target.value)
     }
+    const ChangeNumberOfWordsValue = (event: React.ChangeEvent<HTMLInputElement>) => {
+        if (event.target.value == "") {
+            setNumberOfWordsValue("0")
+        } else {
+            let value = event.target.value[0] === "0" && event.target.value.length != 1 ? event.target.value.slice(1) : event.target.value
+            setNumberOfWordsValue(value)
+        }
+    }
+
+    const ChangeNumberOfWords = (event: React.FocusEvent<HTMLInputElement>) => {
+        dispatch({ type: SettingsActionsTypes.SET_NUBMER_OF_WORDS, payload: +event.target.value < 1 ? 1 : +event.target.value })
+        localStorage.setItem("number_of_words", `${+event.target.value < 1 ? 1 : +event.target.value}`)
+    }
+
 
     const ChangeTimeAttackTimeValue = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.value == "") {
@@ -122,6 +138,18 @@ const Settings = ({ text }: SettingsProps) => {
                     <fieldset className='settings__fieldset' name='timeAttack'>
                         <span>{text("settings.timeAttackTime")}</span>
                         <input className='settings__fieldset_input' type="number" name="timeAttacktime" value={timeAttackValue} onChange={ChangeTimeAttackTimeValue} onBlur={ChangeTimeAttackTime} />
+                    </fieldset>
+                </div>
+                <div className='settings__section'>
+                    <Heading headingLevel={"h2"}>{text("settings.number_of_words_mode")}</Heading>
+                    <fieldset className='settings__fieldset' name='timeAttack'>
+                        <span>{text("settings.number_of_words")}</span>
+                        <input className='settings__fieldset_input'
+                            type='number'
+                            value={numberOfWordsValue}
+                            onChange={ChangeNumberOfWordsValue}
+                            onBlur={ChangeNumberOfWords}
+                        />
                     </fieldset>
                 </div>
             </form>

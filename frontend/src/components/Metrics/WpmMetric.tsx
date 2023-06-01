@@ -1,13 +1,14 @@
 import { useTranslation } from "react-i18next";
+import "./Metric.scss";
 
 type Props = {
     wpm: number;
 }
 
-const SymbolsTypedMetric = (props: Props) => {
+const WpmMetric = (props: Props) => {
     const {t, i18n} = useTranslation()
     return (
-        <div className='wpm'>
+        <div className='metric wpm'>
             <span className="material-symbols-rounded">
                 text_snippet
             </span>
@@ -16,4 +17,4 @@ const SymbolsTypedMetric = (props: Props) => {
     )
 }
 
-export default SymbolsTypedMetric
+export default WpmMetric

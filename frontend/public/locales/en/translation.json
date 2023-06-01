@@ -6,7 +6,10 @@
         "theme": "Theme",
         "font": "Monospace font",
         "timeAttack": "Time Attack",
-        "timeAttackTime":"Time per level"
+        "timeAttackTime":"Time per level",
+        "typing_language": "Typing language",
+        "number_of_words_mode" : "Number of words typing",
+        "number_of_words": "Number of words"
     },
     "navbar": {
         "home": "Home",
@@ -27,6 +30,10 @@
         "card3": {
             "title" : "Time Attack",
             "description": "Try yourself in speed typing, track your progress"
+        },
+        "card4": {
+            "title" : "Number of words",
+            "description": "Hone your explosive typing speed in this mode!"
         }
     },
     "auth": {
@@ -59,6 +66,7 @@
         "title": "Learning",
         "time": "Time",
         "wpm": "WPM",
+        "words": "Words",
         "error_rate": "Error rate",
         "confidence": "Confidence",
         "accuracy": "Accuracy",

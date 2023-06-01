@@ -66,30 +66,4 @@
     display: flex;
     align-items: center;
     gap: 12px;
-
-    div {
-        display: flex;
-        align-items: center;
-        background: var(--accent);
-        color: var(--on_accent);
-        font-size: $text_mini;
-        font-weight: 500;
-        line-height: 20px;
-        padding: 10px 24px 10px 16px;
-        max-width: fit-content;
-        border-radius: 15px;
-
-        span {
-            margin-right: 6px;
-            font-size: 16px;
-        }
-
-
-    }
-
-    .accuracy {
-        span {
-            font-size: 20px;
-        }
-    }
 }

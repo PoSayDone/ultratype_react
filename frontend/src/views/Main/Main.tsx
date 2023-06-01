@@ -32,7 +32,7 @@ const Main = () => {
                     title={t("main.card4.title")}
                     description={t("main.card4.description")}
                     img={"words"}
-                    url={"typing/ammountofwords"}
+                    url={"typing/numberofwords"}
                 />
             </div>
         </AnimatedContainer>

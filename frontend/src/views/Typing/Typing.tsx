@@ -3,11 +3,9 @@ import './Typing.scss';
 import Heading from '../../components/Heading/Heading';
 import Keyboard from '../../components/Keyboard/Keyboard';
 import Input from '../../components/Input/Input';
-import CountdownTimer from '../../components/CountdownTimer';
 import RestartButton from '../../components/RestartButton';
 import useEngine from '../../hooks/useEngine';
-import SymbolsTypedMetric from '../../components/SymbolsTypedMetric';
-import AccuracyMetric from '../../components/AccuracyMetric';
+import AccuracyMetric from '../../components/Metrics/AccuracyMetric';
 import { useTranslation } from 'react-i18next';
 import Results from '../../components/Results/Results';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -16,6 +14,9 @@ import Skeleton from '../../components/Skeleton/Skeleton';
 import LearningIndicator from '../../components/LearningIndicator/LearningIndicator';
 import { useParams } from "react-router-dom";
 import { useDispatch } from 'react-redux';
+import WordsMetric from '../../components/Metrics/WordsMetric';
+import TimerMetric from '../../components/Metrics/TimerMetric';
+import WpmMetric from '../../components/Metrics/WpmMetric';
 
 interface TypingProps {
     title?: string;
@@ -45,7 +46,8 @@ const Typing: FC<TypingProps> = ({ title }) => {
     const dict: IDict = {
         "infinity": "main.card2.title",
         "timeattack": "main.card3.title",
-        "learning": "main.card3.title"
+        "learning": "main.card3.title",
+        "numberofwords": "main.card4.title"
     }
 
     return (
@@ -64,6 +66,7 @@ const Typing: FC<TypingProps> = ({ title }) => {
                 status != "finish" &&
                 <div className="typing__container">
                     {mode == "learning" && <LearningIndicator letterString={lettersData.mask} mainLetter={lettersData.mainLetter} />}
+                    {mode == "numberofwords" && <WordsMetric totalWords={words.split(" ").length} typedWords={typed.split(" ").length - 1} />}
                     <AnimatePresence>
                         <div className="typing__input">
                             {
@@ -74,8 +77,8 @@ const Typing: FC<TypingProps> = ({ title }) => {
                         </div>
                     </AnimatePresence>
                     <div className="typing__metrics">
-                        <CountdownTimer timeLeft={time} />
-                        <SymbolsTypedMetric wpm={wpm} />
+                        {mode !== "numberofwords" && <TimerMetric timeLeft={time} />}
+                        <WpmMetric wpm={wpm} />
                         <AccuracyMetric accuracy={accuracy} />
                     </div>
                     <Keyboard currentChar={currentChar} />
@@ -83,9 +86,13 @@ const Typing: FC<TypingProps> = ({ title }) => {
             }
             <AnimatePresence initial={false}>
                 {status == 'finish' &&
-                    <Results accuracyPercentage={accuracy} wpm={wpm} time={timerConst - time}></Results>}
+                    <Results
+                        accuracyPercentage={accuracy}
+                        wpm={wpm}
+                        time={mode === "timeattack" ? timerConst - time : time}
+                    />}
             </AnimatePresence>
-        </AnimatedContainer>
+        </AnimatedContainer >
     )
 }
 export default Typing

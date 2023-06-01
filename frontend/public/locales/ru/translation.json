@@ -6,7 +6,10 @@
         "theme": "Тема",
         "font": "Моноширный шрифт",
         "timeAttack": "Печать на время",
-        "timeAttackTime":"Время на уровень"
+        "timeAttackTime":"Время на уровень",
+        "typing_language": "Язык печати",
+        "number_of_words_mode" : "Печать на кол-во слов",
+        "number_of_words": "Кол-во слов"
     },
     "navbar": {
         "home": "Главная",
@@ -63,6 +66,7 @@
         "title": "Обучение",
         "time": "Время",
         "wpm": "СВМ",
+        "words": "Слова",
         "error_rate": "Процент ошибок",
         "confidence": "Процент владения",
         "accuracy": "Точность",

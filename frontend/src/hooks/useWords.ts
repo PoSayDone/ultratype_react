@@ -8,15 +8,16 @@ import { InputActionTypes } from "../store/reducers/inputReducer";
 import useLettersData from "./useLettersData";
 
 const useWords = (len: number) => {
+    const mode = useParams().mode || "learning"
+    const dispatch = useDispatch();
+
+    const { typingLanguage, numberOfWords } = useTypedSelector(state => state.settings)
+    const { words } = useTypedSelector(state => state.words)
+
+    const { updateLetters, lettersData } = useLettersData();
 
     const [isLoading, setLoading] = useState(true);
-    const { updateLetters, lettersData } = useLettersData();
-    const letters = localStorage.getItem('userLetters')
-    const typingLanguage = useTypedSelector(state => state.settings.typingLanguage)
     const [isError, setError] = useState(false);
-    const dispatch = useDispatch();
-    const { words } = useTypedSelector(state => state.words)
-    const mode = useParams().mode || "learning"
 
     const fetchWords = async () => {
         setLoading(true);
@@ -42,6 +43,13 @@ const useWords = (len: number) => {
                             payload: words + " " + result.data.strings.join(" "),
                         });
                     }
+                    break;
+                case "numberofwords":
+                    result = await WordsService.fetchRandomWords(numberOfWords, typingLanguage)
+                    dispatch({
+                        type: WordsActionTypes.SET_WORDS,
+                        payload: result.data.strings.join(" "),
+                    });
                     break;
                 default:
                     result = await WordsService.fetchRandomWords(len, typingLanguage)
