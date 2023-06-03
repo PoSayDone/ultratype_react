@@ -1,11 +1,12 @@
 import { useDispatch } from "react-redux";
 import { useTypedSelector } from "./useTypedSelector";
 import { LettersActionTypes } from "../store/reducers/lettersReducer";
-import {useState } from "react";
+import { useState } from "react";
 import LettersService from "../services/LettersService";
 import { lettersToAddConst } from "../constants/lettersToAddConst";
 
 const useLettersData = () => {
+    const [isFirstLoad, setIsFirstLoad] = useState(true)
     const typedLang = useTypedSelector((state) => state.settings.typingLanguage);
     const letters = useTypedSelector((state) => state.letters);
     const dispatch = useDispatch();
@@ -50,9 +51,16 @@ const useLettersData = () => {
     };
 
     const updateLetters = async () => {
-        setLettersData({ mainLetter: await findMainLetter(), mask: Object.keys(letters[typedLang]).join("") })
-        localStorage.setItem(`userLetters`, JSON.stringify(letters));
-        LettersService.setLetters(letters);
+        if (isFirstLoad) {
+            setIsFirstLoad(false)
+            setLettersData({ mainLetter: await findMainLetter(), mask: Object.keys(letters[typedLang]).join("") })
+            localStorage.setItem(`userLetters`, JSON.stringify(letters));
+        }
+        else {
+            setLettersData({ mainLetter: await findMainLetter(), mask: Object.keys(letters[typedLang]).join("") })
+            localStorage.setItem(`userLetters`, JSON.stringify(letters));
+            LettersService.setLetters(letters);
+        }
     };
 
     return { updateLetters, lettersData };

@@ -65,7 +65,7 @@ const Typing: FC<TypingProps> = ({ title }) => {
             {
                 status != "finish" &&
                 <div className="typing__container">
-                    {mode == "learning" && <LearningIndicator letterString={lettersData.mask} mainLetter={lettersData.mainLetter} />}
+                    {mode == "learning" && <LearningIndicator/>}
                     {mode == "numberofwords" && <WordsMetric totalWords={words.split(" ").length} typedWords={typed.split(" ").length - 1} />}
                     <AnimatePresence>
                         <div className="typing__input">

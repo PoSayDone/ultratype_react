@@ -43,6 +43,7 @@ const Header = () => {
                                         onClick={() => {
                                             signOut()
                                             dispatch({ type: UserAction.CLEAR_USER })
+                                            localStorage.removeItem("userLetters")
                                         }}
                                     >
                                         <span className="material-symbols-rounded">

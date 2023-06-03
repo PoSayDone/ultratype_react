@@ -39,10 +39,11 @@ const calculateConfidence = (errorRate: number, wpm: number) => {
 
 
 const localUserLetters = localStorage.getItem("userLetters")
-const initialState : ILetters = localUserLetters !== null ? JSON.parse(localUserLetters) : lettersConst;
-const defaultState : ILetters = JSON.parse(JSON.stringify(initialState));
+const initialState: ILetters = localUserLetters !== null ? JSON.parse(localUserLetters) : lettersConst;
+const defaultState: ILetters = JSON.parse(JSON.stringify(initialState));
 
 export enum LettersActionTypes {
+    SET_LETTERS = "SET_LETTERS",
     SET_WPM = "SET_WPM",
     SET_ERROR_RATE = "SET_ERROR_RATE",
     SET_CONFIDENCE = "SET_CONFIDENCE",
@@ -55,6 +56,11 @@ export enum LettersActionTypes {
     SET_TIME_ELAPSED = "SET_TIME_ELAPSED",
     ADD_TIME_ELAPSED = "ADD_TIME_ELAPSED",
     RESET = "RESET",
+}
+
+interface SetLetters {
+    type: LettersActionTypes.SET_LETTERS;
+    payload: ILetters
 }
 
 interface SetWPMAction {
@@ -166,6 +172,7 @@ export type LettersActions =
     | AddTimeElapsed
     | CalculateWpm
     | ResetAction
+    | SetLetters
 
 export const lettersReducer = (state = defaultState, action: LettersActions) => {
     switch (action.type) {
@@ -250,8 +257,11 @@ export const lettersReducer = (state = defaultState, action: LettersActions) => 
             };
             return state;
         case LettersActionTypes.RESET:
-            console.log(initialState)
-            return initialState;
+            const localUserLetters = localStorage.getItem("userLetters")
+            const storageState: ILetters = localUserLetters !== null ? JSON.parse(localUserLetters) : lettersConst;
+            return storageState
+        case LettersActionTypes.SET_LETTERS:
+            return action.payload;
         default:
             return state;
     }

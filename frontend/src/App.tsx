@@ -18,6 +18,9 @@ import { useDispatch } from "react-redux";
 import Cookies from "js-cookie";
 import F1Redirect from "./components/F1Redirect";
 import LettersService from "./services/LettersService";
+import { LettersActionTypes } from "./store/reducers/lettersReducer";
+import { lettersConst } from "./constants/lettersConst";
+import { WordsActionTypes } from "./store/reducers/wordsReducer";
 
 function App() {
     const location = useLocation();
@@ -34,14 +37,26 @@ function App() {
 
     useEffect(() => {
         if (IsAuthenticated()) {
-            let response;
             const fetchLetters = async () => {
-                response = await LettersService.getLetters();
-                localStorage.setItem("userLetters", JSON.stringify(response.data))
+                const response = await LettersService.getLetters();
+                localStorage.setItem("userLetters", JSON.stringify(response.data.data))
+                dispatch({ type: LettersActionTypes.SET_LETTERS, payload: response.data.data })
+                dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
             }
-
-            dispatch({ type: "SET_USER", payload: JSON.parse(Cookies.get("_auth_state")!) })
             fetchLetters()
+        }
+        else {
+            if (localStorage.getItem("userLetters") === null) {
+                localStorage.setItem("userLetters", JSON.stringify(lettersConst))
+                dispatch({ type: LettersActionTypes.SET_LETTERS, payload: lettersConst })
+                dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
+            }
+        }
+    }, [IsAuthenticated])
+
+    useEffect(() => {
+        if (IsAuthenticated()) {
+            dispatch({ type: "SET_USER", payload: JSON.parse(Cookies.get("_auth_state")!) })
         }
     }, [])
 
