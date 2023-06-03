@@ -21,14 +21,7 @@ namespace backend.Repositories
         public async Task InsertLettersAsync(Letters letters)
         {
             var filter = filterBuilder.Eq(existingLetters => existingLetters.UserID, letters.UserID);
-            if (await lettersCollection.Find(filter).SingleOrDefaultAsync() == null)
-            {
-                await lettersCollection.InsertOneAsync(letters);
-            }
-            else
-            {
-                await lettersCollection.ReplaceOneAsync(filter, letters);
-            }
+            await lettersCollection.ReplaceOneAsync(filter, letters, new ReplaceOptions { IsUpsert = true });
         }
 
         public async Task<Letters> GetLettersAsync(Guid userId)
