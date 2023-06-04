@@ -29,7 +29,7 @@ const Profile = () => {
     const updateTests = async () => {
         try {
             const response = await TestsService.fetchTests();
-            setTests(response.data.reverse)
+            setTests(response.data.reverse())
         }
         catch (e: any) {
             console.log(e.response?.data?.message);
@@ -132,7 +132,7 @@ const Profile = () => {
                                 transition={{ duration: 0.6 }}
                             >
                                 <tr>
-                                    <td className='mode'>{t("profile.mode") }</td>
+                                    <td className='mode'>{t("profile.mode")}</td>
                                     <td className='wpm'>{t("typing.wpm")}</td>
                                     <td className='accuracy'>{t("typing.accuracy")}</td>
                                     <td className='date'>{t("profile.date")}</td>
