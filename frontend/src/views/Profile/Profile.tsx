@@ -29,7 +29,7 @@ const Profile = () => {
     const updateTests = async () => {
         try {
             const response = await TestsService.fetchTests();
-            setTests(response.data)
+            setTests(response.data.reverse)
         }
         catch (e: any) {
             console.log(e.response?.data?.message);
