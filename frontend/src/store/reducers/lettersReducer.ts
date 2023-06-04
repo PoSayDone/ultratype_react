@@ -26,7 +26,7 @@ const CalculateErrorCoefficient = (
 
 const calculateConfidence = (errorRate: number, wpm: number) => {
     const errorFactor = 1 - errorRate;
-    const averageWpm = 50;
+    const averageWpm = 30;
     const wpmFactor = wpm / averageWpm;
     const errorCoefficient = CalculateErrorCoefficient(wpm, 0, 40, 0.55, 0.65);
     const wpmCoefficient = 1 - errorCoefficient;
