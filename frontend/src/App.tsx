@@ -38,12 +38,15 @@ function App() {
     useEffect(() => {
         if (IsAuthenticated()) {
             const fetchLetters = async () => {
-                const response = await LettersService.getLetters();
-                localStorage.setItem("userLetters", JSON.stringify(response.data.data))
-                dispatch({ type: LettersActionTypes.SET_LETTERS, payload: response.data.data })
-                dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
+                try {
+                    const response = await LettersService.getLetters();
+                    localStorage.setItem("userLetters", JSON.stringify(response.data.data))
+                    dispatch({ type: LettersActionTypes.SET_LETTERS, payload: response.data.data })
+                    dispatch({ type: WordsActionTypes.SET_WORDS, payload: "" })
+                }
+                catch {
+                }
             }
-            fetchLetters()
         }
         else {
             if (localStorage.getItem("userLetters") === null) {
