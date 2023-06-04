@@ -34,11 +34,10 @@ const Registration = (props: Props) => {
                 authState: response.data.user,
             })) {
                 dispatch({ type: "SET_USER", payload: response.data.user })
-                if (location.state?.from) {
-                    navigate(location.state.from)
-                }
-                else {
-                    navigate("/")
+                if (window.history.state && window.history.state.idx > 0) {
+                    navigate(-1);
+                } else {
+                    navigate('/', { replace: true });
                 }
             }
         } catch (e: any) {
