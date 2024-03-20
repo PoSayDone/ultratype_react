@@ -1,18 +1,43 @@
-version: "3.9"
-
 services:
-  app:
+  frontend:
     build:
-      context: "./backend"
-      dockerfile: Dockerfile
+      context: ./frontend
+    restart: on-failure
+    tty: true
+    command: yarn dev --host 0.0.0.0 --port 5000
+    ports:
+      - 3001:3000 #Production port
+      - 5000:5000 #Development port
+    environment:
+      - NODE_ENV=production
+
+  backend:
+    build:
+      context: ./backend
+    command: dotnet backend.dll
     ports:
       - "8081:8081"
-
-    container_name: ${APP_BACKEND_NAME}-app
-    working_dir: /app
-    # volumes: 
-    #   - "./backend"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8081
-      # - ConnectionStrings:MongoDB=mongodb://localhost:27017
+    depends_on:
+      - db
+
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - dbdata6:/data/db
+
+  nginx:
+    build:
+      context: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+      - frontend
+
+volumes:
+  dbdata6:

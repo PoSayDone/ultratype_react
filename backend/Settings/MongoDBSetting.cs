@@ -2,8 +2,8 @@ namespace backend.Setting
 {
     public class MongoDbSetting
     {
-        public string User { get; set; }
-        public string Password { get; set; }
+        // public string User { get; set; }
+        // public string Password { get; set; }
         public string Host { get; set; }
         public int Port { get; set; }
 
@@ -11,7 +11,7 @@ namespace backend.Setting
         {
             get
             {
-                return $"mongodb://{User}:{Password}@{Host}:{Port}/";
+                return $"mongodb://{Host}:{Port}/";
             }
         }
     }

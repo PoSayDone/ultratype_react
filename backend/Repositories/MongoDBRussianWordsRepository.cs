@@ -15,7 +15,7 @@ public class MongoDBRussianWordsRepository : IRussianWordsRepository
         IMongoDatabase database = mongoClient.GetDatabase(databaseName);
         wordsCollection = database.GetCollection<BsonDocument>(collectionName);
     }
-    
+
     public async Task<Words> GetWordsAsync(string mask, char mainChar, int len)
     {
         var filter = Builders<BsonDocument>.Filter.And(
@@ -23,7 +23,9 @@ public class MongoDBRussianWordsRepository : IRussianWordsRepository
             Builders<BsonDocument>.Filter.Regex("word", new BsonRegularExpression(".*"+mainChar+".*"))
         );
         var words = await wordsCollection.Find(filter).ToListAsync();
+        Console.WriteLine(words.Count);
         var wordList = words.Select(doc => doc["word"].AsString).ToList();
+        Console.WriteLine(wordList.Count);
         var randomWordList = new List<string>();
         for (int i = 0; i < len; i++)
         {

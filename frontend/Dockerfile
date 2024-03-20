@@ -1,8 +1,5 @@
-FROM node:19.6.0
-
-WORKDIR /var/www/
-
-USER $user
-
-RUN node --version
-RUN npm --version
+FROM node:18-alpine AS builder
+WORKDIR /usr/src/app
+COPY package.json .
+RUN yarn --frozen-lockfile
+COPY . .

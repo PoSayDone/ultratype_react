@@ -64,6 +64,7 @@ namespace backend.Controllers
             await repo.DeleteTestAsync(id);
             return NoContent();
         }
+
         private User GetCurrentUser()
         {
             var identity = HttpContext.User.Identity as ClaimsIdentity;
