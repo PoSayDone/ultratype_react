@@ -22,8 +22,6 @@ import { LettersActionTypes } from "./store/reducers/lettersReducer";
 import { lettersConst } from "./constants/lettersConst";
 import { WordsActionTypes } from "./store/reducers/wordsReducer";
 
-console.log(import.meta.env.VITE_API_URL)
-
 function App() {
     const location = useLocation();
     const [lastVisitedTypingRoute, setLastVisitedTypingRoute] = useState<string>("/typing/learning");
