@@ -29,13 +29,22 @@ services:
       - dbdata6:/data/db
 
   nginx:
-    build:
-      context: ./nginx
+    image: nginx:latest
     ports:
       - 80:80
-    depends_on:
-      - backend
-      - frontend
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+
+  certbot:
+    container_name: certbot
+    image: certbot/certbot
+    volumes:
+      - ./data/certbot/conf:/etc/letsencrypt
+      - ./data/certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot --force-renewal --email poseaydone@ya.ru -d ultratype.ru --agree-tos
 
 volumes:
   dbdata6:
