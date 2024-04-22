@@ -4,10 +4,8 @@ services:
       context: ./frontend
     restart: on-failure
     tty: true
-    command: yarn dev --host 0.0.0.0 --port 5000
-    ports:
-      - 3001:3000 #Production port
-      - 5000:5000 #Development port
+    command: yarn preview --host 0.0.0.0 --port 5000
+    ports: [5000]
     environment:
       - NODE_ENV=production
 
@@ -15,10 +13,10 @@ services:
     build:
       context: ./backend
     command: dotnet backend.dll
-    ports:
-      - "8081:8081"
+    restart: always
+    ports: [8081]
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8081
     depends_on:
       - db
@@ -29,13 +27,28 @@ services:
       - dbdata6:/data/db
 
   nginx:
-    build:
-      context: ./nginx
+    restart: always
+    image: nginx:latest
     ports:
       - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
     depends_on:
-      - backend
       - frontend
+      - backend
+
+        # certbot:
+        #   image: certbot/certbot
+        #   container_name: certbot
+        #   volumes:
+        #     - ./certbot/conf:/etc/letsencrypt
+        #     - ./certbot/www:/var/www/certbot
+        #   command: certonly --webroot -w /var/www/certbot --force-renewal --email poseaydone@ya.ru -d ultratype.ru --agree-tos
+        #   depends_on:
+        #     - nginx
 
 volumes:
   dbdata6:
